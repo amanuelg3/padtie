@@ -15,9 +15,15 @@ namespace PadTie {
 			Buttons = new ButtonActions[ButtonCount];
 			Axes = new AxisActions[AxisCount];
 
-			for (int i = 0, max = Buttons.Length; i < max; ++i) Buttons[i] = new ButtonActions(Core, false);
-			for (int i = 0, max = Axes.Length; i < max; ++i) Axes[i] = new AxisActions(Core, false);
+			for (int i = 0, max = Buttons.Length; i < max; ++i) Buttons[i] = new ButtonActions(Core, false, i + 1);
+			for (int i = 0, max = Axes.Length; i < max; ++i) Axes[i] = new AxisActions(Core, false, i + 1);
 		}
+
+		/// <summary>
+		/// This flag can be used by the application to mark the input controller as mapped to a 
+		/// virtual controller configuration. It is not used by the Pad Tie library.
+		/// </summary>
+		public bool ApplicationMapped { get; set; }
 
 		public InputCore Core { get; private set; }
 		public int ID { get; private set; }
@@ -80,8 +86,24 @@ namespace PadTie {
 		public string ProductName { get { return Device.DeviceInformation.ProductName; } }
 		public string ProductGUID { get { return Device.DeviceInformation.ProductGuid.ToString(); } }
 		public string InstanceGUID { get { return Device.DeviceInformation.InstanceGuid.ToString(); } }
-		public int ProductID { get { return Device.Properties.VendorIdentityProductId & 0xFFFF; } }
-		public int VendorID { get { return (Device.Properties.VendorIdentityProductId >> 16) & 0xFFFF; } }
+		public int VendorID { get { return Device.Properties.VendorIdentityProductId & 0xFFFF; } }
+		public int ProductID { get { return (Device.Properties.VendorIdentityProductId >> 16) & 0xFFFF; } }
 		public int HatCount { get { return Device.Caps.NumberPointOfViews; } }
+
+		public void Reset()
+		{
+			foreach (var btn in Buttons) {
+				btn.Link = null;
+				btn.Hold = null;
+				btn.Tap = null;
+				btn.DoubleTap = null;
+			}
+
+			foreach (var axis in Axes) {
+				axis.Analog = null;
+				axis.Positive = null;
+				axis.Negative = null;
+			}
+		}
 	}
 }

@@ -47,6 +47,7 @@
 			// 
 			// cancelBtn
 			// 
+			this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.cancelBtn.Location = new System.Drawing.Point(125, 145);
 			this.cancelBtn.Name = "cancelBtn";
 			this.cancelBtn.Size = new System.Drawing.Size(75, 23);
@@ -103,8 +104,10 @@
 			// 
 			// MapMouseButtonForm
 			// 
+			this.AcceptButton = this.okBtn;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.cancelBtn;
 			this.ClientSize = new System.Drawing.Size(292, 178);
 			this.Controls.Add(this.slotCapture);
 			this.Controls.Add(this.cancelBtn);
@@ -115,7 +118,6 @@
 			this.Text = "MapMouseButtonForm";
 			this.Load += new System.EventHandler(this.MapMouseButtonForm_Load);
 			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MapMouseButtonForm_KeyPress);
-			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapMouseButtonForm_KeyUp);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);

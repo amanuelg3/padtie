@@ -94,28 +94,28 @@ namespace PadTie {
 
 		public void Reset()
 		{
-			A = new ButtonActions(Core, true);
-			B = new ButtonActions(Core, true);
-			X = new ButtonActions(Core, true);
-			Y = new ButtonActions(Core, true);
-			Br = new ButtonActions(Core, true);
-			Bl = new ButtonActions(Core, true);
-			Tl = new ButtonActions(Core, true);
-			Tr = new ButtonActions(Core, true);
-			Back = new ButtonActions(Core, true);
-			Start = new ButtonActions(Core, true);
-			System = new ButtonActions(Core, true);
-			LeftAnalogButton = new ButtonActions(Core, true);
-			RightAnalogButton = new ButtonActions(Core, true);
+			A = new ButtonActions(Core, true, VirtualController.Button.A);
+			B = new ButtonActions(Core, true, VirtualController.Button.B);
+			X = new ButtonActions(Core, true, VirtualController.Button.X);
+			Y = new ButtonActions(Core, true, VirtualController.Button.Y);
+			Br = new ButtonActions(Core, true, VirtualController.Button.Br);
+			Bl = new ButtonActions(Core, true, VirtualController.Button.Bl);
+			Tl = new ButtonActions(Core, true, VirtualController.Button.Tl);
+			Tr = new ButtonActions(Core, true, VirtualController.Button.Tr);
+			Back = new ButtonActions(Core, true, VirtualController.Button.Back);
+			Start = new ButtonActions(Core, true, VirtualController.Button.Start);
+			System = new ButtonActions(Core, true, VirtualController.Button.System);
+			LeftAnalogButton = new ButtonActions(Core, true, VirtualController.Button.LeftAnalog);
+			RightAnalogButton = new ButtonActions(Core, true, VirtualController.Button.RightAnalog);
 
 			bool needsCapture = (LeftXAxis == null);
 
-			LeftXAxis = new AxisActions(Core, true, LeftXAxis);
-			LeftYAxis = new AxisActions(Core, true, LeftYAxis);
-			RightXAxis = new AxisActions(Core, true, RightXAxis);
-			RightYAxis = new AxisActions(Core, true, RightYAxis);
-			DigitalXAxis = new AxisActions(Core, true, DigitalXAxis);
-			DigitalYAxis = new AxisActions(Core, true, DigitalYAxis);
+			LeftXAxis = new AxisActions(Core, true, LeftXAxis, VirtualController.Axis.LeftX);
+			LeftYAxis = new AxisActions(Core, true, LeftYAxis, VirtualController.Axis.LeftY);
+			RightXAxis = new AxisActions(Core, true, RightXAxis, VirtualController.Axis.RightX);
+			RightYAxis = new AxisActions(Core, true, RightYAxis, VirtualController.Axis.RightY);
+			DigitalXAxis = new AxisActions(Core, true, DigitalXAxis, VirtualController.Axis.DigitalX);
+			DigitalYAxis = new AxisActions(Core, true, DigitalYAxis, VirtualController.Axis.DigitalY);
 
 			if (needsCapture) {
 				LeftXAxis.PositiveRelease += delegate(object sender, EventArgs e)
@@ -174,8 +174,39 @@ namespace PadTie {
 						capture = null;
 					}
 				};
+
+				DigitalXAxis.PositiveRelease += delegate(object sender, EventArgs e)
+				{
+					if (capture != null) {
+						capture(new CapturedInput(Axis.DigitalX, true));
+						capture = null;
+					}
+				};
+				DigitalXAxis.NegativeRelease += delegate(object sender, EventArgs e)
+				{
+					if (capture != null) {
+						capture(new CapturedInput(Axis.DigitalX, false));
+						capture = null;
+					}
+				};
+				DigitalYAxis.PositiveRelease += delegate(object sender, EventArgs e)
+				{
+					if (capture != null) {
+						capture(new CapturedInput(Axis.DigitalY, true));
+						capture = null;
+					}
+				};
+				DigitalYAxis.NegativeRelease += delegate(object sender, EventArgs e)
+				{
+					if (capture != null) {
+						capture(new CapturedInput(Axis.DigitalY, false));
+						capture = null;
+					}
+				};
 			}
 		}
+
+		public bool Enabled = true;
 
 		public ButtonActions A;
 		public ButtonActions B;
@@ -323,6 +354,8 @@ namespace PadTie {
 			{
 				Controller.ButtonActive(Button);
 
+				if (!Controller.Enabled) return;
+
 				switch (Button) {
 					case Button.A:
 						Controller.A.Process(1);
@@ -378,6 +411,8 @@ namespace PadTie {
 
 				Controller.ButtonPressed(Button);
 
+				if (!Controller.Enabled) return;
+
 				switch (Button) {
 					case Button.A:
 						Controller.A.Process(1);
@@ -427,6 +462,8 @@ namespace PadTie {
 			public override void Release()
 			{
 				Controller.ButtonReleased(Button);
+
+				if (!Controller.Enabled) return;
 
 				switch (Button) {
 					case Button.A:
@@ -492,6 +529,8 @@ namespace PadTie {
 				Controller.AxisAnalog(Axis, value);
 
 				uint raw = (uint)(((value + 1) / 2.0) * ushort.MaxValue);
+
+				if (!Controller.Enabled) return;
 
 				if (Axis == Axis.LeftX) Controller.LeftXAxis.Process((int)raw);
 				else if (Axis == Axis.LeftY) Controller.LeftYAxis.Process((int)raw);

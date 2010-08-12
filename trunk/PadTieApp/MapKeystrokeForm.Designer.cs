@@ -149,8 +149,10 @@
 			// 
 			// MapKeystrokeForm
 			// 
+			this.AcceptButton = this.okBtn;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.cancelBtn;
 			this.ClientSize = new System.Drawing.Size(298, 243);
 			this.Controls.Add(this.slotCapture);
 			this.Controls.Add(this.cancelBtn);
@@ -160,7 +162,6 @@
 			this.Name = "MapKeystrokeForm";
 			this.Text = "Map key stroke";
 			this.Load += new System.EventHandler(this.MapKeystrokeForm_Load);
-			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MapKeystrokeForm_KeyUp);
 			this.groupBox1.ResumeLayout(false);
 			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);

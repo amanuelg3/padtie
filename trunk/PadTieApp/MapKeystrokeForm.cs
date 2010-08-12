@@ -117,13 +117,5 @@ namespace PadTieApp {
 		{
 			e.Handled = true;
 		}
-
-		private void MapKeystrokeForm_KeyUp(object sender, KeyEventArgs e)
-		{
-			if (e.KeyCode == Keys.Escape)
-				cancelBtn_Click(sender, EventArgs.Empty);
-			else if (e.KeyCode == Keys.Enter)
-				okBtn_Click(sender, EventArgs.Empty);
-		}
 	}
 }

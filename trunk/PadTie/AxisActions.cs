@@ -15,6 +15,12 @@ namespace PadTie {
 		{
 		}
 
+		public AxisActions(InputCore core, bool enableGestures, object id) :
+			this(core, enableGestures)
+		{
+			Identifier = id;
+		}
+
 		public AxisActions(InputCore core, bool enableGestures, AxisActions importMonitors)
 		{
 			Core = core;
@@ -25,7 +31,14 @@ namespace PadTie {
 				NegativeRelease += importMonitors.NegativeRelease;
 				PositivePress += importMonitors.PositivePress;
 				PositiveRelease += importMonitors.PositiveRelease;
+				Identifier = importMonitors.Identifier;
 			}
+		}
+
+		public AxisActions(InputCore core, bool enableGestures, AxisActions importMonitors, object id):
+			this (core, enableGestures, importMonitors)
+		{
+			Identifier = id;
 		}
 
 		public InputCore Core { get; private set; }
@@ -34,6 +47,7 @@ namespace PadTie {
 		public AxisPole LastPole = AxisPole.None;
 		public bool EnableGestures = true;
 		public object Tag;
+		public object Identifier;
 		
 		public event EventHandler PositivePress;
 		public event EventHandler PositiveRelease;

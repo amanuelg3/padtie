@@ -17,7 +17,7 @@ namespace PadTieApp {
 
 		InputCore core;
 		PadTieForm mainForm;
-		VirtualController controller;
+		Controller controller;
 		int padNumber;
 
 		private Rectangle ButtonMaskRelative(Rectangle r, bool top)
@@ -227,52 +227,52 @@ namespace PadTieApp {
 
 			switch (ag) {
 				case AxisGesture.LeftXNeg:
-					controller.LeftXAxis.NegativePress += press;
-					controller.LeftXAxis.NegativeRelease += release;
+					controller.Virtual.LeftXAxis.NegativePress += press;
+					controller.Virtual.LeftXAxis.NegativeRelease += release;
 					break;
 				case AxisGesture.LeftXPos:
-					controller.LeftXAxis.PositivePress += press;
-					controller.LeftXAxis.PositiveRelease += release;
+					controller.Virtual.LeftXAxis.PositivePress += press;
+					controller.Virtual.LeftXAxis.PositiveRelease += release;
 					break;
 				case AxisGesture.LeftYNeg:
-					controller.LeftYAxis.NegativePress += press;
-					controller.LeftYAxis.NegativeRelease += release;
+					controller.Virtual.LeftYAxis.NegativePress += press;
+					controller.Virtual.LeftYAxis.NegativeRelease += release;
 					break;
 				case AxisGesture.LeftYPos:
-					controller.LeftYAxis.PositivePress += press;
-					controller.LeftYAxis.PositiveRelease += release;
+					controller.Virtual.LeftYAxis.PositivePress += press;
+					controller.Virtual.LeftYAxis.PositiveRelease += release;
 					break;
 				case AxisGesture.RightXNeg:
-					controller.RightXAxis.NegativePress += press;
-					controller.RightXAxis.NegativeRelease += release;
+					controller.Virtual.RightXAxis.NegativePress += press;
+					controller.Virtual.RightXAxis.NegativeRelease += release;
 					break;
 				case AxisGesture.RightXPos:
-					controller.RightXAxis.PositivePress += press;
-					controller.RightXAxis.PositiveRelease += release;
+					controller.Virtual.RightXAxis.PositivePress += press;
+					controller.Virtual.RightXAxis.PositiveRelease += release;
 					break;
 				case AxisGesture.RightYNeg:
-					controller.RightYAxis.NegativePress += press;
-					controller.RightYAxis.NegativeRelease += release;
+					controller.Virtual.RightYAxis.NegativePress += press;
+					controller.Virtual.RightYAxis.NegativeRelease += release;
 					break;
 				case AxisGesture.RightYPos:
-					controller.RightYAxis.PositivePress += press;
-					controller.RightYAxis.PositiveRelease += release;
+					controller.Virtual.RightYAxis.PositivePress += press;
+					controller.Virtual.RightYAxis.PositiveRelease += release;
 					break;
 				case AxisGesture.DigitalXNeg:
-					controller.DigitalXAxis.NegativePress += press;
-					controller.DigitalXAxis.NegativeRelease += release;
+					controller.Virtual.DigitalXAxis.NegativePress += press;
+					controller.Virtual.DigitalXAxis.NegativeRelease += release;
 					break;
 				case AxisGesture.DigitalXPos:
-					controller.DigitalXAxis.PositivePress += press;
-					controller.DigitalXAxis.PositiveRelease += release;
+					controller.Virtual.DigitalXAxis.PositivePress += press;
+					controller.Virtual.DigitalXAxis.PositiveRelease += release;
 					break;
 				case AxisGesture.DigitalYNeg:
-					controller.DigitalYAxis.NegativePress += press;
-					controller.DigitalYAxis.NegativeRelease += release;
+					controller.Virtual.DigitalYAxis.NegativePress += press;
+					controller.Virtual.DigitalYAxis.NegativeRelease += release;
 					break;
 				case AxisGesture.DigitalYPos:
-					controller.DigitalYAxis.PositivePress += press;
-					controller.DigitalYAxis.PositiveRelease += release;
+					controller.Virtual.DigitalYAxis.PositivePress += press;
+					controller.Virtual.DigitalYAxis.PositiveRelease += release;
 					break;
 			}
 
@@ -387,17 +387,45 @@ namespace PadTieApp {
 		}
 
 		private void Analog(object sender, VirtualController.AxisEventArgs e)
-		{	
+		{
 		}
 
-		public void Initialize(PadTieForm form, InputCore core, VirtualController vc, int padNum)
+		class DeviceMappingItem {
+			public DeviceMappingItem(DeviceMapping dm)
+			{
+				Mapping = dm;
+			}
+
+			public DeviceMapping Mapping { get; private set; }
+
+			public override string ToString()
+			{
+				if (Mapping.Source.StartsWith("button:")) {
+					VirtualController.Button btn = (VirtualController.Button)Enum.Parse(typeof(VirtualController.Button),
+						Mapping.Destination);
+					string btnName = Util.GetButtonDisplayName(btn);
+					string src = Mapping.Source.Substring("button:".Length);
+
+					if (Mapping.Gesture != "Link" && Mapping.Gesture != "" && Mapping.Gesture != null)
+						src += string.Format(" ({0})", (Mapping.Gesture == "DoubleTap" ? "Double Tap" : Mapping.Gesture));
+
+					return string.Format("Button {0} -> {1}", src, btnName);
+				} else {
+					VirtualController.Axis axis = (VirtualController.Axis)Enum.Parse(typeof(VirtualController.Axis),
+						Mapping.Destination);
+					string axisName = Util.GetAxisDisplayName(axis);
+
+					return string.Format("Axis {0} -> {1}", Mapping.Source.Substring("axis:".Length), axisName);
+				}
+			}
+		}
+
+		public void Initialize(PadTieForm form, InputCore core, Controller cc, int padNum)
 		{
 			mainForm = form;
 			this.core = core;
-			controller = vc;
+			controller = cc;
 			padNumber = padNum;
-
-			var cc = form.GetController(vc);
 
 			deviceName.Text = cc.Device.Name;
 			deviceGUID.Text = cc.Device.ProductGUID.ToUpper();
@@ -409,10 +437,10 @@ namespace PadTieApp {
 			deviceAxes.Text = (cc.Device.AxisCount - cc.Device.HatCount).ToString();
 			deviceHats.Text = cc.Device.HatCount.ToString();
 
-			vc.AxisAnalogReceived += Analog;
-			vc.ButtonActiveReceived += Active;
-			vc.ButtonPressReceived += Press;
-			vc.ButtonReleaseReceived += Release;
+			cc.Virtual.AxisAnalogReceived += Analog;
+			cc.Virtual.ButtonActiveReceived += Active;
+			cc.Virtual.ButtonPressReceived += Press;
+			cc.Virtual.ButtonReleaseReceived += Release;
 
 			actionTree.ExpandAll();
 			currentMappings.Nodes.Clear();
@@ -444,6 +472,14 @@ namespace PadTieApp {
 			SetupAxisGesture(AxisGesture.DigitalYPos, btnMaskDigitalYPos);
 
 			currentMappings.ExpandAll();
+			RefreshDeviceMappings();
+		}
+
+		public void RefreshDeviceMappings()
+		{
+			buttonMappings.Items.Clear();
+			foreach (var dm in controller.DeviceConfig.Mappings)
+				buttonMappings.Items.Add(new DeviceMappingItem(dm));
 		}
 
 		private void PadSettingsControl_Load(object sender, EventArgs e)
@@ -457,13 +493,13 @@ namespace PadTieApp {
 				return;
 
 			if ((string)actionTree.SelectedNode.Tag == "keystroke")
-				new MapKeystrokeForm(mainForm, controller).ShowDialog(this);
+				new MapKeystrokeForm(mainForm, controller.Virtual).ShowDialog(this);
 			else if ((string)actionTree.SelectedNode.Tag == "pointer")
-				new MapPointerForm(mainForm, controller).ShowDialog(this);
+				new MapPointerForm(mainForm, controller.Virtual).ShowDialog(this);
 			else if ((string)actionTree.SelectedNode.Tag == "mouse-button")
-				new MapMouseButtonForm(mainForm, controller).ShowDialog(this);
+				new MapMouseButtonForm(mainForm, controller.Virtual).ShowDialog(this);
 			else if ((string)actionTree.SelectedNode.Tag == "mouse-wheel")
-				new MapMouseWheelForm(mainForm, controller).ShowDialog(this);
+				new MapMouseWheelForm(mainForm, controller.Virtual).ShowDialog(this);
 		}
 
 		private void actionTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -500,16 +536,16 @@ namespace PadTieApp {
 			}
 
 			var desc = action.SlotDescription;
-			var cc = mainForm.GetController (this.controller);
+			var cc = this.controller;
 
 			if (action is KeyAction)
-				new MapKeystrokeForm(mainForm, controller, action as KeyAction).ShowDialog(this);
+				new MapKeystrokeForm(mainForm, cc.Virtual, action as KeyAction).ShowDialog(this);
 			else if (action is MouseButtonAction)
-				new MapMouseButtonForm(mainForm, controller, action as MouseButtonAction).ShowDialog(this);
+				new MapMouseButtonForm(mainForm, cc.Virtual, action as MouseButtonAction).ShowDialog(this);
 			else if (action is MousePointerAction)
-				new MapPointerForm(mainForm, controller, action as MousePointerAction).ShowDialog(this);
+				new MapPointerForm(mainForm, cc.Virtual, action as MousePointerAction).ShowDialog(this);
 			else if (action is MouseWheelAction)
-				new MapMouseWheelForm(mainForm, controller, action as MouseWheelAction).ShowDialog(this);
+				new MapMouseWheelForm(mainForm, cc.Virtual, action as MouseWheelAction).ShowDialog(this);
 		}
 
 		private void unmapBtn_Click(object sender, EventArgs e)
@@ -519,8 +555,69 @@ namespace PadTieApp {
 			if (action == null)
 				return;
 
-			MapUtil.Map(mainForm, controller, action.SlotDescription, null);
+			MapUtil.Map(mainForm, controller.Virtual, action.SlotDescription, null);
 			currentMappings_AfterSelect(sender, null);
+		}
+
+		private void changeBtn_Click(object sender, EventArgs e)
+		{
+			if (buttonMappings.SelectedItem == null)
+				return;
+
+			var item = buttonMappings.SelectedItem as DeviceMappingItem;
+			var cmf = new ChangeMappingDialog(mainForm, item.Mapping.Pad, item.Mapping.Source, item.Mapping.Gesture, item.Mapping.Destination);
+			cmf.ShowDialog(this);
+
+			if (cmf.DialogResult == DialogResult.OK) {
+				bool isButton = item.Mapping.Source.StartsWith("button:");
+
+				item.Mapping.Destination = cmf.Destination;
+				if (isButton) item.Mapping.Gesture = cmf.Gesture;
+				else item.Mapping.Gesture = "";
+
+				if (isButton) {
+					int btn = int.Parse(item.Mapping.Source.Substring("button:".Length));
+					VirtualController.Button b = (VirtualController.Button)Enum.Parse(typeof(VirtualController.Button), cmf.Destination);
+					var ba = new VirtualController.ButtonAction(controller.Virtual, b);
+
+					if (cmf.Gesture != "Link" && cmf.Gesture != "" && cmf.Gesture != null) {
+						// We need to enable gesture support at the device level for this button
+						controller.Device.Buttons[btn].EnableGestures = true;
+					}
+
+					switch (cmf.Gesture) {
+						case "Link":
+						case null:
+						case "":
+							controller.Device.Buttons[btn].Link = ba;
+							break;
+						case "Tap":
+							controller.Device.Buttons[btn].Tap = ba;
+							break;
+						case "DoubleTap":
+							controller.Device.Buttons[btn].DoubleTap = ba;
+							break;
+						case "Hold":
+							controller.Device.Buttons[btn].Hold = ba;
+							break;
+					}
+				} else {
+					int axis = int.Parse(item.Mapping.Source.Substring("axis:".Length));
+					VirtualController.Axis a = (VirtualController.Axis)Enum.Parse(typeof(VirtualController.Axis), cmf.Destination);
+					controller.Device.Axes[axis].Analog = new VirtualController.AxisAction(controller.Virtual, a);
+				}
+				
+				mainForm.GlobalConfig.Save();
+				RefreshDeviceMappings();
+			}
+		}
+
+		private void wizardBtn_Click(object sender, EventArgs e)
+		{
+			var wiz = new MappingWizard();
+			wiz.MainForm = mainForm;
+			wiz.Controller = controller;
+			wiz.ShowDialog(this);
 		}
 	}
 }

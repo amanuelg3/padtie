@@ -28,17 +28,17 @@
 			this.label5 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.useIntensity = new System.Windows.Forms.CheckBox();
+			this.continuous = new System.Windows.Forms.CheckBox();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.twoClicksUp = new System.Windows.Forms.Button();
+			this.twoClicksDown = new System.Windows.Forms.Button();
+			this.oneClickDown = new System.Windows.Forms.Button();
+			this.oneClickUp = new System.Windows.Forms.Button();
 			this.motion = new System.Windows.Forms.TextBox();
 			this.okBtn = new System.Windows.Forms.Button();
 			this.cancelBtn = new System.Windows.Forms.Button();
 			this.slotCapture = new PadTieApp.PadSlotCaptureControl();
-			this.oneClickUp = new System.Windows.Forms.Button();
-			this.oneClickDown = new System.Windows.Forms.Button();
-			this.twoClicksDown = new System.Windows.Forms.Button();
-			this.twoClicksUp = new System.Windows.Forms.Button();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.useIntensity = new System.Windows.Forms.CheckBox();
-			this.continuous = new System.Windows.Forms.CheckBox();
 			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -79,92 +79,6 @@
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Mouse Wheel";
 			// 
-			// motion
-			// 
-			this.motion.Location = new System.Drawing.Point(167, 74);
-			this.motion.Name = "motion";
-			this.motion.Size = new System.Drawing.Size(57, 20);
-			this.motion.TabIndex = 2;
-			// 
-			// okBtn
-			// 
-			this.okBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.okBtn.Location = new System.Drawing.Point(206, 263);
-			this.okBtn.Name = "okBtn";
-			this.okBtn.Size = new System.Drawing.Size(75, 23);
-			this.okBtn.TabIndex = 17;
-			this.okBtn.Text = "OK";
-			this.okBtn.UseVisualStyleBackColor = true;
-			this.okBtn.Click += new System.EventHandler(this.okBtn_Click);
-			// 
-			// cancelBtn
-			// 
-			this.cancelBtn.Location = new System.Drawing.Point(125, 263);
-			this.cancelBtn.Name = "cancelBtn";
-			this.cancelBtn.Size = new System.Drawing.Size(75, 23);
-			this.cancelBtn.TabIndex = 18;
-			this.cancelBtn.Text = "Cancel";
-			this.cancelBtn.UseVisualStyleBackColor = true;
-			// 
-			// slotCapture
-			// 
-			this.slotCapture.Controller = null;
-			this.slotCapture.Location = new System.Drawing.Point(5, 178);
-			this.slotCapture.MaximumSize = new System.Drawing.Size(1000, 79);
-			this.slotCapture.MinimumSize = new System.Drawing.Size(233, 79);
-			this.slotCapture.Name = "slotCapture";
-			this.slotCapture.Size = new System.Drawing.Size(282, 79);
-			this.slotCapture.TabIndex = 19;
-			this.slotCapture.Value = null;
-			// 
-			// oneClickUp
-			// 
-			this.oneClickUp.Location = new System.Drawing.Point(14, 77);
-			this.oneClickUp.Name = "oneClickUp";
-			this.oneClickUp.Size = new System.Drawing.Size(102, 20);
-			this.oneClickUp.TabIndex = 20;
-			this.oneClickUp.Text = "One click (^)";
-			this.oneClickUp.UseVisualStyleBackColor = true;
-			this.oneClickUp.Click += new System.EventHandler(this.oneClickUp_Click);
-			// 
-			// oneClickDown
-			// 
-			this.oneClickDown.Location = new System.Drawing.Point(14, 114);
-			this.oneClickDown.Name = "oneClickDown";
-			this.oneClickDown.Size = new System.Drawing.Size(102, 20);
-			this.oneClickDown.TabIndex = 21;
-			this.oneClickDown.Text = "One click  (v)";
-			this.oneClickDown.UseVisualStyleBackColor = true;
-			this.oneClickDown.Click += new System.EventHandler(this.oneClickDown_Click);
-			// 
-			// twoClicksDown
-			// 
-			this.twoClicksDown.Location = new System.Drawing.Point(14, 138);
-			this.twoClicksDown.Name = "twoClicksDown";
-			this.twoClicksDown.Size = new System.Drawing.Size(102, 20);
-			this.twoClicksDown.TabIndex = 22;
-			this.twoClicksDown.Text = "Two clicks (vv)";
-			this.twoClicksDown.UseVisualStyleBackColor = true;
-			this.twoClicksDown.Click += new System.EventHandler(this.twoClicksDown_Click);
-			// 
-			// twoClicksUp
-			// 
-			this.twoClicksUp.Location = new System.Drawing.Point(14, 53);
-			this.twoClicksUp.Name = "twoClicksUp";
-			this.twoClicksUp.Size = new System.Drawing.Size(102, 20);
-			this.twoClicksUp.TabIndex = 23;
-			this.twoClicksUp.Text = "Two clicks (^^)";
-			this.twoClicksUp.UseVisualStyleBackColor = true;
-			this.twoClicksUp.Click += new System.EventHandler(this.twoClicksUp_Click);
-			// 
-			// panel1
-			// 
-			this.panel1.BackColor = System.Drawing.Color.Black;
-			this.panel1.Location = new System.Drawing.Point(14, 104);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(102, 2);
-			this.panel1.TabIndex = 24;
-			// 
 			// useIntensity
 			// 
 			this.useIntensity.AutoSize = true;
@@ -189,10 +103,100 @@
 			this.continuous.Text = "Continuous";
 			this.continuous.UseVisualStyleBackColor = true;
 			// 
+			// panel1
+			// 
+			this.panel1.BackColor = System.Drawing.Color.Black;
+			this.panel1.Location = new System.Drawing.Point(14, 104);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(102, 2);
+			this.panel1.TabIndex = 24;
+			// 
+			// twoClicksUp
+			// 
+			this.twoClicksUp.Location = new System.Drawing.Point(14, 53);
+			this.twoClicksUp.Name = "twoClicksUp";
+			this.twoClicksUp.Size = new System.Drawing.Size(102, 20);
+			this.twoClicksUp.TabIndex = 23;
+			this.twoClicksUp.Text = "Two clicks (^^)";
+			this.twoClicksUp.UseVisualStyleBackColor = true;
+			this.twoClicksUp.Click += new System.EventHandler(this.twoClicksUp_Click);
+			// 
+			// twoClicksDown
+			// 
+			this.twoClicksDown.Location = new System.Drawing.Point(14, 138);
+			this.twoClicksDown.Name = "twoClicksDown";
+			this.twoClicksDown.Size = new System.Drawing.Size(102, 20);
+			this.twoClicksDown.TabIndex = 22;
+			this.twoClicksDown.Text = "Two clicks (vv)";
+			this.twoClicksDown.UseVisualStyleBackColor = true;
+			this.twoClicksDown.Click += new System.EventHandler(this.twoClicksDown_Click);
+			// 
+			// oneClickDown
+			// 
+			this.oneClickDown.Location = new System.Drawing.Point(14, 114);
+			this.oneClickDown.Name = "oneClickDown";
+			this.oneClickDown.Size = new System.Drawing.Size(102, 20);
+			this.oneClickDown.TabIndex = 21;
+			this.oneClickDown.Text = "One click  (v)";
+			this.oneClickDown.UseVisualStyleBackColor = true;
+			this.oneClickDown.Click += new System.EventHandler(this.oneClickDown_Click);
+			// 
+			// oneClickUp
+			// 
+			this.oneClickUp.Location = new System.Drawing.Point(14, 77);
+			this.oneClickUp.Name = "oneClickUp";
+			this.oneClickUp.Size = new System.Drawing.Size(102, 20);
+			this.oneClickUp.TabIndex = 20;
+			this.oneClickUp.Text = "One click (^)";
+			this.oneClickUp.UseVisualStyleBackColor = true;
+			this.oneClickUp.Click += new System.EventHandler(this.oneClickUp_Click);
+			// 
+			// motion
+			// 
+			this.motion.Location = new System.Drawing.Point(167, 74);
+			this.motion.Name = "motion";
+			this.motion.Size = new System.Drawing.Size(57, 20);
+			this.motion.TabIndex = 2;
+			// 
+			// okBtn
+			// 
+			this.okBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.okBtn.Location = new System.Drawing.Point(206, 263);
+			this.okBtn.Name = "okBtn";
+			this.okBtn.Size = new System.Drawing.Size(75, 23);
+			this.okBtn.TabIndex = 17;
+			this.okBtn.Text = "OK";
+			this.okBtn.UseVisualStyleBackColor = true;
+			this.okBtn.Click += new System.EventHandler(this.okBtn_Click);
+			// 
+			// cancelBtn
+			// 
+			this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.cancelBtn.Location = new System.Drawing.Point(125, 263);
+			this.cancelBtn.Name = "cancelBtn";
+			this.cancelBtn.Size = new System.Drawing.Size(75, 23);
+			this.cancelBtn.TabIndex = 18;
+			this.cancelBtn.Text = "Cancel";
+			this.cancelBtn.UseVisualStyleBackColor = true;
+			this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
+			// 
+			// slotCapture
+			// 
+			this.slotCapture.Controller = null;
+			this.slotCapture.Location = new System.Drawing.Point(5, 178);
+			this.slotCapture.MaximumSize = new System.Drawing.Size(1000, 79);
+			this.slotCapture.MinimumSize = new System.Drawing.Size(233, 79);
+			this.slotCapture.Name = "slotCapture";
+			this.slotCapture.Size = new System.Drawing.Size(282, 79);
+			this.slotCapture.TabIndex = 19;
+			this.slotCapture.Value = null;
+			// 
 			// MapMouseWheelForm
 			// 
+			this.AcceptButton = this.okBtn;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.cancelBtn;
 			this.ClientSize = new System.Drawing.Size(290, 294);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.okBtn);

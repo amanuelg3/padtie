@@ -26,46 +26,46 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PadSettingsControl));
-			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Key stroke");
-			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Keyboard", new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Pointer motion");
-			System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Button");
-			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Wheel");
-			System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Mouse", new System.Windows.Forms.TreeNode[] {
-            treeNode3,
-            treeNode4,
-            treeNode5});
-			System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Run command");
-			System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Open file");
-			System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Load Configuration");
-			System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Exit Pad Tie");
-			System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Actions", new System.Windows.Forms.TreeNode[] {
-            treeNode7,
-            treeNode8,
-            treeNode9,
-            treeNode10});
-			System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Link");
-			System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Tap");
-			System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Double Tap");
-			System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Hold");
-			System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("A", new System.Windows.Forms.TreeNode[] {
-            treeNode12,
-            treeNode13,
-            treeNode14,
-            treeNode15});
-			System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Link");
-			System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Tap");
-			System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Double Tap");
-			System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Hold");
-			System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("B", new System.Windows.Forms.TreeNode[] {
-            treeNode17,
-            treeNode18,
-            treeNode19,
-            treeNode20});
+			System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("Key stroke");
+			System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("Keyboard", new System.Windows.Forms.TreeNode[] {
+            treeNode43});
+			System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("Pointer motion");
+			System.Windows.Forms.TreeNode treeNode46 = new System.Windows.Forms.TreeNode("Button");
+			System.Windows.Forms.TreeNode treeNode47 = new System.Windows.Forms.TreeNode("Wheel");
+			System.Windows.Forms.TreeNode treeNode48 = new System.Windows.Forms.TreeNode("Mouse", new System.Windows.Forms.TreeNode[] {
+            treeNode45,
+            treeNode46,
+            treeNode47});
+			System.Windows.Forms.TreeNode treeNode49 = new System.Windows.Forms.TreeNode("Run command");
+			System.Windows.Forms.TreeNode treeNode50 = new System.Windows.Forms.TreeNode("Open file");
+			System.Windows.Forms.TreeNode treeNode51 = new System.Windows.Forms.TreeNode("Load Configuration");
+			System.Windows.Forms.TreeNode treeNode52 = new System.Windows.Forms.TreeNode("Exit Pad Tie");
+			System.Windows.Forms.TreeNode treeNode53 = new System.Windows.Forms.TreeNode("Actions", new System.Windows.Forms.TreeNode[] {
+            treeNode49,
+            treeNode50,
+            treeNode51,
+            treeNode52});
+			System.Windows.Forms.TreeNode treeNode54 = new System.Windows.Forms.TreeNode("Link");
+			System.Windows.Forms.TreeNode treeNode55 = new System.Windows.Forms.TreeNode("Tap");
+			System.Windows.Forms.TreeNode treeNode56 = new System.Windows.Forms.TreeNode("Double Tap");
+			System.Windows.Forms.TreeNode treeNode57 = new System.Windows.Forms.TreeNode("Hold");
+			System.Windows.Forms.TreeNode treeNode58 = new System.Windows.Forms.TreeNode("A", new System.Windows.Forms.TreeNode[] {
+            treeNode54,
+            treeNode55,
+            treeNode56,
+            treeNode57});
+			System.Windows.Forms.TreeNode treeNode59 = new System.Windows.Forms.TreeNode("Link");
+			System.Windows.Forms.TreeNode treeNode60 = new System.Windows.Forms.TreeNode("Tap");
+			System.Windows.Forms.TreeNode treeNode61 = new System.Windows.Forms.TreeNode("Double Tap");
+			System.Windows.Forms.TreeNode treeNode62 = new System.Windows.Forms.TreeNode("Hold");
+			System.Windows.Forms.TreeNode treeNode63 = new System.Windows.Forms.TreeNode("B", new System.Windows.Forms.TreeNode[] {
+            treeNode59,
+            treeNode60,
+            treeNode61,
+            treeNode62});
 			this.tabPage2 = new System.Windows.Forms.TabPage();
-			this.button5 = new System.Windows.Forms.Button();
-			this.button4 = new System.Windows.Forms.Button();
+			this.changeBtn = new System.Windows.Forms.Button();
+			this.wizardBtn = new System.Windows.Forms.Button();
 			this.buttonMappings = new System.Windows.Forms.ListBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -98,48 +98,48 @@
 			this.btnMaskA = new System.Windows.Forms.Panel();
 			this.label2 = new System.Windows.Forms.Label();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.tabPage3 = new System.Windows.Forms.TabPage();
+			this.devicePadNum = new System.Windows.Forms.TextBox();
+			this.label13 = new System.Windows.Forms.Label();
+			this.button1 = new System.Windows.Forms.Button();
+			this.deviceFeedback = new System.Windows.Forms.TextBox();
+			this.label12 = new System.Windows.Forms.Label();
+			this.deviceHats = new System.Windows.Forms.TextBox();
+			this.label11 = new System.Windows.Forms.Label();
+			this.deviceAxes = new System.Windows.Forms.TextBox();
+			this.label10 = new System.Windows.Forms.Label();
+			this.deviceButtons = new System.Windows.Forms.TextBox();
+			this.label9 = new System.Windows.Forms.Label();
+			this.deviceProductID = new System.Windows.Forms.TextBox();
+			this.label8 = new System.Windows.Forms.Label();
+			this.deviceVendorID = new System.Windows.Forms.TextBox();
+			this.label7 = new System.Windows.Forms.Label();
+			this.deviceInstanceGUID = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
+			this.deviceGUID = new System.Windows.Forms.TextBox();
+			this.label5 = new System.Windows.Forms.Label();
+			this.deviceName = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.btnMaskLeftAnalog = new System.Windows.Forms.Panel();
 			this.btnMaskRightAnalog = new System.Windows.Forms.Panel();
 			this.activeMapping = new System.Windows.Forms.Label();
 			this.editBtn = new System.Windows.Forms.Button();
 			this.unmapBtn = new System.Windows.Forms.Button();
 			this.controllerFront = new System.Windows.Forms.Panel();
-			this.controllerTop = new System.Windows.Forms.Panel();
 			this.autoSelectInput = new System.Windows.Forms.CheckBox();
-			this.tabPage3 = new System.Windows.Forms.TabPage();
-			this.label1 = new System.Windows.Forms.Label();
-			this.deviceName = new System.Windows.Forms.TextBox();
-			this.deviceGUID = new System.Windows.Forms.TextBox();
-			this.label5 = new System.Windows.Forms.Label();
-			this.deviceInstanceGUID = new System.Windows.Forms.TextBox();
-			this.label6 = new System.Windows.Forms.Label();
-			this.deviceVendorID = new System.Windows.Forms.TextBox();
-			this.label7 = new System.Windows.Forms.Label();
-			this.deviceProductID = new System.Windows.Forms.TextBox();
-			this.label8 = new System.Windows.Forms.Label();
-			this.deviceButtons = new System.Windows.Forms.TextBox();
-			this.label9 = new System.Windows.Forms.Label();
-			this.deviceAxes = new System.Windows.Forms.TextBox();
-			this.label10 = new System.Windows.Forms.Label();
-			this.deviceHats = new System.Windows.Forms.TextBox();
-			this.label11 = new System.Windows.Forms.Label();
-			this.deviceFeedback = new System.Windows.Forms.TextBox();
-			this.label12 = new System.Windows.Forms.Label();
-			this.button1 = new System.Windows.Forms.Button();
-			this.devicePadNum = new System.Windows.Forms.TextBox();
-			this.label13 = new System.Windows.Forms.Label();
+			this.controllerTop = new System.Windows.Forms.Panel();
 			this.tabPage2.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
+			this.tabPage3.SuspendLayout();
 			this.controllerFront.SuspendLayout();
 			this.controllerTop.SuspendLayout();
-			this.tabPage3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabPage2
 			// 
-			this.tabPage2.Controls.Add(this.button5);
-			this.tabPage2.Controls.Add(this.button4);
+			this.tabPage2.Controls.Add(this.changeBtn);
+			this.tabPage2.Controls.Add(this.wizardBtn);
 			this.tabPage2.Controls.Add(this.buttonMappings);
 			this.tabPage2.Controls.Add(this.label3);
 			this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -150,25 +150,27 @@
 			this.tabPage2.Text = "Button Layout";
 			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
-			// button5
+			// changeBtn
 			// 
-			this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button5.Location = new System.Drawing.Point(199, 111);
-			this.button5.Name = "button5";
-			this.button5.Size = new System.Drawing.Size(75, 23);
-			this.button5.TabIndex = 3;
-			this.button5.Text = "Change...";
-			this.button5.UseVisualStyleBackColor = true;
+			this.changeBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.changeBtn.Location = new System.Drawing.Point(199, 82);
+			this.changeBtn.Name = "changeBtn";
+			this.changeBtn.Size = new System.Drawing.Size(75, 23);
+			this.changeBtn.TabIndex = 3;
+			this.changeBtn.Text = "Change...";
+			this.changeBtn.UseVisualStyleBackColor = true;
+			this.changeBtn.Click += new System.EventHandler(this.changeBtn_Click);
 			// 
-			// button4
+			// wizardBtn
 			// 
-			this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.button4.Location = new System.Drawing.Point(199, 82);
-			this.button4.Name = "button4";
-			this.button4.Size = new System.Drawing.Size(75, 23);
-			this.button4.TabIndex = 2;
-			this.button4.Text = "Wizard...";
-			this.button4.UseVisualStyleBackColor = true;
+			this.wizardBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.wizardBtn.Location = new System.Drawing.Point(199, 111);
+			this.wizardBtn.Name = "wizardBtn";
+			this.wizardBtn.Size = new System.Drawing.Size(75, 23);
+			this.wizardBtn.TabIndex = 2;
+			this.wizardBtn.Text = "Wizard...";
+			this.wizardBtn.UseVisualStyleBackColor = true;
+			this.wizardBtn.Click += new System.EventHandler(this.wizardBtn_Click);
 			// 
 			// buttonMappings
 			// 
@@ -230,40 +232,40 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.actionTree.Location = new System.Drawing.Point(6, 38);
 			this.actionTree.Name = "actionTree";
-			treeNode1.Name = "Node3";
-			treeNode1.Tag = "keystroke";
-			treeNode1.Text = "Key stroke";
-			treeNode2.Name = "Node0";
-			treeNode2.Text = "Keyboard";
-			treeNode3.Name = "Node4";
-			treeNode3.Tag = "pointer";
-			treeNode3.Text = "Pointer motion";
-			treeNode4.Name = "Node5";
-			treeNode4.Tag = "mouse-button";
-			treeNode4.Text = "Button";
-			treeNode5.Name = "Node6";
-			treeNode5.Tag = "mouse-wheel";
-			treeNode5.Text = "Wheel";
-			treeNode6.Name = "Node1";
-			treeNode6.Text = "Mouse";
-			treeNode7.Name = "Node11";
-			treeNode7.Tag = "command";
-			treeNode7.Text = "Run command";
-			treeNode8.Name = "Node12";
-			treeNode8.Tag = "open-file";
-			treeNode8.Text = "Open file";
-			treeNode9.Name = "Node8";
-			treeNode9.Tag = "load-config";
-			treeNode9.Text = "Load Configuration";
-			treeNode10.Name = "Node9";
-			treeNode10.Tag = "exit";
-			treeNode10.Text = "Exit Pad Tie";
-			treeNode11.Name = "Node10";
-			treeNode11.Text = "Actions";
+			treeNode43.Name = "Node3";
+			treeNode43.Tag = "keystroke";
+			treeNode43.Text = "Key stroke";
+			treeNode44.Name = "Node0";
+			treeNode44.Text = "Keyboard";
+			treeNode45.Name = "Node4";
+			treeNode45.Tag = "pointer";
+			treeNode45.Text = "Pointer motion";
+			treeNode46.Name = "Node5";
+			treeNode46.Tag = "mouse-button";
+			treeNode46.Text = "Button";
+			treeNode47.Name = "Node6";
+			treeNode47.Tag = "mouse-wheel";
+			treeNode47.Text = "Wheel";
+			treeNode48.Name = "Node1";
+			treeNode48.Text = "Mouse";
+			treeNode49.Name = "Node11";
+			treeNode49.Tag = "command";
+			treeNode49.Text = "Run command";
+			treeNode50.Name = "Node12";
+			treeNode50.Tag = "open-file";
+			treeNode50.Text = "Open file";
+			treeNode51.Name = "Node8";
+			treeNode51.Tag = "load-config";
+			treeNode51.Text = "Load Configuration";
+			treeNode52.Name = "Node9";
+			treeNode52.Tag = "exit";
+			treeNode52.Text = "Exit Pad Tie";
+			treeNode53.Name = "Node10";
+			treeNode53.Text = "Actions";
 			this.actionTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode2,
-            treeNode6,
-            treeNode11});
+            treeNode44,
+            treeNode48,
+            treeNode53});
 			this.actionTree.Size = new System.Drawing.Size(264, 334);
 			this.actionTree.TabIndex = 5;
 			this.actionTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.actionTree_NodeMouseDoubleClick);
@@ -531,29 +533,29 @@
 			this.currentMappings.HideSelection = false;
 			this.currentMappings.Location = new System.Drawing.Point(9, 295);
 			this.currentMappings.Name = "currentMappings";
-			treeNode12.Name = "Node2";
-			treeNode12.Text = "Link";
-			treeNode13.Name = "Node4";
-			treeNode13.Text = "Tap";
-			treeNode14.Name = "Node5";
-			treeNode14.Text = "Double Tap";
-			treeNode15.Name = "Node6";
-			treeNode15.Text = "Hold";
-			treeNode16.Name = "Node0";
-			treeNode16.Text = "A";
-			treeNode17.Name = "Node7";
-			treeNode17.Text = "Link";
-			treeNode18.Name = "Node8";
-			treeNode18.Text = "Tap";
-			treeNode19.Name = "Node9";
-			treeNode19.Text = "Double Tap";
-			treeNode20.Name = "Node10";
-			treeNode20.Text = "Hold";
-			treeNode21.Name = "Node1";
-			treeNode21.Text = "B";
+			treeNode54.Name = "Node2";
+			treeNode54.Text = "Link";
+			treeNode55.Name = "Node4";
+			treeNode55.Text = "Tap";
+			treeNode56.Name = "Node5";
+			treeNode56.Text = "Double Tap";
+			treeNode57.Name = "Node6";
+			treeNode57.Text = "Hold";
+			treeNode58.Name = "Node0";
+			treeNode58.Text = "A";
+			treeNode59.Name = "Node7";
+			treeNode59.Text = "Link";
+			treeNode60.Name = "Node8";
+			treeNode60.Text = "Tap";
+			treeNode61.Name = "Node9";
+			treeNode61.Text = "Double Tap";
+			treeNode62.Name = "Node10";
+			treeNode62.Text = "Hold";
+			treeNode63.Name = "Node1";
+			treeNode63.Text = "B";
 			this.currentMappings.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode16,
-            treeNode21});
+            treeNode58,
+            treeNode63});
 			this.currentMappings.Size = new System.Drawing.Size(247, 106);
 			this.currentMappings.TabIndex = 55;
 			this.currentMappings.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.currentMappings_AfterSelect);
@@ -593,6 +595,216 @@
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(284, 431);
 			this.tabControl1.TabIndex = 54;
+			// 
+			// tabPage3
+			// 
+			this.tabPage3.Controls.Add(this.devicePadNum);
+			this.tabPage3.Controls.Add(this.label13);
+			this.tabPage3.Controls.Add(this.button1);
+			this.tabPage3.Controls.Add(this.deviceFeedback);
+			this.tabPage3.Controls.Add(this.label12);
+			this.tabPage3.Controls.Add(this.deviceHats);
+			this.tabPage3.Controls.Add(this.label11);
+			this.tabPage3.Controls.Add(this.deviceAxes);
+			this.tabPage3.Controls.Add(this.label10);
+			this.tabPage3.Controls.Add(this.deviceButtons);
+			this.tabPage3.Controls.Add(this.label9);
+			this.tabPage3.Controls.Add(this.deviceProductID);
+			this.tabPage3.Controls.Add(this.label8);
+			this.tabPage3.Controls.Add(this.deviceVendorID);
+			this.tabPage3.Controls.Add(this.label7);
+			this.tabPage3.Controls.Add(this.deviceInstanceGUID);
+			this.tabPage3.Controls.Add(this.label6);
+			this.tabPage3.Controls.Add(this.deviceGUID);
+			this.tabPage3.Controls.Add(this.label5);
+			this.tabPage3.Controls.Add(this.deviceName);
+			this.tabPage3.Controls.Add(this.label1);
+			this.tabPage3.Location = new System.Drawing.Point(4, 22);
+			this.tabPage3.Name = "tabPage3";
+			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage3.Size = new System.Drawing.Size(276, 405);
+			this.tabPage3.TabIndex = 2;
+			this.tabPage3.Text = "Device";
+			this.tabPage3.UseVisualStyleBackColor = true;
+			// 
+			// devicePadNum
+			// 
+			this.devicePadNum.Location = new System.Drawing.Point(97, 42);
+			this.devicePadNum.Name = "devicePadNum";
+			this.devicePadNum.ReadOnly = true;
+			this.devicePadNum.Size = new System.Drawing.Size(162, 20);
+			this.devicePadNum.TabIndex = 20;
+			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(6, 45);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(67, 13);
+			this.label13.TabIndex = 19;
+			this.label13.Text = "Pad number:";
+			// 
+			// button1
+			// 
+			this.button1.Location = new System.Drawing.Point(97, 69);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(162, 23);
+			this.button1.TabIndex = 18;
+			this.button1.Text = "Map to another pad number...";
+			this.button1.UseVisualStyleBackColor = true;
+			// 
+			// deviceFeedback
+			// 
+			this.deviceFeedback.Location = new System.Drawing.Point(97, 283);
+			this.deviceFeedback.Name = "deviceFeedback";
+			this.deviceFeedback.ReadOnly = true;
+			this.deviceFeedback.Size = new System.Drawing.Size(162, 20);
+			this.deviceFeedback.TabIndex = 17;
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Location = new System.Drawing.Point(6, 286);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(88, 13);
+			this.label12.TabIndex = 16;
+			this.label12.Text = "Force Feedback:";
+			// 
+			// deviceHats
+			// 
+			this.deviceHats.Location = new System.Drawing.Point(97, 257);
+			this.deviceHats.Name = "deviceHats";
+			this.deviceHats.ReadOnly = true;
+			this.deviceHats.Size = new System.Drawing.Size(162, 20);
+			this.deviceHats.TabIndex = 15;
+			// 
+			// label11
+			// 
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(6, 260);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(54, 13);
+			this.label11.TabIndex = 14;
+			this.label11.Text = "# of Hats:";
+			// 
+			// deviceAxes
+			// 
+			this.deviceAxes.Location = new System.Drawing.Point(97, 231);
+			this.deviceAxes.Name = "deviceAxes";
+			this.deviceAxes.ReadOnly = true;
+			this.deviceAxes.Size = new System.Drawing.Size(162, 20);
+			this.deviceAxes.TabIndex = 13;
+			// 
+			// label10
+			// 
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(6, 234);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(55, 13);
+			this.label10.TabIndex = 12;
+			this.label10.Text = "# of Axes:";
+			// 
+			// deviceButtons
+			// 
+			this.deviceButtons.Location = new System.Drawing.Point(97, 204);
+			this.deviceButtons.Name = "deviceButtons";
+			this.deviceButtons.ReadOnly = true;
+			this.deviceButtons.Size = new System.Drawing.Size(162, 20);
+			this.deviceButtons.TabIndex = 11;
+			// 
+			// label9
+			// 
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(6, 207);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(68, 13);
+			this.label9.TabIndex = 10;
+			this.label9.Text = "# of Buttons:";
+			// 
+			// deviceProductID
+			// 
+			this.deviceProductID.Location = new System.Drawing.Point(97, 178);
+			this.deviceProductID.Name = "deviceProductID";
+			this.deviceProductID.ReadOnly = true;
+			this.deviceProductID.Size = new System.Drawing.Size(162, 20);
+			this.deviceProductID.TabIndex = 9;
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(6, 181);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(61, 13);
+			this.label8.TabIndex = 8;
+			this.label8.Text = "Product ID:";
+			// 
+			// deviceVendorID
+			// 
+			this.deviceVendorID.Location = new System.Drawing.Point(97, 152);
+			this.deviceVendorID.Name = "deviceVendorID";
+			this.deviceVendorID.ReadOnly = true;
+			this.deviceVendorID.Size = new System.Drawing.Size(162, 20);
+			this.deviceVendorID.TabIndex = 7;
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(6, 155);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(58, 13);
+			this.label7.TabIndex = 6;
+			this.label7.Text = "Vendor ID:";
+			// 
+			// deviceInstanceGUID
+			// 
+			this.deviceInstanceGUID.Location = new System.Drawing.Point(97, 124);
+			this.deviceInstanceGUID.Name = "deviceInstanceGUID";
+			this.deviceInstanceGUID.ReadOnly = true;
+			this.deviceInstanceGUID.Size = new System.Drawing.Size(162, 20);
+			this.deviceInstanceGUID.TabIndex = 5;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(6, 127);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(81, 13);
+			this.label6.TabIndex = 4;
+			this.label6.Text = "Instance GUID:";
+			// 
+			// deviceGUID
+			// 
+			this.deviceGUID.Location = new System.Drawing.Point(97, 98);
+			this.deviceGUID.Name = "deviceGUID";
+			this.deviceGUID.ReadOnly = true;
+			this.deviceGUID.Size = new System.Drawing.Size(162, 20);
+			this.deviceGUID.TabIndex = 3;
+			// 
+			// label5
+			// 
+			this.label5.AutoSize = true;
+			this.label5.Location = new System.Drawing.Point(6, 101);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(74, 13);
+			this.label5.TabIndex = 2;
+			this.label5.Text = "Device GUID:";
+			// 
+			// deviceName
+			// 
+			this.deviceName.Location = new System.Drawing.Point(97, 16);
+			this.deviceName.Name = "deviceName";
+			this.deviceName.ReadOnly = true;
+			this.deviceName.Size = new System.Drawing.Size(162, 20);
+			this.deviceName.TabIndex = 1;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(6, 19);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(38, 13);
+			this.label1.TabIndex = 0;
+			this.label1.Text = "Name:";
 			// 
 			// btnMaskLeftAnalog
 			// 
@@ -680,18 +892,6 @@
 			this.controllerFront.Size = new System.Drawing.Size(257, 175);
 			this.controllerFront.TabIndex = 85;
 			// 
-			// controllerTop
-			// 
-			this.controllerTop.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("controllerTop.BackgroundImage")));
-			this.controllerTop.Controls.Add(this.btnMaskTr);
-			this.controllerTop.Controls.Add(this.btnMaskTl);
-			this.controllerTop.Controls.Add(this.btnMaskBl);
-			this.controllerTop.Controls.Add(this.btnMaskBr);
-			this.controllerTop.Location = new System.Drawing.Point(2, 185);
-			this.controllerTop.Name = "controllerTop";
-			this.controllerTop.Size = new System.Drawing.Size(258, 107);
-			this.controllerTop.TabIndex = 86;
-			// 
 			// autoSelectInput
 			// 
 			this.autoSelectInput.AutoSize = true;
@@ -707,215 +907,17 @@
 			this.autoSelectInput.Text = "Auto select pressed button";
 			this.autoSelectInput.UseVisualStyleBackColor = false;
 			// 
-			// tabPage3
+			// controllerTop
 			// 
-			this.tabPage3.Controls.Add(this.devicePadNum);
-			this.tabPage3.Controls.Add(this.label13);
-			this.tabPage3.Controls.Add(this.button1);
-			this.tabPage3.Controls.Add(this.deviceFeedback);
-			this.tabPage3.Controls.Add(this.label12);
-			this.tabPage3.Controls.Add(this.deviceHats);
-			this.tabPage3.Controls.Add(this.label11);
-			this.tabPage3.Controls.Add(this.deviceAxes);
-			this.tabPage3.Controls.Add(this.label10);
-			this.tabPage3.Controls.Add(this.deviceButtons);
-			this.tabPage3.Controls.Add(this.label9);
-			this.tabPage3.Controls.Add(this.deviceProductID);
-			this.tabPage3.Controls.Add(this.label8);
-			this.tabPage3.Controls.Add(this.deviceVendorID);
-			this.tabPage3.Controls.Add(this.label7);
-			this.tabPage3.Controls.Add(this.deviceInstanceGUID);
-			this.tabPage3.Controls.Add(this.label6);
-			this.tabPage3.Controls.Add(this.deviceGUID);
-			this.tabPage3.Controls.Add(this.label5);
-			this.tabPage3.Controls.Add(this.deviceName);
-			this.tabPage3.Controls.Add(this.label1);
-			this.tabPage3.Location = new System.Drawing.Point(4, 22);
-			this.tabPage3.Name = "tabPage3";
-			this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage3.Size = new System.Drawing.Size(276, 405);
-			this.tabPage3.TabIndex = 2;
-			this.tabPage3.Text = "Device";
-			this.tabPage3.UseVisualStyleBackColor = true;
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(6, 19);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(38, 13);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Name:";
-			// 
-			// deviceName
-			// 
-			this.deviceName.Location = new System.Drawing.Point(97, 16);
-			this.deviceName.Name = "deviceName";
-			this.deviceName.ReadOnly = true;
-			this.deviceName.Size = new System.Drawing.Size(162, 20);
-			this.deviceName.TabIndex = 1;
-			// 
-			// deviceGUID
-			// 
-			this.deviceGUID.Location = new System.Drawing.Point(97, 98);
-			this.deviceGUID.Name = "deviceGUID";
-			this.deviceGUID.ReadOnly = true;
-			this.deviceGUID.Size = new System.Drawing.Size(162, 20);
-			this.deviceGUID.TabIndex = 3;
-			// 
-			// label5
-			// 
-			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(6, 101);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(74, 13);
-			this.label5.TabIndex = 2;
-			this.label5.Text = "Device GUID:";
-			// 
-			// deviceInstanceGUID
-			// 
-			this.deviceInstanceGUID.Location = new System.Drawing.Point(97, 124);
-			this.deviceInstanceGUID.Name = "deviceInstanceGUID";
-			this.deviceInstanceGUID.ReadOnly = true;
-			this.deviceInstanceGUID.Size = new System.Drawing.Size(162, 20);
-			this.deviceInstanceGUID.TabIndex = 5;
-			// 
-			// label6
-			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(6, 127);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(81, 13);
-			this.label6.TabIndex = 4;
-			this.label6.Text = "Instance GUID:";
-			// 
-			// deviceVendorID
-			// 
-			this.deviceVendorID.Location = new System.Drawing.Point(97, 152);
-			this.deviceVendorID.Name = "deviceVendorID";
-			this.deviceVendorID.ReadOnly = true;
-			this.deviceVendorID.Size = new System.Drawing.Size(162, 20);
-			this.deviceVendorID.TabIndex = 7;
-			// 
-			// label7
-			// 
-			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(6, 155);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(58, 13);
-			this.label7.TabIndex = 6;
-			this.label7.Text = "Vendor ID:";
-			// 
-			// deviceProductID
-			// 
-			this.deviceProductID.Location = new System.Drawing.Point(97, 178);
-			this.deviceProductID.Name = "deviceProductID";
-			this.deviceProductID.ReadOnly = true;
-			this.deviceProductID.Size = new System.Drawing.Size(162, 20);
-			this.deviceProductID.TabIndex = 9;
-			// 
-			// label8
-			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(6, 181);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(61, 13);
-			this.label8.TabIndex = 8;
-			this.label8.Text = "Product ID:";
-			// 
-			// deviceButtons
-			// 
-			this.deviceButtons.Location = new System.Drawing.Point(97, 204);
-			this.deviceButtons.Name = "deviceButtons";
-			this.deviceButtons.ReadOnly = true;
-			this.deviceButtons.Size = new System.Drawing.Size(162, 20);
-			this.deviceButtons.TabIndex = 11;
-			// 
-			// label9
-			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(6, 207);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(68, 13);
-			this.label9.TabIndex = 10;
-			this.label9.Text = "# of Buttons:";
-			// 
-			// deviceAxes
-			// 
-			this.deviceAxes.Location = new System.Drawing.Point(97, 231);
-			this.deviceAxes.Name = "deviceAxes";
-			this.deviceAxes.ReadOnly = true;
-			this.deviceAxes.Size = new System.Drawing.Size(162, 20);
-			this.deviceAxes.TabIndex = 13;
-			// 
-			// label10
-			// 
-			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(6, 234);
-			this.label10.Name = "label10";
-			this.label10.Size = new System.Drawing.Size(55, 13);
-			this.label10.TabIndex = 12;
-			this.label10.Text = "# of Axes:";
-			// 
-			// deviceHats
-			// 
-			this.deviceHats.Location = new System.Drawing.Point(97, 257);
-			this.deviceHats.Name = "deviceHats";
-			this.deviceHats.ReadOnly = true;
-			this.deviceHats.Size = new System.Drawing.Size(162, 20);
-			this.deviceHats.TabIndex = 15;
-			// 
-			// label11
-			// 
-			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(6, 260);
-			this.label11.Name = "label11";
-			this.label11.Size = new System.Drawing.Size(54, 13);
-			this.label11.TabIndex = 14;
-			this.label11.Text = "# of Hats:";
-			// 
-			// deviceFeedback
-			// 
-			this.deviceFeedback.Location = new System.Drawing.Point(97, 283);
-			this.deviceFeedback.Name = "deviceFeedback";
-			this.deviceFeedback.ReadOnly = true;
-			this.deviceFeedback.Size = new System.Drawing.Size(162, 20);
-			this.deviceFeedback.TabIndex = 17;
-			// 
-			// label12
-			// 
-			this.label12.AutoSize = true;
-			this.label12.Location = new System.Drawing.Point(6, 286);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(88, 13);
-			this.label12.TabIndex = 16;
-			this.label12.Text = "Force Feedback:";
-			// 
-			// button1
-			// 
-			this.button1.Location = new System.Drawing.Point(97, 69);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(162, 23);
-			this.button1.TabIndex = 18;
-			this.button1.Text = "Map to another pad number...";
-			this.button1.UseVisualStyleBackColor = true;
-			// 
-			// devicePadNum
-			// 
-			this.devicePadNum.Location = new System.Drawing.Point(97, 42);
-			this.devicePadNum.Name = "devicePadNum";
-			this.devicePadNum.ReadOnly = true;
-			this.devicePadNum.Size = new System.Drawing.Size(162, 20);
-			this.devicePadNum.TabIndex = 20;
-			// 
-			// label13
-			// 
-			this.label13.AutoSize = true;
-			this.label13.Location = new System.Drawing.Point(6, 45);
-			this.label13.Name = "label13";
-			this.label13.Size = new System.Drawing.Size(67, 13);
-			this.label13.TabIndex = 19;
-			this.label13.Text = "Pad number:";
+			this.controllerTop.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("controllerTop.BackgroundImage")));
+			this.controllerTop.Controls.Add(this.btnMaskTr);
+			this.controllerTop.Controls.Add(this.btnMaskTl);
+			this.controllerTop.Controls.Add(this.btnMaskBl);
+			this.controllerTop.Controls.Add(this.btnMaskBr);
+			this.controllerTop.Location = new System.Drawing.Point(2, 185);
+			this.controllerTop.Name = "controllerTop";
+			this.controllerTop.Size = new System.Drawing.Size(258, 107);
+			this.controllerTop.TabIndex = 86;
 			// 
 			// PadSettingsControl
 			// 
@@ -936,11 +938,11 @@
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);
+			this.tabPage3.ResumeLayout(false);
+			this.tabPage3.PerformLayout();
 			this.controllerFront.ResumeLayout(false);
 			this.controllerFront.PerformLayout();
 			this.controllerTop.ResumeLayout(false);
-			this.tabPage3.ResumeLayout(false);
-			this.tabPage3.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -949,8 +951,8 @@
 		#endregion
 
 		private System.Windows.Forms.TabPage tabPage2;
-		private System.Windows.Forms.Button button5;
-		private System.Windows.Forms.Button button4;
+		private System.Windows.Forms.Button changeBtn;
+		private System.Windows.Forms.Button wizardBtn;
 		private System.Windows.Forms.ListBox buttonMappings;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.TabPage tabPage1;
