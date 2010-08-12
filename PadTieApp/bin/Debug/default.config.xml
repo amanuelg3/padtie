@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <pad index="1">
+    <a>
+      <link type="key">Escape,</link>
+      <tap type="none" />
+      <dtap type="key">Return,</dtap>
+      <hold type="none" />
+    </a>
+    <b>
+      <link type="wheel">52</link>
+      <tap type="none" />
+      <dtap type="key">Return,</dtap>
+      <hold type="none" />
+    </b>
+    <x>
+      <link type="key">Return,</link>
+      <tap type="none" />
+      <dtap type="key">Escape,</dtap>
+      <hold type="none" />
+    </x>
+    <y>
+      <link type="wheel">-120</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </y>
+    <back>
+      <link type="key">Escape,</link>
+      <tap type="key">Escape,</tap>
+      <dtap type="none" />
+      <hold type="key">O,Menu</hold>
+    </back>
+    <start>
+      <link type="key">Return,</link>
+      <tap type="key">Return,</tap>
+      <dtap type="none" />
+      <hold type="none" />
+    </start>
+    <bl>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </bl>
+    <br>
+      <link type="button">Left</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </br>
+    <tl>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </tl>
+    <tr>
+      <link type="button">Right</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </tr>
+    <la>
+      <link type="key">Return,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la>
+    <ra>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra>
+    <la-up type="key">W,</la-up>
+    <la-down type="key">S,</la-down>
+    <la-left type="key">A,</la-left>
+    <la-right type="key">D,</la-right>
+    <ra-up type="pointer">0,-25</ra-up>
+    <ra-down type="pointer">0,25</ra-down>
+    <ra-left type="pointer">-25,0</ra-left>
+    <ra-right type="pointer">25,0</ra-right>
+  </pad>
+  <settings>
+    <TapInterval>500</TapInterval>
+    <DoubleTapInterval>250</DoubleTapInterval>
+    <HoldInterval>700</HoldInterval>
+    <DefaultDeadzone>0</DefaultDeadzone>
+    <AxisPoleSize>0.5</AxisPoleSize>
+  </settings>
+</config>
