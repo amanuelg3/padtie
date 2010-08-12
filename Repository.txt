@@ -1,0 +1,4 @@
+Pad Tie
+(C) 2010 William Lahti
+
+This is the trunk of the Subversion repository for Pad Tie. This software may be unstable, no warranty is provided for any of it. I am not responsible if you do something bad with it!
