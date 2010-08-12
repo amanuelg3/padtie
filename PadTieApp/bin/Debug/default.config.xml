@@ -81,6 +81,10 @@
     <ra-down type="pointer">0,25</ra-down>
     <ra-left type="pointer">-25,0</ra-left>
     <ra-right type="pointer">25,0</ra-right>
+    <dig-up type="key">Up,</dig-up>
+    <dig-down type="key">Down,</dig-down>
+    <dig-left type="key">Left,</dig-left>
+    <dig-right type="key">Right,</dig-right>
   </pad>
   <settings>
     <TapInterval>500</TapInterval>

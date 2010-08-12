@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<gamepad deviceID="0x046dc216" vendor="Logitech" product="Dual Action USB">
+	<notes>
+		The Dual Action does not have a System button, so
+		we have mapped the Back:Hold gesture to it. 
+	</notes>
+	<mapping src="button:0" dest="X" />
+	<mapping src="button:1" dest="A" />
+	<mapping src="button:2" dest="B" />
+	<mapping src="button:3" dest="Y" />
+	<mapping src="button:4" dest="Bl" />
+	<mapping src="button:5" dest="Br" />
+	<mapping src="button:6" dest="Tl" />
+	<mapping src="button:7" dest="Tr" />
+	<mapping src="button:8" dest="Back" />
+	<mapping src="button:9" dest="Start" />
+	<mapping src="button:10" dest="LeftAnalog" />
+	<mapping src="button:11" dest="RightAnalog" />
+	<mapping src="axis:0" dest="LeftX" />
+	<mapping src="axis:1" dest="LeftY" />
+	<mapping src="axis:2" dest="RightX" />
+	<mapping src="axis:3" dest="RightY" />
+	<mapping src="axis:4" dest="DigitalX" />
+	<mapping src="axis:5" dest="DigitalY" />
+	<mapping src="button:8" gesture="Hold" dest="System" />
+</gamepad>

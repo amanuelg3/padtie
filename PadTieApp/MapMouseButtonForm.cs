@@ -81,13 +81,5 @@ namespace PadTieApp {
 		private void MapMouseButtonForm_KeyPress(object sender, KeyPressEventArgs e)
 		{
 		}
-
-		private void MapMouseButtonForm_KeyUp(object sender, KeyEventArgs e)
-		{
-			if (e.KeyCode == Keys.Escape)
-				cancelBtn_Click(sender, EventArgs.Empty);
-			if (e.KeyCode == Keys.Enter)
-				okBtn_Click(sender, EventArgs.Empty);
-		}
 	}
 }

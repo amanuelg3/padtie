@@ -5,6 +5,12 @@ using System.Text;
 
 namespace PadTie {
 	public class ButtonActions {
+		public ButtonActions(InputCore core, bool enableGestures, object id):
+			this (core, enableGestures)
+		{
+			Identifier = id;
+		}
+
 		public ButtonActions(InputCore core, bool enableGestures)
 		{
 			Core = core;
@@ -58,13 +64,16 @@ namespace PadTie {
 		/// This is used when forwarding input from an InputController
 		/// to a VirtualController.
 		/// </summary>
-		public bool EnableGestures = true;
+		public bool EnableGestures;
 		public bool Pressed = false;
 		public bool Held = false;
 		public DateTime PressedStamp;
 		public DateTime TapStamp;
 		public bool TapQueued = false;
 		public object Tag;
+		public object Identifier;
+		public event EventHandler PressReceived;
+		public event EventHandler ReleaseReceived;
 
 		public void Process(byte raw)
 		{
@@ -75,11 +84,13 @@ namespace PadTie {
 			if (wasPressed != isPressed) {
 				if (isPressed) {
 					// Pressed
+					if (PressReceived != null) PressReceived(this, EventArgs.Empty);
 					if (Link != null) Link.Press();
 				} else {
 					// Released
 					Held = false;
 
+					if (ReleaseReceived != null) ReleaseReceived(this, EventArgs.Empty);
 					if (Link != null) Link.Release();
 
 					if (EnableGestures && PressedStamp + new TimeSpan(0, 0, 0, 0, Core.TapTimeout) > DateTime.Now) {

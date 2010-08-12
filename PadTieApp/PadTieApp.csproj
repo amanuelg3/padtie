@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangeMappingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangeMappingForm.Designer.cs">
+      <DependentUpon>ChangeMappingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MapFormBase.cs" />
     <Compile Include="MapKeystrokeForm.cs">
       <SubType>Form</SubType>
@@ -64,6 +70,12 @@
     </Compile>
     <Compile Include="MapMouseWheelForm.Designer.cs">
       <DependentUpon>MapMouseWheelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MappingWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MappingWizard.Designer.cs">
+      <DependentUpon>MappingWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="MapPointerForm.cs">
       <SubType>Form</SubType>
@@ -97,6 +109,9 @@
     <Compile Include="WaitingForControllersForm.Designer.cs">
       <DependentUpon>WaitingForControllersForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ChangeMappingForm.resx">
+      <DependentUpon>ChangeMappingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MapKeystrokeForm.resx">
       <DependentUpon>MapKeystrokeForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -105,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MapMouseWheelForm.resx">
       <DependentUpon>MapMouseWheelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MappingWizard.resx">
+      <DependentUpon>MappingWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MapPointerForm.resx">
       <DependentUpon>MapPointerForm.cs</DependentUpon>

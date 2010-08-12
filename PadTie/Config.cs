@@ -162,13 +162,13 @@ namespace PadTie {
 		public InputActionConfig RightAnalogRight = InputActionConfig.Null;
 
 		[XmlElement("dig-up")]
-		public InputActionConfig DigitalUp;
+		public InputActionConfig DigitalUp = InputActionConfig.Null;
 		[XmlElement("dig-down")]
-		public InputActionConfig DigitalDown;
+		public InputActionConfig DigitalDown = InputActionConfig.Null;
 		[XmlElement("dig-left")]
-		public InputActionConfig DigitalLeft;
+		public InputActionConfig DigitalLeft = InputActionConfig.Null;
 		[XmlElement("dig-right")]
-		public InputActionConfig DigitalRight;
+		public InputActionConfig DigitalRight = InputActionConfig.Null;
 	}
 
 	[Serializable]
@@ -228,11 +228,24 @@ namespace PadTie {
 		{
 		}
 
+		public DeviceMapping Clone()
+		{
+			var dm = new DeviceMapping();
+			dm.Pad = Pad;
+			dm.Source = Source;
+			dm.Gesture = Gesture;
+			dm.Destination = Destination;
+			return dm;
+		}
+
+		[XmlAttribute("pad")]
+		public int Pad = -1;
+
 		[XmlAttribute("src")]
 		public string Source;
 
-		[XmlAttribute("pad")]
-		public int Pad;
+		[XmlAttribute("gesture")]
+		public string Gesture = null;
 
 		[XmlAttribute("dest")]
 		public string Destination;
@@ -240,8 +253,18 @@ namespace PadTie {
 
 	[Serializable]
 	public class DeviceConfig {
+		[XmlIgnore]
+		public bool Present = false;
+
 		[XmlAttribute("deviceID")]
 		public string DeviceID;
+
+		/// <summary>
+		/// When positive, specifies the pad number to map the device to. Otherwise we map
+		/// to the first free pad number.
+		/// </summary>
+		[XmlAttribute("pad")]
+		public int PadNumber { get; set; }
 
 		/// <summary>
 		/// If empty, only the deviceID is matched. Otherwise, the
@@ -266,7 +289,8 @@ namespace PadTie {
 	}
 
 	public class GlobalSettingsConfig {
-
+		[XmlAttribute("default-config")]
+		public string DefaultConfigFile = "";
 	}
 
 	[Serializable, XmlRoot("padtie-config")]
@@ -284,7 +308,7 @@ namespace PadTie {
 		}
 
 		[XmlElement("device")]
-		public List<DeviceConfig> Pads = new List<DeviceConfig>();
+		public List<DeviceConfig> Devices = new List<DeviceConfig>();
 
 		[XmlElement("settings")]
 		public GlobalSettingsConfig Settings = new GlobalSettingsConfig();
@@ -303,7 +327,60 @@ namespace PadTie {
 		{
 			lock (this) {
 				FileName = configFile;
-				XmlSerializer s = new XmlSerializer(typeof(Config));
+				XmlSerializer s = new XmlSerializer(typeof(GlobalConfig));
+				using (var stream = File.Open(FileName, FileMode.Create)) {
+					s.Serialize(stream, this);
+					stream.Close();
+				}
+			}
+		}
+	}
+
+	[Serializable, XmlRoot("gamepad")]
+	public class GamepadConfig {
+		public static GamepadConfig Load(string filename)
+		{
+			XmlSerializer s = new XmlSerializer(typeof(GamepadConfig));
+			GamepadConfig cfg;
+
+			using (var stream = File.Open(filename, FileMode.Open))
+				cfg = s.Deserialize(stream) as GamepadConfig;
+
+			cfg.FileName = filename;
+			return cfg;
+		}
+
+		[XmlAttribute("deviceID")]
+		public string DeviceID;
+
+		[XmlAttribute("vendor")]
+		public string Vendor;
+
+		[XmlAttribute("product")]
+		public string Product;
+
+		[XmlElement("notes")]
+		public string Notes;
+
+		[XmlElement("mapping")]
+		public List<DeviceMapping> Mappings =
+			new List<DeviceMapping>();
+
+		[XmlIgnore]
+		public string FileName;
+
+		public void Save()
+		{
+			if (FileName == null) throw new InvalidOperationException("You must choose a filename");
+			Save(FileName);
+		}
+
+
+		public void Save(string configFile)
+		{
+			lock (this) {
+				FileName = configFile;
+				XmlSerializer s = new XmlSerializer(typeof(GamepadConfig));
 				using (var stream = File.Open(FileName, FileMode.Create)) {
 					s.Serialize(stream, this);
 					stream.Close();

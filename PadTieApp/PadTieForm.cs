@@ -64,13 +64,192 @@ namespace PadTieApp {
 			}
 		}
 
+		public void LoadGlobalConfig()
+		{
+			// The global configuration deals with the mapping between physical devices
+			// and their virtual controller counterparts. If no device entry exists for 
+			// a given device, one is created according to the available device information
+			// and it is assigned the first pad number which does not have any mappings 
+			// associated with it.
+
+			// Sort the device configs by pad number, so we can just assign as we go
+
+			MapDeviceConfigs();
+			ConfigureNewDevices();
+		}
+
+		int freePad = 1;
+
+		public void ConfigureNewDevices()
+		{			
+			int newDeviceCount = 0;
+
+			foreach (var ic in padTie.Controllers) {
+				if (ic.ApplicationMapped) continue;
+
+				// This controller does not have a configuration associated with it.
+				// Try to find a mapping in the database and load that, assigning the 
+				// controller to the next free virtual pad, and then advancing the free
+				// pad indicator.
+
+				string id = ("0x" + ic.VendorID.ToString("X4") + ic.ProductID.ToString("X4")).ToLower();
+				string dir = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "gamepads");
+				string configFile = Path.Combine(dir, id + ".xml");
+
+				if (!File.Exists(configFile)) {
+					configFile = Path.Combine(dir, "Generic.xml");
+
+					if (!File.Exists (configFile))
+						MessageBox.Show ("Error: Your gamepad does not have a pre-made configuration and Pad Tie could not find the generic one.");
+					else
+						MessageBox.Show ("Your '" + ic.ProductName + "' device does not have a pre-made configuration, you will likely have to fix your button mappings.");
+				}
+				
+				var dc = new DeviceConfig();
+				dc.InstanceGUID = ic.InstanceGUID;
+				dc.DeviceID = "0x" + ic.VendorID.ToString("X4") + ic.ProductID.ToString("X4");
+				dc.Present = false;
+				dc.PadNumber = -1;
+
+				if (File.Exists(configFile)) {
+					var gpc = GamepadConfig.Load(Path.Combine(dir, id + ".xml"));
+
+					// Copy the mappings so changes don't affect the original 
+					foreach (var dm in gpc.Mappings) {
+						var dm2 = dm.Clone();
+						dm2.Pad = -1;
+						dc.Mappings.Add(dm2);
+					}
+				}
+
+				globalConfig.Devices.Add(dc);
+				++newDeviceCount;
+				Console.WriteLine("Loaded pre-made configuration for new device '{0}'", ic.ProductName);
+			}
+
+			// If we added devices, map their configs to VCs and the UI
+			
+			if (newDeviceCount > 0) {
+				globalConfig.Save();
+				MapDeviceConfigs();
+			}
+		}
+
+		public void MapDeviceConfigs()
+		{
+			globalConfig.Devices.Sort(delegate(DeviceConfig a, DeviceConfig b)
+			{
+				int v = a.PadNumber;
+				if (v < 0)
+					v = 0xFFFFFF;
+				return v - b.PadNumber;
+			});
+
+			foreach (var dc in globalConfig.Devices) {
+
+				// If the device is marked Present, the config has already been
+				// assigned to a device
+				if (dc.Present) continue;
+
+				// Find an unmapped device which fits the ID of the config
+
+				foreach (var ic in padTie.Controllers) {
+					if (ic.ApplicationMapped) continue;
+
+					if ("0x" + ic.VendorID.ToString("X4") + ic.ProductID.ToString("X4") != dc.DeviceID)
+						continue;
+
+					if (dc.InstanceGUID != "" && dc.InstanceGUID != ic.InstanceGUID)
+						continue;
+
+					ic.ApplicationMapped = true;
+					dc.Present = true;
+
+					int padNumber;
+					if (dc.PadNumber != -1 && dc.PadNumber >= freePad) {
+						padNumber = dc.PadNumber;
+						freePad = padNumber + 1;
+					} else {
+						padNumber = freePad++;
+					}
+					
+					var cc = new Controller(padTie, ic, padNumber);
+					controllers.Add(cc);
+
+					cc.DeviceConfig = dc;
+					cc.SettingsUI = new PadSettingsControl();
+					cc.SettingsUI.Initialize(this, padTie, cc, padNumber);
+					
+					cc.Tab = new TabPage("Pad #" + padNumber);
+					cc.Tab.Controls.Add(cc.SettingsUI);
+					padTabs.TabPages.Add(cc.Tab);
+
+					cc.SettingsUI.Left = 0;
+					cc.SettingsUI.Top = 0;
+					cc.SettingsUI.Width = cc.Tab.Width;
+					cc.SettingsUI.Height = cc.Tab.Height;
+					cc.SettingsUI.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+					// Set up the mappings according to the config
+
+					foreach (var mapping in dc.Mappings) {
+						int destPad = padNumber;
+						if (mapping.Pad != -1)
+							destPad = mapping.Pad;
+
+						if (mapping.Source.StartsWith("button:")) {
+							int buttonNumber = int.Parse(mapping.Source.Substring("button:".Length));
+							VirtualController.Button buttonDest = (VirtualController.Button)Enum.Parse(
+								typeof(VirtualController.Button),
+								mapping.Destination);
+
+							var ba = new VirtualController.ButtonAction(cc.Virtual, buttonDest);
+
+							if (mapping.Gesture == "Hold")
+								ic.Buttons[buttonNumber].Hold = ba;
+							else if (mapping.Gesture == "Tap")
+								ic.Buttons[buttonNumber].Tap = ba;
+							else if (mapping.Gesture == "DoubleTap")
+								ic.Buttons[buttonNumber].DoubleTap = ba;
+							else
+								ic.Buttons[buttonNumber].Link = ba;
+
+						} else if (mapping.Source.StartsWith("axis:")) {
+							int axisNumber = int.Parse(mapping.Source.Substring("axis:".Length));
+							VirtualController.Axis axisDest = (VirtualController.Axis)Enum.Parse(
+								typeof(VirtualController.Axis),
+								mapping.Destination);
+							ic.Axes[axisNumber].Analog = new VirtualController.AxisAction(cc.Virtual, axisDest);
+						}
+					}
+
+					Console.WriteLine("Found and mapped configuration for device '{0}' to pad #{1}", ic.ProductName, padNumber);
+					break;
+				}
+			}
+		}
+
 		public void LoadConfig()
 		{
 			string dir = Path.GetDirectoryName(Application.ExecutablePath);
 			string configFile = Path.Combine(dir, "default.config.xml");
+			string globalConfigFile = Path.Combine(dir, "globalconfig.xml");
+
+			if (!File.Exists(globalConfigFile)) {
+				globalConfig = new GlobalConfig();
+				globalConfig.Save(globalConfigFile);
+			} else {
+				globalConfig = GlobalConfig.Load(globalConfigFile);
+			}
+
+			LoadGlobalConfig();
+
+			if (globalConfig.Settings.DefaultConfigFile != "")
+				configFile = globalConfig.Settings.DefaultConfigFile;
 
 			if (!File.Exists(configFile)) {
 				config = new Config();
+				
 				int index = 0;
 				foreach (var cc in controllers) {
 					var ccConfig = new PadConfig();
@@ -90,15 +269,18 @@ namespace PadTieApp {
 		public void LoadConfig(Config config)
 		{
 			this.config = config;
-			
-			for (int x = 0; x < controllers.Count; ++x) {
-				if (x == config.Pads.Count) {
-					var ccConfig = new PadConfig();
-					ccConfig.Index = (x + 1);
-					config.Pads.Add(ccConfig);
+			foreach (var pc in config.Pads) {
+				var cc = GetController(pc.Index);
+				if (cc == null) {
+					MessageBox.Show(string.Format(
+						"Ignoring configuration for pad #{0}, " +
+							"connect more game pads or change device " + 
+							"mappings and reload to use this pad.", 
+						pc.Index));
+					continue;
 				}
 
-				LoadPadConfig(controllers[x], config.Pads[x]);
+				LoadPadConfig(cc, pc);
 			}
 
 			UpdateSettings();
@@ -271,6 +453,15 @@ namespace PadTieApp {
 			return cc;
 		}
 
+		public Controller GetController(int padNumber)
+		{
+			foreach (var cc in controllers) {
+				if (cc.Index == padNumber)
+					return cc;
+			}
+			return null;
+		}
+
 		public Controller GetController(InputController ic)
 		{
 			Controller cc = null;
@@ -358,15 +549,16 @@ namespace PadTieApp {
 
 		private void PadTieForm_Load(object sender, EventArgs e)
 		{
-			if (!Init()) {
-				this.Show();
+			Init();
+			
+			if (padTie.Controllers.Count == 0) {
 				waitingForControllers = new WaitingForControllersForm(this);
 				waitingForControllers.ShowDialog(this);
 			}
 
 			LoadConfig();
 			RefreshConfigList();
-
+			this.Show();
 		}
 
 		internal bool Init()
@@ -378,50 +570,6 @@ namespace PadTieApp {
 				// padTie.Dispose();
 				padTie = null;
 				return false;
-			}
-
-			foreach (var ic in padTie.Controllers) {
-				var cc = new Controller(padTie, ic, index);
-				controllers.Add(cc);
-
-				cc.SettingsUI = new PadSettingsControl();
-				cc.SettingsUI.Initialize(this, padTie, cc.Virtual, index);
-				var tp = new TabPage("Pad #" + index);
-				tp.Controls.Add(cc.SettingsUI);
-				padTabs.TabPages.Add(tp);
-
-				cc.SettingsUI.Left = 0;
-				cc.SettingsUI.Top = 0;
-				cc.SettingsUI.Width = tp.Width;
-				cc.SettingsUI.Height = tp.Height;
-				cc.SettingsUI.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-
-				cc.Device.Axes[0].Analog = new VirtualController.AxisAction(cc.Virtual, VirtualController.Axis.LeftX);
-				cc.Device.Axes[1].Analog = new VirtualController.AxisAction(cc.Virtual, VirtualController.Axis.LeftY);
-				cc.Device.Axes[2].Analog = new VirtualController.AxisAction(cc.Virtual, VirtualController.Axis.RightX);
-				cc.Device.Axes[3].Analog = new VirtualController.AxisAction(cc.Virtual, VirtualController.Axis.RightY);
-				if (cc.Device.Axes.Length > 4) {
-					cc.Device.Axes[4].Analog = new VirtualController.AxisAction(cc.Virtual, VirtualController.Axis.DigitalX);
-					cc.Device.Axes[5].Analog = new VirtualController.AxisAction(cc.Virtual, VirtualController.Axis.DigitalY);
-				}
-
-				// Face buttons
-				cc.Device.Buttons[0].Link = new VirtualController.ButtonAction(cc.Virtual, VirtualController.Button.X);
-				cc.Device.Buttons[1].Link = new VirtualController.ButtonAction(cc.Virtual, VirtualController.Button.A);
-				cc.Device.Buttons[2].Link = new VirtualController.ButtonAction(cc.Virtual, VirtualController.Button.B);
-				cc.Device.Buttons[3].Link = new VirtualController.ButtonAction(cc.Virtual, VirtualController.Button.Y);
-
-				// Shoulder buttons 
-				cc.Device.Buttons[4].Link = new VirtualController.ButtonAction(cc.Virtual, VirtualController.Button.Bl);
-				cc.Device.Buttons[5].Link = new VirtualController.ButtonAction(cc.Virtual, VirtualController.Button.Br);
-				cc.Device.Buttons[6].Link = new VirtualController.ButtonAction(cc.Virtual, VirtualController.Button.Tl);
-				cc.Device.Buttons[7].Link = new VirtualController.ButtonAction(cc.Virtual, VirtualController.Button.Tr);
-				cc.Device.Buttons[8].Link = new VirtualController.ButtonAction(cc.Virtual, VirtualController.Button.Back);
-				cc.Device.Buttons[9].Link = new VirtualController.ButtonAction(cc.Virtual, VirtualController.Button.Start);
-				cc.Device.Buttons[10].Link = new VirtualController.ButtonAction(cc.Virtual, VirtualController.Button.LeftAnalog);
-				cc.Device.Buttons[11].Link = new VirtualController.ButtonAction(cc.Virtual, VirtualController.Button.RightAnalog);
-
-				++index;
 			}
 
 			return true;
@@ -512,6 +660,10 @@ namespace PadTieApp {
 				SaveConfig();
 			}
 		}
+
+		GlobalConfig globalConfig { get; set; }
+
+		public GlobalConfig GlobalConfig { get { return globalConfig; } }
 	}
 
 	public class Util {
@@ -661,11 +813,14 @@ namespace PadTieApp {
 		public InputController Device;
 		public PadSettingsControl SettingsUI;
 		public PadConfig Config;
+		public DeviceConfig DeviceConfig;
 
 		public void Reset()
 		{
 			Virtual.Reset();
 			SettingsUI.ResetMappings();
 		}
+
+		public TabPage Tab { get; set; }
 	}
 }
