@@ -187,7 +187,7 @@ namespace PadTie {
 			XmlSerializer s = new XmlSerializer (typeof (Config));
 			Config cfg;
 			
-			using (var stream = File.Open (filename, FileMode.Open))
+			using (var stream = File.Open (filename, FileMode.Open, FileAccess.Read))
 				cfg = s.Deserialize (stream) as Config;
 
 			cfg.FileName = filename;
@@ -300,7 +300,7 @@ namespace PadTie {
 			XmlSerializer s = new XmlSerializer(typeof(GlobalConfig));
 			GlobalConfig cfg;
 
-			using (var stream = File.Open(filename, FileMode.Open))
+			using (var stream = File.Open(filename, FileMode.Open, FileAccess.Read))
 				cfg = s.Deserialize(stream) as GlobalConfig;
 
 			cfg.FileName = filename;
@@ -343,7 +343,7 @@ namespace PadTie {
 			XmlSerializer s = new XmlSerializer(typeof(GamepadConfig));
 			GamepadConfig cfg;
 
-			using (var stream = File.Open(filename, FileMode.Open))
+			using (var stream = File.Open(filename, FileMode.Open, FileAccess.Read))
 				cfg = s.Deserialize(stream) as GamepadConfig;
 
 			cfg.FileName = filename;
