@@ -6,6 +6,12 @@ using System.Runtime.InteropServices;
 
 namespace PadTie {
 	public class MouseWheelAction : InputAction {
+		public MouseWheelAction(InputCore core, short value, bool continuous):
+			this (core, value)
+		{
+			Continuous = continuous;
+		}
+
 		public MouseWheelAction(InputCore core, short value)
 		{
 			Core = core;
