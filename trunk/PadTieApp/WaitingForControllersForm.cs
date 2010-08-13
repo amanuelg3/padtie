@@ -17,7 +17,9 @@ namespace PadTieApp {
 
 		private void initTimer_Tick(object sender, EventArgs e)
 		{
-			if (MainForm.Init()) {
+			MainForm.Init();
+
+			if (MainForm.PadTie.Controllers.Count > 0) {
 				initTimer.Enabled = false;
 				this.Close();
 			}

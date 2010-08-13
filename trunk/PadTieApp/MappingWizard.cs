@@ -219,17 +219,24 @@ namespace PadTieApp {
 
 				GamepadConfig gpc = new GamepadConfig();
 				string deviceID = Controller.Device.VendorID.ToString("X4") + Controller.Device.ProductID.ToString("X4");
-				gpc.DeviceID = "0x" + deviceID;
+				gpc.DeviceID = "0x" + deviceID.ToLower();
 				gpc.Mappings = mappings;
 				gpc.Notes = "Created by Pad Tie's Mapping Wizard!";
 				gpc.Product = Controller.Device.ProductName;
 				gpc.Vendor = "";
-				string fileName = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "gamepads", deviceID + ".xml");
+				string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie", "gamepads", gpc.DeviceID + ".xml");
+
+				if (!Directory.Exists(Path.GetDirectoryName(fileName)))
+					Directory.CreateDirectory(Path.GetDirectoryName(fileName));
 
 				if (File.Exists (fileName))
-					fileName = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "gamepads", deviceID + "-autogen.xml");
+					fileName = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "gamepads", gpc.DeviceID + "-autogen.xml");
 
-				gpc.Save(fileName);
+				try {
+					gpc.Save(fileName);
+				} catch (UnauthorizedAccessException e2) {
+					MessageBox.Show("Failed to save mapping for later use. Your gamepad will still work. Message: " + e2.Message);
+				}
 
 				if (sendPermission.Checked) {
 					// Thank you all!
@@ -238,7 +245,8 @@ namespace PadTieApp {
 					r.ContentType = "application/x-www-form-urlencoded";
 					string data;
 					using (var sr = new StreamReader(fileName))
-						data = string.Format("config={0}", Uri.EscapeDataString(sr.ReadToEnd()).Replace("%20", "+"));
+						data = string.Format("id={1}&config={0}", Uri.EscapeDataString(sr.ReadToEnd()).Replace("%20", "+"), 
+							gpc.DeviceID);
 
 					byte[] d = Encoding.ASCII.GetBytes(data);
 					using (var st = r.GetRequestStream())
@@ -251,10 +259,19 @@ namespace PadTieApp {
 						if (resp.StatusCode == HttpStatusCode.NoContent) {
 							MessageBox.Show("Thank you for submitting the new mapping!");
 						} else {
-							MessageBox.Show("Could not contact upload server :-(");
+							string rs;
+							using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
+								rs = sr.ReadToEnd();
+
+							MessageBox.Show("Could not contact upload server :-( : " + resp.StatusCode +
+								Environment.NewLine + Environment.NewLine + rs);
 						}
-					} catch (WebException) {
-						MessageBox.Show("An error occurred while sending the mapping :-(");
+					} catch (WebException e2) {
+						string rs;
+						using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
+							rs = sr.ReadToEnd();
+
+						MessageBox.Show("An error occurred while sending the mapping :-( : " + e2.Message + Environment.NewLine + Environment.NewLine + rs);
 					}
 
 					

@@ -26,21 +26,59 @@ namespace PadTieApp {
 		List<Controller> controllers = new List<Controller>();
 		Config config;
 
+		public InputCore PadTie { get { return padTie; } }
+
+		public string FindConfigFile(string file)
+		{
+			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
+			string cfgDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie");
+
+			if (!Directory.Exists(cfgDir))
+				Directory.CreateDirectory(cfgDir);
+
+			if (File.Exists(Path.Combine(cfgDir, file))) {
+				return Path.Combine(cfgDir, file);
+			}
+
+			if (File.Exists(Path.Combine(appDir, file))) {
+				File.Copy(Path.Combine(appDir, file), Path.Combine(cfgDir, file));
+				return Path.Combine(cfgDir, file);
+			}
+
+			return file;
+		}
+
 		public Config Config { get { return config; } }
 		public void RefreshConfigList()
 		{
 			configBox.Items.Clear();
-			string dir = Path.GetDirectoryName(Application.ExecutablePath);
-			ConfigItem current = null;
+			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
+			string cfgDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie");
 
-			foreach (string item in Directory.GetFiles(dir, "*.config.xml")) {
-				var ci = new ConfigItem(item);
+			ConfigItem current = null;
+			List<string> items = new List<string>();
+
+			if (Directory.Exists (cfgDir)) foreach (string item in Directory.GetFiles(cfgDir, "*.config.xml")) {
+				var cfgFile = Path.GetFileName(item);
+				if (!items.Contains(cfgFile)) items.Add(cfgFile);
+			}
+
+			if (Directory.Exists(appDir)) foreach (string item in Directory.GetFiles(appDir, "*.config.xml")) {
+				var cfgFile = Path.GetFileName(item);
+				if (!items.Contains(cfgFile)) items.Add(cfgFile);
+			}
+
+			items.Sort();
+
+			foreach (string item in items) {
+				var ci = new ConfigItem(FindConfigFile(item)); // find config ensures we have the user copy of the config
 				if (ci.Title == "default") {
 					ci.Title = "Default";
 				}
 
 				if (ci.FileName == config.FileName)
 					current = ci;
+
 				configBox.Items.Add(ci);
 			}
 
@@ -93,11 +131,20 @@ namespace PadTieApp {
 				// pad indicator.
 
 				string id = ("0x" + ic.VendorID.ToString("X4") + ic.ProductID.ToString("X4")).ToLower();
-				string dir = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "gamepads");
-				string configFile = Path.Combine(dir, id + ".xml");
+				string appDir = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "gamepads");
+				string userDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie", "gamepads");
+				string configFile = id + ".xml";
+
+				if (!Directory.Exists(userDir))
+					Directory.CreateDirectory(userDir);
+
+				if (File.Exists(Path.Combine(userDir, configFile)))
+					configFile = Path.Combine(userDir, configFile);
+				else
+					configFile = Path.Combine(appDir, configFile);
 
 				if (!File.Exists(configFile)) {
-					configFile = Path.Combine(dir, "Generic.xml");
+					configFile = Path.Combine(appDir, "Generic.xml");
 
 					if (!File.Exists (configFile))
 						MessageBox.Show ("Error: Your gamepad does not have a pre-made configuration and Pad Tie could not find the generic one.");
@@ -112,7 +159,7 @@ namespace PadTieApp {
 				dc.PadNumber = -1;
 
 				if (File.Exists(configFile)) {
-					var gpc = GamepadConfig.Load(Path.Combine(dir, id + ".xml"));
+					var gpc = GamepadConfig.Load(configFile);
 
 					// Copy the mappings so changes don't affect the original 
 					foreach (var dm in gpc.Mappings) {
@@ -231,9 +278,10 @@ namespace PadTieApp {
 
 		public void LoadConfig()
 		{
-			string dir = Path.GetDirectoryName(Application.ExecutablePath);
-			string configFile = Path.Combine(dir, "default.config.xml");
-			string globalConfigFile = Path.Combine(dir, "globalconfig.xml");
+			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
+			string userDir  = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie");
+			string configFile = FindConfigFile("default.config.xml");
+			string globalConfigFile = Path.Combine(userDir, "globalconfig.xml");
 
 			if (!File.Exists(globalConfigFile)) {
 				globalConfig = new GlobalConfig();
@@ -245,7 +293,7 @@ namespace PadTieApp {
 			LoadGlobalConfig();
 
 			if (globalConfig.Settings.DefaultConfigFile != "")
-				configFile = globalConfig.Settings.DefaultConfigFile;
+				configFile = FindConfigFile(Path.GetFileName(globalConfig.Settings.DefaultConfigFile));
 
 			if (!File.Exists(configFile)) {
 				config = new Config();
@@ -561,17 +609,9 @@ namespace PadTieApp {
 			this.Show();
 		}
 
-		internal bool Init()
+		internal void Init()
 		{
 			padTie = new InputCore();
-
-			if (padTie.Controllers.Count == 0) {
-				// padTie.Dispose();
-				padTie = null;
-				return false;
-			}
-
-			return true;
 		}
 
 		public WaitingForControllersForm waitingForControllers { get; set; }
@@ -612,7 +652,7 @@ namespace PadTieApp {
 			foreach (var cc in controllers)
 				cc.Reset();
 			
-			LoadConfig(Config.Load (item.FileName));
+			LoadConfig(Config.Load (FindConfigFile(item.FileName)));
 		}
 
 		public void SaveConfig()

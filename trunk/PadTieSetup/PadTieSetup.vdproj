@@ -21,6 +21,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_34E8CB500EFD74AADDE8AAB28AC169AB"
+        "OwnerKey" = "8:_CC3D30C8AC86188AEC2C9D3FB6034A98"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_34E8CB500EFD74AADDE8AAB28AC169AB"
+        "OwnerKey" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3884B6A3A7464A90AD0CCC696B146F6F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -45,7 +57,25 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_7B03AAE7E96E212C86F897E716804EB6"
+        "OwnerKey" = "8:_34E8CB500EFD74AADDE8AAB28AC169AB"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7B03AAE7E96E212C86F897E716804EB6"
+        "OwnerKey" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_8895521D94F54A5D8C845E03690C702E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -57,14 +87,32 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_799F5A696FF7412D97C3FC3AF1A85AB0"
+        "MsmKey" = "8:_CC3D30C8AC86188AEC2C9D3FB6034A98"
+        "OwnerKey" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9A08C6B69BB74920B824FB9C7D060F6F"
+        "OwnerKey" = "8:_7B03AAE7E96E212C86F897E716804EB6"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_CC3D30C8AC86188AEC2C9D3FB6034A98"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_34E8CB500EFD74AADDE8AAB28AC169AB"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -85,6 +133,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -171,6 +227,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_34E8CB500EFD74AADDE8AAB28AC169AB"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.DirectX.DirectInput, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+                "ScatterAssemblies"
+                {
+                    "_34E8CB500EFD74AADDE8AAB28AC169AB"
+                    {
+                    "Name" = "8:Microsoft.DirectX.DirectInput.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.DirectX.DirectInput.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3884B6A3A7464A90AD0CCC696B146F6F"
             {
             "SourcePath" = "8:..\\Releases\\PadTie-0.1a1\\Madballs in Babo.config.xml"
@@ -251,6 +338,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7B03AAE7E96E212C86F897E716804EB6"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+                "ScatterAssemblies"
+                {
+                    "_7B03AAE7E96E212C86F897E716804EB6"
+                    {
+                    "Name" = "8:Microsoft.DirectX.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.DirectX.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8895521D94F54A5D8C845E03690C702E"
             {
             "SourcePath" = "8:..\\Releases\\PadTie-0.1a1\\Shatter.config.xml"
@@ -289,6 +407,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CC3D30C8AC86188AEC2C9D3FB6034A98"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:PadTie, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_CC3D30C8AC86188AEC2C9D3FB6034A98"
+                    {
+                    "Name" = "8:PadTie.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:PadTie.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -358,15 +507,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Pad Tie!"
-        "ProductCode" = "8:{E01BEB67-AD72-4436-A1DC-736182CA77BA}"
-        "PackageCode" = "8:{5C72E4AB-0BB9-45D0-8C35-DBC07421C3AB}"
+        "ProductCode" = "8:{91E860E3-2D3F-44FE-ACBA-DD7FE39FE178}"
+        "PackageCode" = "8:{1A449833-69D9-4A94-ACEC-B9525236CCF7}"
         "UpgradeCode" = "8:{BF15CF56-ADA2-4871-9547-E2220CC1118B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.1.0"
+        "ProductVersion" = "8:0.1.3"
         "Manufacturer" = "8:Stride Technologies"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://code.google.com/p/padtie"
@@ -376,7 +525,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:An awesome gamepad-to-mouse solution!"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:_799F5A696FF7412D97C3FC3AF1A85AB0"
+        "ARPPRODUCTICON" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
         "ARPIconIndex" = "3:32512"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -487,10 +636,10 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_799F5A696FF7412D97C3FC3AF1A85AB0"
+            "Target" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
             "Folder" = "8:_916B4BF336724FA5BB359BFF85E52F7F"
             "WorkingFolder" = "8:_2F0509ABF87640C88510108D251588E4"
-            "Icon" = "8:_799F5A696FF7412D97C3FC3AF1A85AB0"
+            "Icon" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7A4F056A0D5C439599C91BB9C65EE084"
@@ -501,10 +650,10 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:32512"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_799F5A696FF7412D97C3FC3AF1A85AB0"
+            "Target" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
             "Folder" = "8:_4CF421800E8E4BAF9693A233E83E9D99"
             "WorkingFolder" = "8:_2F0509ABF87640C88510108D251588E4"
-            "Icon" = "8:_799F5A696FF7412D97C3FC3AF1A85AB0"
+            "Icon" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
             "Feature" = "8:"
             }
         }
@@ -1000,9 +1149,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_799F5A696FF7412D97C3FC3AF1A85AB0"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9EE403661C3F4BCCB0E0FC57716D60D9"
             {
-            "SourcePath" = "8:..\\PadTieApp\\obj\\x86\\Release\\PadTieApp.exe"
+            "SourcePath" = "8:..\\PadTieApp\\obj\\Release\\PadTieApp.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
@@ -1020,37 +1169,9 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release|x86"
+            "OutputConfiguration" = "8:Release|Any CPU"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{062DA5E5-83AA-4055-BBA6-2FE8F5AF9521}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_9A08C6B69BB74920B824FB9C7D060F6F"
-            {
-            "SourcePath" = "8:..\\PadTie\\obj\\x86\\Release\\PadTie.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release|x86"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{3712D908-8392-4CF4-A18E-AB0685D0B819}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
