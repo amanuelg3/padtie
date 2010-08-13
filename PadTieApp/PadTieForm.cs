@@ -563,7 +563,6 @@ namespace PadTieApp {
 
 		internal bool Init()
 		{
-			int index = 1;
 			padTie = new InputCore();
 
 			if (padTie.Controllers.Count == 0) {
