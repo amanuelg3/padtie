@@ -21,11 +21,19 @@ namespace PadTie {
 			Identifier = id;
 		}
 
+		public AxisActions(InputCore core, bool enableGestures, bool enableDeadzone, object id) :
+			this(core, enableGestures)
+		{
+			EnableDeadzone = enableDeadzone;
+			Identifier = id;
+		}
+
 		public AxisActions(InputCore core, bool enableGestures, AxisActions importMonitors)
 		{
 			Core = core;
 			EnableGestures = enableGestures;
 			Deadzone = -1;
+			PoleSize = -1;
 			if (importMonitors != null) {
 				NegativePress += importMonitors.NegativePress;
 				NegativeRelease += importMonitors.NegativeRelease;
@@ -41,9 +49,11 @@ namespace PadTie {
 			Identifier = id;
 		}
 
+		public bool EnableDeadzone = false;
 		public InputCore Core { get; private set; }
 		public InputController Controller { get; private set; }
-		public float Deadzone { get; set; }
+		public double Deadzone { get; set; }
+		public double PoleSize { get; set; }
 		public AxisPole LastPole = AxisPole.None;
 		public bool EnableGestures = true;
 		public object Tag;
@@ -100,15 +110,31 @@ namespace PadTie {
 		public void Process(int raw)
 		{
 			double value = raw / (double)UInt16.MaxValue * 2 - 1;
+
+			if (EnableDeadzone) {
+				double deadzone = Deadzone;
+
+				if (deadzone < 0)
+					deadzone = Core.GlobalDeadzone;
+
+				if (value >= -deadzone && value <= deadzone) {
+					value = 0;
+				}
+			}
+
 			AxisPole pole = AxisPole.None;
 			double intensity = -1;
+			double poleSize = PoleSize;
 
-			if (value >= 1.0 - Core.AxisPoleSize) {
+			if (poleSize < 0)
+				poleSize = Core.AxisPoleSize;
+
+			if (value >= 1.0 - poleSize) {
 				pole = AxisPole.Positive;
-				intensity = (value - 1.0 + Core.AxisPoleSize) / Core.AxisPoleSize;
-			} else if (value <= -1.0 + Core.AxisPoleSize) {
+				intensity = (value - 1.0 + poleSize) / poleSize;
+			} else if (value <= -1.0 + poleSize) {
 				pole = AxisPole.Negative;
-				intensity = (Math.Abs(value) - 1.0 + Core.AxisPoleSize) / Core.AxisPoleSize;
+				intensity = (Math.Abs(value) - 1.0 + poleSize) / poleSize;
 			}
 
 			if (Analog != null && Analog.AcceptAnalog) {
