@@ -13,21 +13,44 @@ namespace PadTie {
 			DoubleTapTimeout = 250;
 			HoldTimeout = 700;
 			MouseUpdateInterval = 16;
-			GlobalDeadzone = 0;
-			AxisPoleSize = 0.7f;
+			GlobalDeadzone = 0.01;
+			AxisPoleSize = 0.8;
+
 			Mouse = new MouseController(this);
 
 			Controllers = new List<InputController>();
 			int index = 0;
 
 			Console.WriteLine("Enumerating devices...");
-			foreach (DI.DeviceInstance d in DI.Manager.Devices) {
-				if (d.DeviceType == DI.DeviceType.Joystick) {
-					Console.WriteLine("Found gamepad " + d.InstanceName + "...");
-					Controllers.Add(new InputController(this, new DI.Device(d.InstanceGuid), index++));
-				}
-			}
+			ScanForControllers();
 		}
+
+		public bool ScanForControllers()
+		{
+			bool foundSome = false;
+
+			foreach (DI.DeviceInstance d in DI.Manager.Devices) {
+				bool found = false;
+				
+				if (d.DeviceType != DI.DeviceType.Joystick) continue;
+
+				foreach (var cc in Controllers) {
+					if (cc.Device.DeviceInformation.InstanceGuid == d.InstanceGuid) {
+						found = true;
+						break;
+					}
+				}
+				
+				if (found) continue;
+
+				Console.WriteLine("Found gamepad " + d.InstanceName + "...");
+				Controllers.Add(new InputController(this, new DI.Device(d.InstanceGuid), Controllers.Count));
+				foundSome = true;
+			}
+
+			return foundSome;
+		}
+
 
 		public short TapTimeout { get; set; }
 		public short DoubleTapTimeout { get; set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DI = Microsoft.DirectX.DirectInput;
+using Microsoft.DirectX.DirectInput;
 
 namespace PadTie {
 	public class InputController {
@@ -16,7 +17,7 @@ namespace PadTie {
 			Axes = new AxisActions[AxisCount];
 
 			for (int i = 0, max = Buttons.Length; i < max; ++i) Buttons[i] = new ButtonActions(Core, false, i + 1);
-			for (int i = 0, max = Axes.Length; i < max; ++i) Axes[i] = new AxisActions(Core, false, i + 1);
+			for (int i = 0, max = Axes.Length; i < max; ++i) Axes[i] = new AxisActions(Core, false, true, i + 1);
 		}
 
 		/// <summary>
@@ -30,22 +31,46 @@ namespace PadTie {
 		public DI.Device Device { get; private set; }
 		public int ButtonCount { get { return Device.Caps.NumberButtons; } }
 		public int AxisCount { get { return Device.Caps.NumberAxes + Device.Caps.NumberPointOfViews * 2; } }
-
+		
+		public bool Removed = false;
 		public ButtonActions[] Buttons { get; private set; }
 		public AxisActions[] Axes { get; private set; }
 
 		public void Check()
 		{
-			byte[] buttonData = Device.CurrentJoystickState.GetButtons();
+			if (Removed) return;
+
+			byte[] buttonData;
+
+			// Buttons 
+
+			try {
+				Device.Poll();
+				buttonData = Device.CurrentJoystickState.GetButtons();
+			} catch (InputLostException) {
+				Removed = true;
+				return;
+			}
+
+			for (int x = 0, max = ButtonCount; x < max; ++x)
+				Buttons[x].Process(buttonData[x]);
+
+			// Axes
 
 			Axes[0].Process(Device.CurrentJoystickState.X);
 			Axes[1].Process(Device.CurrentJoystickState.Y);
 			Axes[2].Process(Device.CurrentJoystickState.Z);
 			Axes[3].Process(Device.CurrentJoystickState.Rz);
 
-			// Map a POV hat to a pair of X/Y axes using trig makes for super simple!!
+			int[] hats;
 
-			int[] hats = Device.CurrentJoystickState.GetPointOfView();
+			try {
+				hats = Device.CurrentJoystickState.GetPointOfView();
+			} catch (InputLostException) {
+				Removed = true;
+				return;
+			}
+
 			int axisIndex = 4;
 			foreach (int hat in hats) {
 				if (axisIndex - 4 >= Device.Caps.NumberPointOfViews)
@@ -58,6 +83,7 @@ namespace PadTie {
 					xAxis.Process(ushort.MaxValue / 2);
 					yAxis.Process(ushort.MaxValue / 2);
 				} else {
+					// Map a POV hat to a pair of X/Y axes using trig makes for super simple!!
 					double x = Math.Cos(Math.PI / 2 - hat / 100.0 * (Math.PI / 180));
 					double y = Math.Sin(Math.PI / 2 - hat / 100.0 * (Math.PI / 180));
 
@@ -73,13 +99,17 @@ namespace PadTie {
 
 			//Axes[3].Process(Device.CurrentJoystickState.Rx);
 
-			int[] uv = Device.CurrentJoystickState.GetSlider();
+			int[] uv;
+
+			try {
+				uv = Device.CurrentJoystickState.GetSlider();
+			} catch (InputLostException) {
+				Removed = true;
+				return;
+			}
+
 			//if (Axes.Length > 3) Axes[3].Process(uv[0]);
 			//if (Axes.Length > 4) Axes[4].Process(uv[1]);
-
-			for (int x = 0, max = ButtonCount; x < max; ++x) {
-				Buttons[x].Process(buttonData[x]);
-			}
 		}
 
 		public string Name { get { return Device.DeviceInformation.InstanceName; } }

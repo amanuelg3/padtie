@@ -217,7 +217,13 @@ namespace PadTieApp {
 						padNumber = dc.PadNumber;
 						freePad = padNumber + 1;
 					} else {
-						padNumber = freePad++;
+						List<int> inUse = new List<int>();
+						foreach (var c in controllers)
+							inUse.Add(c.Index);
+
+						int p = 1;
+						while (inUse.Contains(p)) ++p;
+						padNumber = p;
 					}
 					
 					var cc = new Controller(padTie, ic, padNumber);
@@ -276,6 +282,11 @@ namespace PadTieApp {
 			}
 		}
 
+		public void ReloadConfig()
+		{
+			LoadConfig(Config.Load(Config.FileName));
+		}
+
 		public void LoadConfig()
 		{
 			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
@@ -320,11 +331,11 @@ namespace PadTieApp {
 			foreach (var pc in config.Pads) {
 				var cc = GetController(pc.Index);
 				if (cc == null) {
-					MessageBox.Show(string.Format(
-						"Ignoring configuration for pad #{0}, " +
-							"connect more game pads or change device " + 
-							"mappings and reload to use this pad.", 
-						pc.Index));
+					//MessageBox.Show(string.Format(
+					//    "Ignoring configuration for pad #{0}, " +
+					//        "connect more game pads or change device " + 
+					//        "mappings and reload to use this pad.", 
+					//    pc.Index));
 					continue;
 				}
 
@@ -598,12 +609,6 @@ namespace PadTieApp {
 		private void PadTieForm_Load(object sender, EventArgs e)
 		{
 			Init();
-			
-			if (padTie.Controllers.Count == 0) {
-				waitingForControllers = new WaitingForControllersForm(this);
-				waitingForControllers.ShowDialog(this);
-			}
-
 			LoadConfig();
 			RefreshConfigList();
 			this.Show();
@@ -614,13 +619,42 @@ namespace PadTieApp {
 			padTie = new InputCore();
 		}
 
-		public WaitingForControllersForm waitingForControllers { get; set; }
-
 		private void iterationTimer_Tick(object sender, EventArgs e)
 		{
 			if (padTie == null) return;
 			padTie.RunIteration();
+
+			if (lastDeviceScan + deviceScanInterval < DateTime.Now) {
+				if (padTie.ScanForControllers()) {
+					Console.WriteLine("PadTie library reported new devices!");
+					ConfigureNewDevices();
+					ReloadConfig();
+				}
+				lastDeviceScan = DateTime.Now;
+			}
+
+			List<Controller> removed = new List<Controller>();
+
+			foreach (var cc in controllers) {
+				if (cc.Device.Removed) {
+					padTabs.TabPages.Remove(cc.Tab);
+					removed.Add(cc);
+				}
+			}
+
+			foreach (var cc in removed) {
+				controllers.Remove(cc);
+				padTie.Controllers.Remove(cc.Device);
+			}
+			
+			freePad = 0;
+			foreach (var cc in controllers)
+				if (freePad <= cc.Index) freePad = cc.Index + 1;
+
 		}
+
+		DateTime lastDeviceScan = DateTime.Now;
+		TimeSpan deviceScanInterval = new TimeSpan(0, 0, 5);
 
 		private void cloneBtn_Click(object sender, EventArgs e)
 		{
