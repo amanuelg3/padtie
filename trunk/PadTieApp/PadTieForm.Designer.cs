@@ -57,6 +57,14 @@
 			this.configBox = new System.Windows.Forms.ComboBox();
 			this.cloneBtn = new System.Windows.Forms.Button();
 			this.iterationTimer = new System.Windows.Forms.Timer(this.components);
+			this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+			this.notifyMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.showToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.switchConfigurationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.defaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.padTabs.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.panel1.SuspendLayout();
@@ -68,6 +76,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.tapIntervalSetting)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.doubleTapIntervalSetting)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.holdIntervalSetting)).BeginInit();
+			this.notifyMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// padTabs
@@ -137,11 +146,11 @@
 			this.label5.BackColor = System.Drawing.Color.Transparent;
 			this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label5.ForeColor = System.Drawing.Color.DarkGray;
-			this.label5.Location = new System.Drawing.Point(64, 145);
+			this.label5.Location = new System.Drawing.Point(69, 145);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(144, 13);
+			this.label5.Size = new System.Drawing.Size(134, 13);
 			this.label5.TabIndex = 3;
-			this.label5.Text = "stridetechnologies.net/padtie";
+			this.label5.Text = "code.google.com/p/padtie";
 			// 
 			// label3
 			// 
@@ -204,7 +213,7 @@
 			// 
 			// deadzoneSetting
 			// 
-			this.deadzoneSetting.Location = new System.Drawing.Point(123, 23);
+			this.deadzoneSetting.Location = new System.Drawing.Point(136, 23);
 			this.deadzoneSetting.Name = "deadzoneSetting";
 			this.deadzoneSetting.Size = new System.Drawing.Size(54, 20);
 			this.deadzoneSetting.TabIndex = 1;
@@ -213,7 +222,7 @@
 			// label15
 			// 
 			this.label15.AutoSize = true;
-			this.label15.Location = new System.Drawing.Point(179, 51);
+			this.label15.Location = new System.Drawing.Point(192, 51);
 			this.label15.Name = "label15";
 			this.label15.Size = new System.Drawing.Size(15, 13);
 			this.label15.TabIndex = 7;
@@ -224,14 +233,14 @@
 			this.label16.AutoSize = true;
 			this.label16.Location = new System.Drawing.Point(18, 51);
 			this.label16.Name = "label16";
-			this.label16.Size = new System.Drawing.Size(73, 13);
+			this.label16.Size = new System.Drawing.Size(109, 13);
 			this.label16.TabIndex = 2;
-			this.label16.Text = "Axis pole size:";
+			this.label16.Text = "Default axis pole size:";
 			// 
 			// label17
 			// 
 			this.label17.AutoSize = true;
-			this.label17.Location = new System.Drawing.Point(179, 25);
+			this.label17.Location = new System.Drawing.Point(192, 25);
 			this.label17.Name = "label17";
 			this.label17.Size = new System.Drawing.Size(15, 13);
 			this.label17.TabIndex = 6;
@@ -239,7 +248,7 @@
 			// 
 			// axisPoleSizeSetting
 			// 
-			this.axisPoleSizeSetting.Location = new System.Drawing.Point(123, 49);
+			this.axisPoleSizeSetting.Location = new System.Drawing.Point(136, 49);
 			this.axisPoleSizeSetting.Name = "axisPoleSizeSetting";
 			this.axisPoleSizeSetting.Size = new System.Drawing.Size(54, 20);
 			this.axisPoleSizeSetting.TabIndex = 3;
@@ -391,6 +400,64 @@
 			this.iterationTimer.Interval = 10;
 			this.iterationTimer.Tick += new System.EventHandler(this.iterationTimer_Tick);
 			// 
+			// notifyIcon
+			// 
+			this.notifyIcon.ContextMenuStrip = this.notifyMenu;
+			this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+			this.notifyIcon.Text = "Pad Tie!";
+			this.notifyIcon.Visible = true;
+			this.notifyIcon.DoubleClick += new System.EventHandler(this.notifyIcon_DoubleClick);
+			// 
+			// notifyMenu
+			// 
+			this.notifyMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showToolStripMenuItem,
+            this.switchConfigurationToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.exitToolStripMenuItem});
+			this.notifyMenu.Name = "notifyMenu";
+			this.notifyMenu.Size = new System.Drawing.Size(187, 76);
+			// 
+			// showToolStripMenuItem
+			// 
+			this.showToolStripMenuItem.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+			this.showToolStripMenuItem.Name = "showToolStripMenuItem";
+			this.showToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.showToolStripMenuItem.Text = "Show Pad Tie";
+			this.showToolStripMenuItem.Click += new System.EventHandler(this.showToolStripMenuItem_Click);
+			// 
+			// switchConfigurationToolStripMenuItem
+			// 
+			this.switchConfigurationToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.defaultToolStripMenuItem,
+            this.toolStripMenuItem2});
+			this.switchConfigurationToolStripMenuItem.Name = "switchConfigurationToolStripMenuItem";
+			this.switchConfigurationToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.switchConfigurationToolStripMenuItem.Text = "Switch configuration:";
+			// 
+			// defaultToolStripMenuItem
+			// 
+			this.defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
+			this.defaultToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+			this.defaultToolStripMenuItem.Text = "Default";
+			// 
+			// toolStripMenuItem2
+			// 
+			this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+			this.toolStripMenuItem2.Size = new System.Drawing.Size(117, 6);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(183, 6);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+			this.exitToolStripMenuItem.Text = "Exit";
+			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+			// 
 			// PadTieForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -400,10 +467,11 @@
 			this.Controls.Add(this.configBox);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.padTabs);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MinimumSize = new System.Drawing.Size(619, 415);
 			this.Name = "PadTieForm";
 			this.Text = "Pad Tie!";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PadTieForm_FormClosing);
 			this.Load += new System.EventHandler(this.PadTieForm_Load);
 			this.padTabs.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
@@ -419,6 +487,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.tapIntervalSetting)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.doubleTapIntervalSetting)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.holdIntervalSetting)).EndInit();
+			this.notifyMenu.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -456,6 +525,14 @@
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.Label label10;
+		private System.Windows.Forms.NotifyIcon notifyIcon;
+		private System.Windows.Forms.ContextMenuStrip notifyMenu;
+		private System.Windows.Forms.ToolStripMenuItem showToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem switchConfigurationToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem defaultToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
 
 	}
 }

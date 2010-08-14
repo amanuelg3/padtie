@@ -19,15 +19,6 @@ namespace PadTieApp {
 		PadTieForm mainForm;
 		Controller controller;
 		int padNumber;
-
-		private Rectangle ButtonMaskRelative(Rectangle r, bool top)
-		{
-			if (top)
-				return new Rectangle(r.X - controllerTop.Left, r.Y - controllerTop.Top, r.Width, r.Height);
-			else
-				return new Rectangle(r.X - controllerFront.Left, r.Y - controllerFront.Top, r.Width, r.Height);
-		}
-
 		Dictionary<VirtualController.Button, Panel> buttonVisualMap =
 			new Dictionary<VirtualController.Button, Panel>();
 
@@ -39,54 +30,6 @@ namespace PadTieApp {
 					kvp.Value.Text = kvp.Value.ToolTipText;
 				}
 			}
-		}
-
-		public static VirtualController.Axis AxisFromGesture(AxisGesture gesture)
-		{
-			switch (gesture) {
-				case AxisGesture.LeftXNeg:
-				case AxisGesture.LeftXPos:
-					return VirtualController.Axis.LeftX;
-				case AxisGesture.RightXNeg:
-				case AxisGesture.RightXPos:
-					return VirtualController.Axis.RightX;
-				case AxisGesture.LeftYNeg:
-				case AxisGesture.LeftYPos:
-					return VirtualController.Axis.LeftY;
-				case AxisGesture.RightYPos:
-				case AxisGesture.RightYNeg:
-					return VirtualController.Axis.RightY;
-				case AxisGesture.DigitalXPos:
-				case AxisGesture.DigitalXNeg:
-					return VirtualController.Axis.DigitalX;
-				case AxisGesture.DigitalYPos:
-				case AxisGesture.DigitalYNeg:
-					return VirtualController.Axis.DigitalY;
-			}
-
-			return VirtualController.Axis.LeftX;
-		}
-
-		public static bool PoleFromGesture(AxisGesture gesture)
-		{
-			switch (gesture) {
-				case AxisGesture.LeftXNeg:
-				case AxisGesture.RightXNeg:
-				case AxisGesture.LeftYNeg:
-				case AxisGesture.RightYNeg:
-				case AxisGesture.DigitalXNeg:
-				case AxisGesture.DigitalYNeg:
-					return false;
-				case AxisGesture.LeftYPos:
-				case AxisGesture.RightXPos:
-				case AxisGesture.LeftXPos:
-				case AxisGesture.RightYPos:
-				case AxisGesture.DigitalXPos:
-				case AxisGesture.DigitalYPos:
-					return true;
-			}
-
-			return false;
 		}
 
 		public void SetMapping(string id, string text, InputAction action)
@@ -101,15 +44,19 @@ namespace PadTieApp {
 
 		private void ControllerClick(object sender, EventArgs e)
 		{
-			if ((sender as Control).Tag is VirtualController.Button) {
-				var btn = (VirtualController.Button)(sender as Control).Tag;
+			var o = padView.SelectedItem;
+
+			if (o == null) return;
+
+			if (!o.IsAxisGesture) {
+				var btn = o.Button;
 				var node = buttonMapNodes[btn.ToString() + "/link"];
 				currentMappings.SelectedNode = node;
 				if (node != null)
 					node.Expand();
-			} else if ((sender as Control).Tag is AxisGesture) {
-				var ag = (AxisGesture)(sender as Control).Tag;
-				string id = Util.GetAxisGestureID(AxisFromGesture(ag), PoleFromGesture(ag) ? AxisActions.Gestures.Positive : AxisActions.Gestures.Negative);
+			} else {
+				string id = Util.GetAxisGestureID(o.Axis, 
+					o.IsPositive ? AxisActions.Gestures.Positive : AxisActions.Gestures.Negative);
 				var node = buttonMapNodes[id];
 				currentMappings.SelectedNode = node;
 				if (node != null)
@@ -117,18 +64,14 @@ namespace PadTieApp {
 			}
 		}
 
-		private void SetupButton(VirtualController.Button button, Panel panel)
+		private void SetupButton(VirtualController.Button button)
 		{
-			buttonVisualMap[button] = panel;
-			panel.Tag = button;
-			panel.BackColor = Color.FromArgb(0, panel.BackColor);
-
 			string name = button.ToString();
 
 			if (button == VirtualController.Button.Bl) name = "Left Bumper";
-			if (button == VirtualController.Button.Br) name = "Right Bumper";
-			if (button == VirtualController.Button.Tl) name = "Left Trigger";
-			if (button == VirtualController.Button.Tr) name = "Right Trigger";
+			else if (button == VirtualController.Button.Br) name = "Right Bumper";
+			else if (button == VirtualController.Button.Tl) name = "Left Trigger";
+			else if (button == VirtualController.Button.Tr) name = "Right Trigger";
 
 			TreeNode n;
 			if (button == VirtualController.Button.LeftAnalog) {
@@ -162,21 +105,6 @@ namespace PadTieApp {
 			buttonMapNodes[button.ToString() + "/hold"] = n.Nodes.Add("Hold");
 		}
 
-		public enum AxisGesture {
-			LeftXPos,
-			LeftXNeg,
-			LeftYPos,
-			LeftYNeg,
-			RightXPos,
-			RightXNeg,
-			RightYPos,
-			RightYNeg,
-			DigitalXPos,
-			DigitalXNeg,
-			DigitalYPos,
-			DigitalYNeg
-		}
-
 		Dictionary<AxisGesture, Panel> axisVisualMap =
 			new Dictionary<AxisGesture, Panel>();
 
@@ -195,23 +123,21 @@ namespace PadTieApp {
 			p.BackColor = Color.FromArgb(0, p.BackColor);
 		}
 
-		private void SetupAxisGesture(AxisGesture ag, Panel panel)
+		private void SetupAxisGesture(AxisGesture ag)
 		{
 			string name = "";
 			TreeNode root = null;
 			VirtualController.Axis 
-				stick = StickFromGesture(ag),
-				axis = AxisFromGesture(ag);
-			bool pos = PoleFromGesture(ag);
+				stick = Util.StickFromGesture(ag),
+				axis = Util.AxisFromGesture(ag);
+			bool pos = Util.PoleFromGesture(ag);
 			AxisActions.Gestures axisGesture = pos ? AxisActions.Gestures.Positive : AxisActions.Gestures.Negative;
-			axisVisualMap[ag] = panel;
-			panel.BackColor = Color.FromArgb(0, panel.BackColor);
-			panel.Tag = ag;
 
 			EventHandler press = delegate(object sender, EventArgs e)
 			{
-				panel.BackColor = Color.FromArgb(128, panel.BackColor);
-				if (autoSelectInput.Checked) {
+				padView.SetOverlay(axis, pos, true);
+
+				if (padView.AutoSelectInput) {
 					string idx = Util.GetAxisGestureID(axis, axisGesture);
 					var node = buttonMapNodes[idx];
 					currentMappings.SelectedNode = node;
@@ -220,9 +146,9 @@ namespace PadTieApp {
 				}
 			};
 			
-			EventHandler release = delegate(object sender, EventArgs e) 
-			{ 
-				panel.BackColor = Color.FromArgb(0, panel.BackColor); 
+			EventHandler release = delegate(object sender, EventArgs e)
+			{
+				padView.SetOverlay(axis, pos, false);
 			};
 
 			switch (ag) {
@@ -325,45 +251,14 @@ namespace PadTieApp {
 			buttonMapNodes[Util.GetAxisGestureID(axis, axisGesture)] = root.Nodes.Add(name.ToString());
 		}
 
-		private VirtualController.Axis StickFromGesture(AxisGesture ag)
-		{
-			var axis = VirtualController.Axis.LeftX;
-
-			switch (ag) {
-				case AxisGesture.LeftXNeg:
-				case AxisGesture.LeftXPos:
-				case AxisGesture.LeftYNeg:
-				case AxisGesture.LeftYPos:
-					axis = VirtualController.Axis.LeftX;
-					break;
-				case AxisGesture.RightXNeg:
-				case AxisGesture.RightXPos:
-				case AxisGesture.RightYNeg:
-				case AxisGesture.RightYPos:
-					axis = VirtualController.Axis.RightX;
-					break;
-				case AxisGesture.DigitalXNeg:
-				case AxisGesture.DigitalXPos:
-				case AxisGesture.DigitalYNeg:
-				case AxisGesture.DigitalYPos:
-					axis = VirtualController.Axis.DigitalX;
-					break;
-			}
-
-			return axis;
-		}
-
 		Dictionary<string, TreeNode> buttonMapNodes =
 			new Dictionary<string, TreeNode>();
 
 		private void Press(object sender, VirtualController.ButtonEventArgs e)
 		{
-			Panel p = buttonVisualMap[e.Button];
-			//p.Show();
-			p.BackColor = Color.FromArgb(128, p.BackColor);
+			padView.SetOverlay(e.Button, true);
 
-
-			if (autoSelectInput.Checked) {
+			if (padView.AutoSelectInput) {
 				var node = buttonMapNodes[e.Button.ToString() + "/link"];
 
 				currentMappings.SelectedNode = node;
@@ -377,9 +272,7 @@ namespace PadTieApp {
 
 		private void Release(object sender, VirtualController.ButtonEventArgs e)
 		{
-			Panel p = buttonVisualMap[e.Button];
-			//p.Hide();
-			p.BackColor = Color.FromArgb(0, p.BackColor);
+			padView.SetOverlay(e.Button, false);
 		}
 
 		private void Active(object sender, VirtualController.ButtonEventArgs e)
@@ -427,6 +320,8 @@ namespace PadTieApp {
 			controller = cc;
 			padNumber = padNum;
 
+			padView.SelectedItemChanged += ControllerClick;
+
 			deviceName.Text = cc.Device.Name;
 			deviceGUID.Text = cc.Device.ProductGUID.ToUpper();
 			deviceInstanceGUID.Text = cc.Device.InstanceGUID.ToUpper();
@@ -445,31 +340,21 @@ namespace PadTieApp {
 			actionTree.ExpandAll();
 			currentMappings.Nodes.Clear();
 
-			SetupButton(VirtualController.Button.A, btnMaskA);
-			SetupButton(VirtualController.Button.B, btnMaskB);
-			SetupButton(VirtualController.Button.X, btnMaskX);
-			SetupButton(VirtualController.Button.Y, btnMaskY);
-			SetupButton(VirtualController.Button.Start, btnMaskStart);
-			SetupButton(VirtualController.Button.Back, btnMaskBack);
-			SetupButton(VirtualController.Button.System, btnMaskSystem);
-			SetupButton(VirtualController.Button.Bl, btnMaskBl);
-			SetupButton(VirtualController.Button.Br, btnMaskBr);
-			SetupButton(VirtualController.Button.Tl, btnMaskTl);
-			SetupButton(VirtualController.Button.Tr, btnMaskTr);
-			SetupButton(VirtualController.Button.LeftAnalog, btnMaskLeftAnalog);
-			SetupButton(VirtualController.Button.RightAnalog, btnMaskRightAnalog);
-			SetupAxisGesture(AxisGesture.LeftXNeg, btnMaskLeftXNeg);
-			SetupAxisGesture(AxisGesture.LeftXPos, btnMaskLeftXPos);
-			SetupAxisGesture(AxisGesture.LeftYNeg, btnMaskLeftYNeg);
-			SetupAxisGesture(AxisGesture.LeftYPos, btnMaskLeftYPos);
-			SetupAxisGesture(AxisGesture.RightXNeg, btnMaskRightXNeg);
-			SetupAxisGesture(AxisGesture.RightXPos, btnMaskRightXPos);
-			SetupAxisGesture(AxisGesture.RightYNeg, btnMaskRightYNeg);
-			SetupAxisGesture(AxisGesture.RightYPos, btnMaskRightYPos);
-			SetupAxisGesture(AxisGesture.DigitalXNeg, btnMaskDigitalXNeg);
-			SetupAxisGesture(AxisGesture.DigitalXPos, btnMaskDigitalXPos);
-			SetupAxisGesture(AxisGesture.DigitalYNeg, btnMaskDigitalYNeg);
-			SetupAxisGesture(AxisGesture.DigitalYPos, btnMaskDigitalYPos);
+			foreach (var b in VirtualController.ButtonList)
+				SetupButton(b);
+
+			SetupAxisGesture(AxisGesture.LeftXNeg);
+			SetupAxisGesture(AxisGesture.LeftXPos);
+			SetupAxisGesture(AxisGesture.LeftYNeg);
+			SetupAxisGesture(AxisGesture.LeftYPos);
+			SetupAxisGesture(AxisGesture.RightXNeg);
+			SetupAxisGesture(AxisGesture.RightXPos);
+			SetupAxisGesture(AxisGesture.RightYNeg);
+			SetupAxisGesture(AxisGesture.RightYPos);
+			SetupAxisGesture(AxisGesture.DigitalXNeg);
+			SetupAxisGesture(AxisGesture.DigitalXPos);
+			SetupAxisGesture(AxisGesture.DigitalYNeg);
+			SetupAxisGesture(AxisGesture.DigitalYPos);
 
 			currentMappings.ExpandAll();
 			RefreshDeviceMappings();
@@ -619,5 +504,20 @@ namespace PadTieApp {
 			wiz.Controller = controller;
 			wiz.ShowDialog(this);
 		}
+	}
+
+	public enum AxisGesture {
+		LeftXPos,
+		LeftXNeg,
+		LeftYPos,
+		LeftYNeg,
+		RightXPos,
+		RightXNeg,
+		RightYPos,
+		RightYNeg,
+		DigitalXPos,
+		DigitalXNeg,
+		DigitalYPos,
+		DigitalYNeg
 	}
 }

@@ -92,6 +92,41 @@ namespace PadTie {
 
 		public InputCore Core { get; set; }
 
+		public static Button[] ButtonList
+		{
+			get
+			{
+				return new Button[] {
+					Button.A,
+					Button.B,
+					Button.X,
+					Button.Y,
+					Button.Start,
+					Button.Back,
+					Button.System,
+					Button.Bl,
+					Button.Br,
+					Button.Tl,
+					Button.Tr,
+					Button.LeftAnalog,
+					Button.RightAnalog,
+				};
+			}
+		}
+
+		public static Axis[] AxisList {
+			get {
+				return new Axis[] {
+					Axis.LeftX,
+					Axis.LeftY,
+					Axis.RightX,
+					Axis.RightY,
+					Axis.DigitalX,
+					Axis.DigitalY,
+				};
+			}
+		}
+
 		public void Reset()
 		{
 			A = new ButtonActions(Core, true, VirtualController.Button.A);

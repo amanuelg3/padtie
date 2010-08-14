@@ -26,43 +26,43 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PadSettingsControl));
-			System.Windows.Forms.TreeNode treeNode43 = new System.Windows.Forms.TreeNode("Key stroke");
-			System.Windows.Forms.TreeNode treeNode44 = new System.Windows.Forms.TreeNode("Keyboard", new System.Windows.Forms.TreeNode[] {
-            treeNode43});
-			System.Windows.Forms.TreeNode treeNode45 = new System.Windows.Forms.TreeNode("Pointer motion");
-			System.Windows.Forms.TreeNode treeNode46 = new System.Windows.Forms.TreeNode("Button");
-			System.Windows.Forms.TreeNode treeNode47 = new System.Windows.Forms.TreeNode("Wheel");
-			System.Windows.Forms.TreeNode treeNode48 = new System.Windows.Forms.TreeNode("Mouse", new System.Windows.Forms.TreeNode[] {
-            treeNode45,
-            treeNode46,
-            treeNode47});
-			System.Windows.Forms.TreeNode treeNode49 = new System.Windows.Forms.TreeNode("Run command");
-			System.Windows.Forms.TreeNode treeNode50 = new System.Windows.Forms.TreeNode("Open file");
-			System.Windows.Forms.TreeNode treeNode51 = new System.Windows.Forms.TreeNode("Load Configuration");
-			System.Windows.Forms.TreeNode treeNode52 = new System.Windows.Forms.TreeNode("Exit Pad Tie");
-			System.Windows.Forms.TreeNode treeNode53 = new System.Windows.Forms.TreeNode("Actions", new System.Windows.Forms.TreeNode[] {
-            treeNode49,
-            treeNode50,
-            treeNode51,
-            treeNode52});
-			System.Windows.Forms.TreeNode treeNode54 = new System.Windows.Forms.TreeNode("Link");
-			System.Windows.Forms.TreeNode treeNode55 = new System.Windows.Forms.TreeNode("Tap");
-			System.Windows.Forms.TreeNode treeNode56 = new System.Windows.Forms.TreeNode("Double Tap");
-			System.Windows.Forms.TreeNode treeNode57 = new System.Windows.Forms.TreeNode("Hold");
-			System.Windows.Forms.TreeNode treeNode58 = new System.Windows.Forms.TreeNode("A", new System.Windows.Forms.TreeNode[] {
-            treeNode54,
-            treeNode55,
-            treeNode56,
-            treeNode57});
-			System.Windows.Forms.TreeNode treeNode59 = new System.Windows.Forms.TreeNode("Link");
-			System.Windows.Forms.TreeNode treeNode60 = new System.Windows.Forms.TreeNode("Tap");
-			System.Windows.Forms.TreeNode treeNode61 = new System.Windows.Forms.TreeNode("Double Tap");
-			System.Windows.Forms.TreeNode treeNode62 = new System.Windows.Forms.TreeNode("Hold");
-			System.Windows.Forms.TreeNode treeNode63 = new System.Windows.Forms.TreeNode("B", new System.Windows.Forms.TreeNode[] {
-            treeNode59,
-            treeNode60,
-            treeNode61,
-            treeNode62});
+			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Key stroke");
+			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Keyboard", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Pointer motion");
+			System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Button");
+			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Wheel");
+			System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Mouse", new System.Windows.Forms.TreeNode[] {
+            treeNode3,
+            treeNode4,
+            treeNode5});
+			System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Run command");
+			System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Open file");
+			System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Load Configuration");
+			System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("Exit Pad Tie");
+			System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("Actions", new System.Windows.Forms.TreeNode[] {
+            treeNode7,
+            treeNode8,
+            treeNode9,
+            treeNode10});
+			System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("Link");
+			System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("Tap");
+			System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("Double Tap");
+			System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("Hold");
+			System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("A", new System.Windows.Forms.TreeNode[] {
+            treeNode12,
+            treeNode13,
+            treeNode14,
+            treeNode15});
+			System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("Link");
+			System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("Tap");
+			System.Windows.Forms.TreeNode treeNode19 = new System.Windows.Forms.TreeNode("Double Tap");
+			System.Windows.Forms.TreeNode treeNode20 = new System.Windows.Forms.TreeNode("Hold");
+			System.Windows.Forms.TreeNode treeNode21 = new System.Windows.Forms.TreeNode("B", new System.Windows.Forms.TreeNode[] {
+            treeNode17,
+            treeNode18,
+            treeNode19,
+            treeNode20});
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.changeBtn = new System.Windows.Forms.Button();
 			this.wizardBtn = new System.Windows.Forms.Button();
@@ -72,30 +72,7 @@
 			this.mapButton = new System.Windows.Forms.Button();
 			this.label4 = new System.Windows.Forms.Label();
 			this.actionTree = new System.Windows.Forms.TreeView();
-			this.btnMaskBr = new System.Windows.Forms.Panel();
-			this.btnMaskBl = new System.Windows.Forms.Panel();
-			this.btnMaskTl = new System.Windows.Forms.Panel();
-			this.btnMaskSystem = new System.Windows.Forms.Panel();
-			this.btnMaskStart = new System.Windows.Forms.Panel();
-			this.btnMaskTr = new System.Windows.Forms.Panel();
-			this.btnMaskBack = new System.Windows.Forms.Panel();
-			this.btnMaskRightXNeg = new System.Windows.Forms.Panel();
-			this.btnMaskRightXPos = new System.Windows.Forms.Panel();
-			this.btnMaskRightYPos = new System.Windows.Forms.Panel();
-			this.btnMaskRightYNeg = new System.Windows.Forms.Panel();
-			this.btnMaskLeftYPos = new System.Windows.Forms.Panel();
-			this.btnMaskLeftYNeg = new System.Windows.Forms.Panel();
-			this.btnMaskLeftXNeg = new System.Windows.Forms.Panel();
-			this.btnMaskLeftXPos = new System.Windows.Forms.Panel();
-			this.btnMaskDigitalYPos = new System.Windows.Forms.Panel();
-			this.btnMaskDigitalXNeg = new System.Windows.Forms.Panel();
-			this.btnMaskDigitalYNeg = new System.Windows.Forms.Panel();
-			this.btnMaskDigitalXPos = new System.Windows.Forms.Panel();
-			this.btnMaskX = new System.Windows.Forms.Panel();
-			this.btnMaskY = new System.Windows.Forms.Panel();
-			this.btnMaskB = new System.Windows.Forms.Panel();
 			this.currentMappings = new System.Windows.Forms.TreeView();
-			this.btnMaskA = new System.Windows.Forms.Panel();
 			this.label2 = new System.Windows.Forms.Label();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage3 = new System.Windows.Forms.TabPage();
@@ -120,20 +97,14 @@
 			this.label5 = new System.Windows.Forms.Label();
 			this.deviceName = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
-			this.btnMaskLeftAnalog = new System.Windows.Forms.Panel();
-			this.btnMaskRightAnalog = new System.Windows.Forms.Panel();
 			this.activeMapping = new System.Windows.Forms.Label();
 			this.editBtn = new System.Windows.Forms.Button();
 			this.unmapBtn = new System.Windows.Forms.Button();
-			this.controllerFront = new System.Windows.Forms.Panel();
-			this.autoSelectInput = new System.Windows.Forms.CheckBox();
-			this.controllerTop = new System.Windows.Forms.Panel();
+			this.padView = new PadTieApp.ControllerView();
 			this.tabPage2.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.tabPage3.SuspendLayout();
-			this.controllerFront.SuspendLayout();
-			this.controllerTop.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabPage2
@@ -232,299 +203,43 @@
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.actionTree.Location = new System.Drawing.Point(6, 38);
 			this.actionTree.Name = "actionTree";
-			treeNode43.Name = "Node3";
-			treeNode43.Tag = "keystroke";
-			treeNode43.Text = "Key stroke";
-			treeNode44.Name = "Node0";
-			treeNode44.Text = "Keyboard";
-			treeNode45.Name = "Node4";
-			treeNode45.Tag = "pointer";
-			treeNode45.Text = "Pointer motion";
-			treeNode46.Name = "Node5";
-			treeNode46.Tag = "mouse-button";
-			treeNode46.Text = "Button";
-			treeNode47.Name = "Node6";
-			treeNode47.Tag = "mouse-wheel";
-			treeNode47.Text = "Wheel";
-			treeNode48.Name = "Node1";
-			treeNode48.Text = "Mouse";
-			treeNode49.Name = "Node11";
-			treeNode49.Tag = "command";
-			treeNode49.Text = "Run command";
-			treeNode50.Name = "Node12";
-			treeNode50.Tag = "open-file";
-			treeNode50.Text = "Open file";
-			treeNode51.Name = "Node8";
-			treeNode51.Tag = "load-config";
-			treeNode51.Text = "Load Configuration";
-			treeNode52.Name = "Node9";
-			treeNode52.Tag = "exit";
-			treeNode52.Text = "Exit Pad Tie";
-			treeNode53.Name = "Node10";
-			treeNode53.Text = "Actions";
+			treeNode1.Name = "Node3";
+			treeNode1.Tag = "keystroke";
+			treeNode1.Text = "Key stroke";
+			treeNode2.Name = "Node0";
+			treeNode2.Text = "Keyboard";
+			treeNode3.Name = "Node4";
+			treeNode3.Tag = "pointer";
+			treeNode3.Text = "Pointer motion";
+			treeNode4.Name = "Node5";
+			treeNode4.Tag = "mouse-button";
+			treeNode4.Text = "Button";
+			treeNode5.Name = "Node6";
+			treeNode5.Tag = "mouse-wheel";
+			treeNode5.Text = "Wheel";
+			treeNode6.Name = "Node1";
+			treeNode6.Text = "Mouse";
+			treeNode7.Name = "Node11";
+			treeNode7.Tag = "command";
+			treeNode7.Text = "Run command";
+			treeNode8.Name = "Node12";
+			treeNode8.Tag = "open-file";
+			treeNode8.Text = "Open file";
+			treeNode9.Name = "Node8";
+			treeNode9.Tag = "load-config";
+			treeNode9.Text = "Load Configuration";
+			treeNode10.Name = "Node9";
+			treeNode10.Tag = "exit";
+			treeNode10.Text = "Exit Pad Tie";
+			treeNode11.Name = "Node10";
+			treeNode11.Text = "Actions";
 			this.actionTree.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode44,
-            treeNode48,
-            treeNode53});
+            treeNode2,
+            treeNode6,
+            treeNode11});
 			this.actionTree.Size = new System.Drawing.Size(264, 334);
 			this.actionTree.TabIndex = 5;
 			this.actionTree.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.actionTree_NodeMouseDoubleClick);
-			// 
-			// btnMaskBr
-			// 
-			this.btnMaskBr.BackColor = System.Drawing.Color.Black;
-			this.btnMaskBr.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskBr.Location = new System.Drawing.Point(187, 60);
-			this.btnMaskBr.Name = "btnMaskBr";
-			this.btnMaskBr.Size = new System.Drawing.Size(13, 13);
-			this.btnMaskBr.TabIndex = 72;
-			this.btnMaskBr.Click += new System.EventHandler(this.ControllerClick);
-			// 
-			// btnMaskBl
-			// 
-			this.btnMaskBl.BackColor = System.Drawing.Color.Black;
-			this.btnMaskBl.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskBl.Location = new System.Drawing.Point(56, 60);
-			this.btnMaskBl.Name = "btnMaskBl";
-			this.btnMaskBl.Size = new System.Drawing.Size(13, 13);
-			this.btnMaskBl.TabIndex = 69;
-			this.btnMaskBl.Click += new System.EventHandler(this.ControllerClick);
-			// 
-			// btnMaskTl
-			// 
-			this.btnMaskTl.BackColor = System.Drawing.Color.Black;
-			this.btnMaskTl.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskTl.Location = new System.Drawing.Point(56, 33);
-			this.btnMaskTl.Name = "btnMaskTl";
-			this.btnMaskTl.Size = new System.Drawing.Size(13, 13);
-			this.btnMaskTl.TabIndex = 68;
-			this.btnMaskTl.Click += new System.EventHandler(this.ControllerClick);
-			// 
-			// btnMaskSystem
-			// 
-			this.btnMaskSystem.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-			this.btnMaskSystem.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskSystem.Location = new System.Drawing.Point(118, 38);
-			this.btnMaskSystem.Name = "btnMaskSystem";
-			this.btnMaskSystem.Size = new System.Drawing.Size(20, 22);
-			this.btnMaskSystem.TabIndex = 70;
-			this.btnMaskSystem.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskSystem.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskSystem.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskStart
-			// 
-			this.btnMaskStart.BackColor = System.Drawing.Color.Black;
-			this.btnMaskStart.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskStart.Location = new System.Drawing.Point(148, 44);
-			this.btnMaskStart.Name = "btnMaskStart";
-			this.btnMaskStart.Size = new System.Drawing.Size(10, 10);
-			this.btnMaskStart.TabIndex = 63;
-			this.btnMaskStart.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskStart.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskStart.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskTr
-			// 
-			this.btnMaskTr.BackColor = System.Drawing.Color.Black;
-			this.btnMaskTr.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskTr.Location = new System.Drawing.Point(186, 33);
-			this.btnMaskTr.Name = "btnMaskTr";
-			this.btnMaskTr.Size = new System.Drawing.Size(13, 13);
-			this.btnMaskTr.TabIndex = 65;
-			this.btnMaskTr.Click += new System.EventHandler(this.ControllerClick);
-			// 
-			// btnMaskBack
-			// 
-			this.btnMaskBack.BackColor = System.Drawing.Color.Black;
-			this.btnMaskBack.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskBack.Location = new System.Drawing.Point(98, 44);
-			this.btnMaskBack.Name = "btnMaskBack";
-			this.btnMaskBack.Size = new System.Drawing.Size(10, 10);
-			this.btnMaskBack.TabIndex = 67;
-			this.btnMaskBack.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskBack.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskBack.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskRightXNeg
-			// 
-			this.btnMaskRightXNeg.BackColor = System.Drawing.Color.Black;
-			this.btnMaskRightXNeg.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskRightXNeg.Location = new System.Drawing.Point(142, 81);
-			this.btnMaskRightXNeg.Name = "btnMaskRightXNeg";
-			this.btnMaskRightXNeg.Size = new System.Drawing.Size(10, 14);
-			this.btnMaskRightXNeg.TabIndex = 81;
-			this.btnMaskRightXNeg.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskRightXNeg.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskRightXNeg.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskRightXPos
-			// 
-			this.btnMaskRightXPos.BackColor = System.Drawing.Color.Black;
-			this.btnMaskRightXPos.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskRightXPos.Location = new System.Drawing.Point(168, 81);
-			this.btnMaskRightXPos.Name = "btnMaskRightXPos";
-			this.btnMaskRightXPos.Size = new System.Drawing.Size(10, 14);
-			this.btnMaskRightXPos.TabIndex = 80;
-			this.btnMaskRightXPos.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskRightXPos.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskRightXPos.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskRightYPos
-			// 
-			this.btnMaskRightYPos.BackColor = System.Drawing.Color.Black;
-			this.btnMaskRightYPos.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskRightYPos.Location = new System.Drawing.Point(153, 96);
-			this.btnMaskRightYPos.Name = "btnMaskRightYPos";
-			this.btnMaskRightYPos.Size = new System.Drawing.Size(14, 10);
-			this.btnMaskRightYPos.TabIndex = 79;
-			this.btnMaskRightYPos.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskRightYPos.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskRightYPos.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskRightYNeg
-			// 
-			this.btnMaskRightYNeg.BackColor = System.Drawing.Color.Black;
-			this.btnMaskRightYNeg.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskRightYNeg.Location = new System.Drawing.Point(153, 70);
-			this.btnMaskRightYNeg.Name = "btnMaskRightYNeg";
-			this.btnMaskRightYNeg.Size = new System.Drawing.Size(14, 10);
-			this.btnMaskRightYNeg.TabIndex = 78;
-			this.btnMaskRightYNeg.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskRightYNeg.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskRightYNeg.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskLeftYPos
-			// 
-			this.btnMaskLeftYPos.BackColor = System.Drawing.Color.Black;
-			this.btnMaskLeftYPos.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskLeftYPos.Location = new System.Drawing.Point(52, 55);
-			this.btnMaskLeftYPos.Name = "btnMaskLeftYPos";
-			this.btnMaskLeftYPos.Size = new System.Drawing.Size(14, 10);
-			this.btnMaskLeftYPos.TabIndex = 77;
-			this.btnMaskLeftYPos.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskLeftYPos.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskLeftYPos.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskLeftYNeg
-			// 
-			this.btnMaskLeftYNeg.BackColor = System.Drawing.Color.Black;
-			this.btnMaskLeftYNeg.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskLeftYNeg.Location = new System.Drawing.Point(52, 29);
-			this.btnMaskLeftYNeg.Name = "btnMaskLeftYNeg";
-			this.btnMaskLeftYNeg.Size = new System.Drawing.Size(14, 10);
-			this.btnMaskLeftYNeg.TabIndex = 76;
-			this.btnMaskLeftYNeg.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskLeftYNeg.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskLeftYNeg.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskLeftXNeg
-			// 
-			this.btnMaskLeftXNeg.BackColor = System.Drawing.Color.Black;
-			this.btnMaskLeftXNeg.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskLeftXNeg.Location = new System.Drawing.Point(41, 40);
-			this.btnMaskLeftXNeg.Name = "btnMaskLeftXNeg";
-			this.btnMaskLeftXNeg.Size = new System.Drawing.Size(10, 14);
-			this.btnMaskLeftXNeg.TabIndex = 75;
-			this.btnMaskLeftXNeg.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskLeftXNeg.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskLeftXNeg.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskLeftXPos
-			// 
-			this.btnMaskLeftXPos.BackColor = System.Drawing.Color.Black;
-			this.btnMaskLeftXPos.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskLeftXPos.Location = new System.Drawing.Point(67, 40);
-			this.btnMaskLeftXPos.Name = "btnMaskLeftXPos";
-			this.btnMaskLeftXPos.Size = new System.Drawing.Size(10, 14);
-			this.btnMaskLeftXPos.TabIndex = 74;
-			this.btnMaskLeftXPos.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskLeftXPos.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskLeftXPos.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskDigitalYPos
-			// 
-			this.btnMaskDigitalYPos.BackColor = System.Drawing.Color.Black;
-			this.btnMaskDigitalYPos.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskDigitalYPos.Location = new System.Drawing.Point(87, 94);
-			this.btnMaskDigitalYPos.Name = "btnMaskDigitalYPos";
-			this.btnMaskDigitalYPos.Size = new System.Drawing.Size(10, 15);
-			this.btnMaskDigitalYPos.TabIndex = 73;
-			this.btnMaskDigitalYPos.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskDigitalYPos.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskDigitalYPos.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskDigitalXNeg
-			// 
-			this.btnMaskDigitalXNeg.BackColor = System.Drawing.Color.Black;
-			this.btnMaskDigitalXNeg.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskDigitalXNeg.Location = new System.Drawing.Point(71, 83);
-			this.btnMaskDigitalXNeg.Name = "btnMaskDigitalXNeg";
-			this.btnMaskDigitalXNeg.Size = new System.Drawing.Size(15, 10);
-			this.btnMaskDigitalXNeg.TabIndex = 71;
-			this.btnMaskDigitalXNeg.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskDigitalXNeg.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskDigitalXNeg.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskDigitalYNeg
-			// 
-			this.btnMaskDigitalYNeg.BackColor = System.Drawing.Color.Black;
-			this.btnMaskDigitalYNeg.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskDigitalYNeg.Location = new System.Drawing.Point(87, 69);
-			this.btnMaskDigitalYNeg.Name = "btnMaskDigitalYNeg";
-			this.btnMaskDigitalYNeg.Size = new System.Drawing.Size(10, 15);
-			this.btnMaskDigitalYNeg.TabIndex = 66;
-			this.btnMaskDigitalYNeg.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskDigitalYNeg.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskDigitalYNeg.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskDigitalXPos
-			// 
-			this.btnMaskDigitalXPos.BackColor = System.Drawing.Color.Black;
-			this.btnMaskDigitalXPos.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskDigitalXPos.Location = new System.Drawing.Point(98, 83);
-			this.btnMaskDigitalXPos.Name = "btnMaskDigitalXPos";
-			this.btnMaskDigitalXPos.Size = new System.Drawing.Size(15, 10);
-			this.btnMaskDigitalXPos.TabIndex = 64;
-			this.btnMaskDigitalXPos.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskDigitalXPos.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskDigitalXPos.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskX
-			// 
-			this.btnMaskX.BackColor = System.Drawing.Color.White;
-			this.btnMaskX.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskX.Location = new System.Drawing.Point(173, 42);
-			this.btnMaskX.Name = "btnMaskX";
-			this.btnMaskX.Size = new System.Drawing.Size(10, 10);
-			this.btnMaskX.TabIndex = 62;
-			this.btnMaskX.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskX.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskX.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskY
-			// 
-			this.btnMaskY.BackColor = System.Drawing.Color.White;
-			this.btnMaskY.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskY.Location = new System.Drawing.Point(191, 24);
-			this.btnMaskY.Name = "btnMaskY";
-			this.btnMaskY.Size = new System.Drawing.Size(10, 10);
-			this.btnMaskY.TabIndex = 61;
-			this.btnMaskY.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskY.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskY.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskB
-			// 
-			this.btnMaskB.BackColor = System.Drawing.Color.White;
-			this.btnMaskB.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskB.Location = new System.Drawing.Point(210, 42);
-			this.btnMaskB.Name = "btnMaskB";
-			this.btnMaskB.Size = new System.Drawing.Size(10, 10);
-			this.btnMaskB.TabIndex = 60;
-			this.btnMaskB.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskB.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskB.MouseLeave += new System.EventHandler(this.HoverExit);
 			// 
 			// currentMappings
 			// 
@@ -533,44 +248,32 @@
 			this.currentMappings.HideSelection = false;
 			this.currentMappings.Location = new System.Drawing.Point(9, 295);
 			this.currentMappings.Name = "currentMappings";
-			treeNode54.Name = "Node2";
-			treeNode54.Text = "Link";
-			treeNode55.Name = "Node4";
-			treeNode55.Text = "Tap";
-			treeNode56.Name = "Node5";
-			treeNode56.Text = "Double Tap";
-			treeNode57.Name = "Node6";
-			treeNode57.Text = "Hold";
-			treeNode58.Name = "Node0";
-			treeNode58.Text = "A";
-			treeNode59.Name = "Node7";
-			treeNode59.Text = "Link";
-			treeNode60.Name = "Node8";
-			treeNode60.Text = "Tap";
-			treeNode61.Name = "Node9";
-			treeNode61.Text = "Double Tap";
-			treeNode62.Name = "Node10";
-			treeNode62.Text = "Hold";
-			treeNode63.Name = "Node1";
-			treeNode63.Text = "B";
+			treeNode12.Name = "Node2";
+			treeNode12.Text = "Link";
+			treeNode13.Name = "Node4";
+			treeNode13.Text = "Tap";
+			treeNode14.Name = "Node5";
+			treeNode14.Text = "Double Tap";
+			treeNode15.Name = "Node6";
+			treeNode15.Text = "Hold";
+			treeNode16.Name = "Node0";
+			treeNode16.Text = "A";
+			treeNode17.Name = "Node7";
+			treeNode17.Text = "Link";
+			treeNode18.Name = "Node8";
+			treeNode18.Text = "Tap";
+			treeNode19.Name = "Node9";
+			treeNode19.Text = "Double Tap";
+			treeNode20.Name = "Node10";
+			treeNode20.Text = "Hold";
+			treeNode21.Name = "Node1";
+			treeNode21.Text = "B";
 			this.currentMappings.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode58,
-            treeNode63});
+            treeNode16,
+            treeNode21});
 			this.currentMappings.Size = new System.Drawing.Size(247, 106);
 			this.currentMappings.TabIndex = 55;
 			this.currentMappings.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.currentMappings_AfterSelect);
-			// 
-			// btnMaskA
-			// 
-			this.btnMaskA.BackColor = System.Drawing.Color.White;
-			this.btnMaskA.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskA.Location = new System.Drawing.Point(191, 60);
-			this.btnMaskA.Name = "btnMaskA";
-			this.btnMaskA.Size = new System.Drawing.Size(10, 10);
-			this.btnMaskA.TabIndex = 59;
-			this.btnMaskA.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskA.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskA.MouseLeave += new System.EventHandler(this.HoverExit);
 			// 
 			// label2
 			// 
@@ -806,30 +509,6 @@
 			this.label1.TabIndex = 0;
 			this.label1.Text = "Name:";
 			// 
-			// btnMaskLeftAnalog
-			// 
-			this.btnMaskLeftAnalog.BackColor = System.Drawing.Color.Black;
-			this.btnMaskLeftAnalog.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskLeftAnalog.Location = new System.Drawing.Point(53, 41);
-			this.btnMaskLeftAnalog.Name = "btnMaskLeftAnalog";
-			this.btnMaskLeftAnalog.Size = new System.Drawing.Size(12, 12);
-			this.btnMaskLeftAnalog.TabIndex = 74;
-			this.btnMaskLeftAnalog.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskLeftAnalog.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskLeftAnalog.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
-			// btnMaskRightAnalog
-			// 
-			this.btnMaskRightAnalog.BackColor = System.Drawing.Color.Black;
-			this.btnMaskRightAnalog.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.btnMaskRightAnalog.Location = new System.Drawing.Point(154, 82);
-			this.btnMaskRightAnalog.Name = "btnMaskRightAnalog";
-			this.btnMaskRightAnalog.Size = new System.Drawing.Size(12, 12);
-			this.btnMaskRightAnalog.TabIndex = 75;
-			this.btnMaskRightAnalog.Click += new System.EventHandler(this.ControllerClick);
-			this.btnMaskRightAnalog.MouseEnter += new System.EventHandler(this.HoverEnter);
-			this.btnMaskRightAnalog.MouseLeave += new System.EventHandler(this.HoverExit);
-			// 
 			// activeMapping
 			// 
 			this.activeMapping.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -862,75 +541,24 @@
 			this.unmapBtn.UseVisualStyleBackColor = true;
 			this.unmapBtn.Click += new System.EventHandler(this.unmapBtn_Click);
 			// 
-			// controllerFront
+			// padView
 			// 
-			this.controllerFront.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("controllerFront.BackgroundImage")));
-			this.controllerFront.Controls.Add(this.autoSelectInput);
-			this.controllerFront.Controls.Add(this.btnMaskLeftAnalog);
-			this.controllerFront.Controls.Add(this.btnMaskA);
-			this.controllerFront.Controls.Add(this.btnMaskB);
-			this.controllerFront.Controls.Add(this.btnMaskRightAnalog);
-			this.controllerFront.Controls.Add(this.btnMaskY);
-			this.controllerFront.Controls.Add(this.btnMaskX);
-			this.controllerFront.Controls.Add(this.btnMaskDigitalXPos);
-			this.controllerFront.Controls.Add(this.btnMaskDigitalYNeg);
-			this.controllerFront.Controls.Add(this.btnMaskDigitalXNeg);
-			this.controllerFront.Controls.Add(this.btnMaskSystem);
-			this.controllerFront.Controls.Add(this.btnMaskDigitalYPos);
-			this.controllerFront.Controls.Add(this.btnMaskStart);
-			this.controllerFront.Controls.Add(this.btnMaskLeftXPos);
-			this.controllerFront.Controls.Add(this.btnMaskLeftXNeg);
-			this.controllerFront.Controls.Add(this.btnMaskBack);
-			this.controllerFront.Controls.Add(this.btnMaskLeftYNeg);
-			this.controllerFront.Controls.Add(this.btnMaskRightXNeg);
-			this.controllerFront.Controls.Add(this.btnMaskLeftYPos);
-			this.controllerFront.Controls.Add(this.btnMaskRightXPos);
-			this.controllerFront.Controls.Add(this.btnMaskRightYNeg);
-			this.controllerFront.Controls.Add(this.btnMaskRightYPos);
-			this.controllerFront.Location = new System.Drawing.Point(3, 4);
-			this.controllerFront.Name = "controllerFront";
-			this.controllerFront.Size = new System.Drawing.Size(257, 175);
-			this.controllerFront.TabIndex = 85;
-			// 
-			// autoSelectInput
-			// 
-			this.autoSelectInput.AutoSize = true;
-			this.autoSelectInput.BackColor = System.Drawing.Color.Transparent;
-			this.autoSelectInput.Checked = true;
-			this.autoSelectInput.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.autoSelectInput.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-			this.autoSelectInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.autoSelectInput.Location = new System.Drawing.Point(58, 139);
-			this.autoSelectInput.Name = "autoSelectInput";
-			this.autoSelectInput.Size = new System.Drawing.Size(132, 16);
-			this.autoSelectInput.TabIndex = 82;
-			this.autoSelectInput.Text = "Auto select pressed button";
-			this.autoSelectInput.UseVisualStyleBackColor = false;
-			// 
-			// controllerTop
-			// 
-			this.controllerTop.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("controllerTop.BackgroundImage")));
-			this.controllerTop.Controls.Add(this.btnMaskTr);
-			this.controllerTop.Controls.Add(this.btnMaskTl);
-			this.controllerTop.Controls.Add(this.btnMaskBl);
-			this.controllerTop.Controls.Add(this.btnMaskBr);
-			this.controllerTop.Location = new System.Drawing.Point(2, 185);
-			this.controllerTop.Name = "controllerTop";
-			this.controllerTop.Size = new System.Drawing.Size(258, 107);
-			this.controllerTop.TabIndex = 86;
+			this.padView.Location = new System.Drawing.Point(-2, 3);
+			this.padView.Name = "padView";
+			this.padView.Size = new System.Drawing.Size(258, 286);
+			this.padView.TabIndex = 85;
 			// 
 			// PadSettingsControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.padView);
 			this.Controls.Add(this.unmapBtn);
 			this.Controls.Add(this.editBtn);
 			this.Controls.Add(this.activeMapping);
 			this.Controls.Add(this.currentMappings);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.tabControl1);
-			this.Controls.Add(this.controllerFront);
-			this.Controls.Add(this.controllerTop);
 			this.MinimumSize = new System.Drawing.Size(550, 381);
 			this.Name = "PadSettingsControl";
 			this.Size = new System.Drawing.Size(550, 442);
@@ -940,9 +568,6 @@
 			this.tabControl1.ResumeLayout(false);
 			this.tabPage3.ResumeLayout(false);
 			this.tabPage3.PerformLayout();
-			this.controllerFront.ResumeLayout(false);
-			this.controllerFront.PerformLayout();
-			this.controllerTop.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -958,41 +583,13 @@
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.TreeView actionTree;
-		private System.Windows.Forms.Panel btnMaskBr;
-		private System.Windows.Forms.Panel btnMaskBl;
-		private System.Windows.Forms.Panel btnMaskTl;
-		private System.Windows.Forms.Panel btnMaskSystem;
-		private System.Windows.Forms.Panel btnMaskStart;
-		private System.Windows.Forms.Panel btnMaskTr;
-		private System.Windows.Forms.Panel btnMaskBack;
-		private System.Windows.Forms.Panel btnMaskRightXNeg;
-		private System.Windows.Forms.Panel btnMaskRightXPos;
-		private System.Windows.Forms.Panel btnMaskRightYPos;
-		private System.Windows.Forms.Panel btnMaskRightYNeg;
-		private System.Windows.Forms.Panel btnMaskLeftYPos;
-		private System.Windows.Forms.Panel btnMaskLeftYNeg;
-		private System.Windows.Forms.Panel btnMaskLeftXNeg;
-		private System.Windows.Forms.Panel btnMaskLeftXPos;
-		private System.Windows.Forms.Panel btnMaskDigitalYPos;
-		private System.Windows.Forms.Panel btnMaskDigitalXNeg;
-		private System.Windows.Forms.Panel btnMaskDigitalYNeg;
-		private System.Windows.Forms.Panel btnMaskDigitalXPos;
-		private System.Windows.Forms.Panel btnMaskX;
-		private System.Windows.Forms.Panel btnMaskY;
-		private System.Windows.Forms.Panel btnMaskB;
 		private System.Windows.Forms.TreeView currentMappings;
-		private System.Windows.Forms.Panel btnMaskA;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TabControl tabControl1;
-		private System.Windows.Forms.Panel btnMaskLeftAnalog;
-		private System.Windows.Forms.Panel btnMaskRightAnalog;
 		private System.Windows.Forms.Button mapButton;
 		private System.Windows.Forms.Label activeMapping;
 		private System.Windows.Forms.Button editBtn;
 		private System.Windows.Forms.Button unmapBtn;
-		private System.Windows.Forms.Panel controllerFront;
-		private System.Windows.Forms.Panel controllerTop;
-		private System.Windows.Forms.CheckBox autoSelectInput;
 		private System.Windows.Forms.TabPage tabPage3;
 		private System.Windows.Forms.TextBox deviceFeedback;
 		private System.Windows.Forms.Label label12;
@@ -1015,5 +612,6 @@
 		private System.Windows.Forms.TextBox devicePadNum;
 		private System.Windows.Forms.Label label13;
 		private System.Windows.Forms.Button button1;
+		private ControllerView padView;
 	}
 }

@@ -112,6 +112,12 @@
     <Compile Include="ChangeMappingForm.Designer.cs">
       <DependentUpon>ChangeMappingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ControllerView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ControllerView.Designer.cs">
+      <DependentUpon>ControllerView.cs</DependentUpon>
+    </Compile>
     <Compile Include="MapFormBase.cs" />
     <Compile Include="MapKeystrokeForm.cs">
       <SubType>Form</SubType>
@@ -171,6 +177,9 @@
     </Compile>
     <EmbeddedResource Include="ChangeMappingForm.resx">
       <DependentUpon>ChangeMappingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControllerView.resx">
+      <DependentUpon>ControllerView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MapKeystrokeForm.resx">
       <DependentUpon>MapKeystrokeForm.cs</DependentUpon>

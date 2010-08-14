@@ -224,7 +224,7 @@ namespace PadTieApp {
 				gpc.Notes = "Created by Pad Tie's Mapping Wizard!";
 				gpc.Product = Controller.Device.ProductName;
 				gpc.Vendor = "";
-				string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie", "gamepads", gpc.DeviceID + ".xml");
+				string fileName = Path.Combine(MainForm.GetDocs(), gpc.DeviceID + ".xml");
 
 				if (!Directory.Exists(Path.GetDirectoryName(fileName)))
 					Directory.CreateDirectory(Path.GetDirectoryName(fileName));
