@@ -182,6 +182,9 @@ namespace PadTie {
 
 	[Serializable, XmlRoot("config")]
 	public class Config {
+		[XmlIgnore]
+		public bool Builtin = false;
+
 		public static Config Load(string filename)
 		{
 			XmlSerializer s = new XmlSerializer (typeof (Config));

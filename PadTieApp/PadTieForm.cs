@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using PadTie;
 using System.Threading;
 using System.IO;
+using System.Globalization;
 
 namespace PadTieApp {
 	public partial class PadTieForm : Form {
@@ -31,19 +32,16 @@ namespace PadTieApp {
 		public string FindConfigFile(string file)
 		{
 			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
-			string cfgDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie");
+			string cfgDir = GetDocs();
 
 			if (!Directory.Exists(cfgDir))
 				Directory.CreateDirectory(cfgDir);
 
-			if (File.Exists(Path.Combine(cfgDir, file))) {
+			if (File.Exists(Path.Combine(cfgDir, file)))
 				return Path.Combine(cfgDir, file);
-			}
 
-			if (File.Exists(Path.Combine(appDir, file))) {
-				File.Copy(Path.Combine(appDir, file), Path.Combine(cfgDir, file));
-				return Path.Combine(cfgDir, file);
-			}
+			if (File.Exists(Path.Combine(appDir, file)))
+				return Path.Combine(appDir, file);
 
 			return file;
 		}
@@ -53,25 +51,29 @@ namespace PadTieApp {
 		{
 			configBox.Items.Clear();
 			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
-			string cfgDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie");
+			string cfgDir = GetDocs();
 
 			ConfigItem current = null;
 			List<string> items = new List<string>();
 
-			if (Directory.Exists (cfgDir)) foreach (string item in Directory.GetFiles(cfgDir, "*.config.xml")) {
-				var cfgFile = Path.GetFileName(item);
-				if (!items.Contains(cfgFile)) items.Add(cfgFile);
-			}
+			if (Directory.Exists (cfgDir)) foreach (string item in Directory.GetFiles(cfgDir, "*.config.xml"))
+				items.Add(item);
 
-			if (Directory.Exists(appDir)) foreach (string item in Directory.GetFiles(appDir, "*.config.xml")) {
-				var cfgFile = Path.GetFileName(item);
-				if (!items.Contains(cfgFile)) items.Add(cfgFile);
-			}
+			if (Directory.Exists(appDir)) foreach (string item in Directory.GetFiles(appDir, "*.config.xml"))
+				items.Add(item);
 
-			items.Sort();
+			items.Sort(delegate(string a, string b)
+			{
+				return StringComparer.Create(CultureInfo.InvariantCulture, true).Compare(
+					Path.GetFileName(a), Path.GetFileName(b));
+			});
 
 			foreach (string item in items) {
-				var ci = new ConfigItem(FindConfigFile(item)); // find config ensures we have the user copy of the config
+				var ci = new ConfigItem(item); // find config ensures we have the user copy of the config
+
+				if (appDir == Path.GetDirectoryName(item))
+					ci.IsBuiltIn = true;
+
 				if (ci.Title == "default") {
 					ci.Title = "Default";
 				}
@@ -98,8 +100,13 @@ namespace PadTieApp {
 
 			public override string ToString()
 			{
-				return Title;
+				if (IsBuiltIn)
+					return Title + " [Built-in]";
+
+				return Title + " [Custom]";
 			}
+
+			public bool IsBuiltIn { get; set; }
 		}
 
 		public void LoadGlobalConfig()
@@ -132,7 +139,7 @@ namespace PadTieApp {
 
 				string id = ("0x" + ic.VendorID.ToString("X4") + ic.ProductID.ToString("X4")).ToLower();
 				string appDir = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "gamepads");
-				string userDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie", "gamepads");
+				string userDir = Path.Combine(GetDocs(), "gamepads");
 				string configFile = id + ".xml";
 
 				if (!Directory.Exists(userDir))
@@ -290,7 +297,7 @@ namespace PadTieApp {
 		public void LoadConfig()
 		{
 			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
-			string userDir  = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie");
+			string userDir  = GetDocs();
 			string configFile = FindConfigFile("default.config.xml");
 			string globalConfigFile = Path.Combine(userDir, "globalconfig.xml");
 
@@ -317,7 +324,7 @@ namespace PadTieApp {
 					++index;
 				}
 
-				config.Save(configFile);
+				SaveConfig();
 			} else {
 				config = Config.Load(configFile);
 			}
@@ -685,13 +692,28 @@ namespace PadTieApp {
 
 			foreach (var cc in controllers)
 				cc.Reset();
-			
-			LoadConfig(Config.Load (FindConfigFile(item.FileName)));
+			var cfg = Config.Load(FindConfigFile(item.FileName));
+			cfg.Builtin = item.IsBuiltIn;
+			LoadConfig(cfg);
+		}
+
+		public string GetDocs()
+		{
+			return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie");
 		}
 
 		public void SaveConfig()
 		{
-			config.Save();
+			if (!Directory.Exists(GetDocs()))
+				Directory.CreateDirectory(GetDocs());
+
+			if (config.Builtin) {				
+				string userConfig = Path.Combine(GetDocs(), Path.GetFileName(config.FileName));
+				File.Copy(config.FileName, userConfig);
+				config.Save(userConfig);
+			} else {
+				config.Save();
+			}
 		}
 
 		private void tapIntervalSetting_ValueChanged(object sender, EventArgs e)
@@ -737,9 +759,116 @@ namespace PadTieApp {
 		GlobalConfig globalConfig { get; set; }
 
 		public GlobalConfig GlobalConfig { get { return globalConfig; } }
+
+		private void PadTieForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			if (!exiting) {
+				e.Cancel = true;
+				this.Hide();
+			} else {
+				// do shutdown stuff i guess... later all!
+				notifyIcon.Visible = false;
+			}
+		}
+
+		private void showToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (!this.Visible) Show();
+			this.Activate();
+		}
+
+		bool exiting = false;
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			exiting = true;
+			this.Close();
+		}
+
+		private void notifyIcon_DoubleClick(object sender, EventArgs e)
+		{
+			if (!this.Visible) Show();
+			this.Activate();
+		}
 	}
 
 	public class Util {
+		public static VirtualController.Axis AxisFromGesture(AxisGesture gesture)
+		{
+			switch (gesture) {
+				case AxisGesture.LeftXNeg:
+				case AxisGesture.LeftXPos:
+					return VirtualController.Axis.LeftX;
+				case AxisGesture.RightXNeg:
+				case AxisGesture.RightXPos:
+					return VirtualController.Axis.RightX;
+				case AxisGesture.LeftYNeg:
+				case AxisGesture.LeftYPos:
+					return VirtualController.Axis.LeftY;
+				case AxisGesture.RightYPos:
+				case AxisGesture.RightYNeg:
+					return VirtualController.Axis.RightY;
+				case AxisGesture.DigitalXPos:
+				case AxisGesture.DigitalXNeg:
+					return VirtualController.Axis.DigitalX;
+				case AxisGesture.DigitalYPos:
+				case AxisGesture.DigitalYNeg:
+					return VirtualController.Axis.DigitalY;
+			}
+
+			return VirtualController.Axis.LeftX;
+		}
+
+		public static bool PoleFromGesture(AxisGesture gesture)
+		{
+			switch (gesture) {
+				case AxisGesture.LeftXNeg:
+				case AxisGesture.RightXNeg:
+				case AxisGesture.LeftYNeg:
+				case AxisGesture.RightYNeg:
+				case AxisGesture.DigitalXNeg:
+				case AxisGesture.DigitalYNeg:
+					return false;
+				case AxisGesture.LeftYPos:
+				case AxisGesture.RightXPos:
+				case AxisGesture.LeftXPos:
+				case AxisGesture.RightYPos:
+				case AxisGesture.DigitalXPos:
+				case AxisGesture.DigitalYPos:
+					return true;
+			}
+
+			return false;
+		}
+
+		public static VirtualController.Axis StickFromGesture(AxisGesture ag)
+		{
+			var axis = VirtualController.Axis.LeftX;
+
+			switch (ag) {
+				case AxisGesture.LeftXNeg:
+				case AxisGesture.LeftXPos:
+				case AxisGesture.LeftYNeg:
+				case AxisGesture.LeftYPos:
+					axis = VirtualController.Axis.LeftX;
+					break;
+				case AxisGesture.RightXNeg:
+				case AxisGesture.RightXPos:
+				case AxisGesture.RightYNeg:
+				case AxisGesture.RightYPos:
+					axis = VirtualController.Axis.RightX;
+					break;
+				case AxisGesture.DigitalXNeg:
+				case AxisGesture.DigitalXPos:
+				case AxisGesture.DigitalYNeg:
+				case AxisGesture.DigitalYPos:
+					axis = VirtualController.Axis.DigitalX;
+					break;
+			}
+
+			return axis;
+		}
+
 		public static string GetButtonGestureID(ButtonActions.Gesture gesture)
 		{
 			var gestureID = "link";
