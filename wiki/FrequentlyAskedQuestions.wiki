@@ -15,7 +15,7 @@ Some applications have trouble with X360CE however, and in these cases you may f
 
 No, Pad Tie is wholly original. 
 
-== Why don't I just keep using JoyToKey? ==
+== Why don't I just keep using !JoyToKey? ==
 
 Because Pad Tie is 250% more awesome! Much more modern interface with visual
 views of the controller, much more flexible configuration system allows you to share them and have them work for everyone. Pad Tie lets you map gestures like "tap", "double tap", and "hold" to your actions, not just "pressed". This makes Pad Tie much more capable as to what layout it can present.
