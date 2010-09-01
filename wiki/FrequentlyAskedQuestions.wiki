@@ -11,7 +11,7 @@ No. X360CE is an intermediate layer between Xinput (the system used by Xbox 360 
 
 Some applications have trouble with X360CE however, and in these cases you may find Pad Tie quite helpful. Since it ships with a bunch of built-in profiles, you might find that we already have what you need to start playing. If not, we've built an easy and powerful way to create, view, and modify your own custom layouts.
 
-== Is Pad Tie based on JoyToKey/Joy2Key? ==
+== Is Pad Tie based on !JoyToKey/!Joy2Key? ==
 
 No, Pad Tie is wholly original. 
 
