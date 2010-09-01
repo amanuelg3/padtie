@@ -53,12 +53,21 @@ namespace PadTie {
 
 		public static MouseWheelAction Parse(InputCore core, string parseable)
 		{
-			return new MouseWheelAction(core, short.Parse(parseable));
+			string[] parts = parseable.Split(',');
+
+			var mwa = new MouseWheelAction(core, short.Parse(parts[0]));
+
+			if (parts.Length > 1) {
+				mwa.Continuous = bool.Parse(parts[1]);
+				mwa.UseIntensity = bool.Parse(parts[2]);
+			}
+
+			return mwa;
 		}
 
 		public override string ToParseable()
 		{
-			return string.Format("{0}", Value);
+			return string.Format("{0},{1},{2}", Value, Continuous, UseIntensity);
 		}
 
 		public override string ToString()

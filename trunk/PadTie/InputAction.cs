@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 
 using System.Text;
+using System.Threading;
 
 namespace PadTie {
-	public class InputAction {
+	public abstract class InputAction {
 		public InputAction()
 		{
 		}
@@ -17,10 +18,28 @@ namespace PadTie {
 		/// </summary>
 		public double Intensity = -1;
 		public object Tag { get; set; }
-		public virtual string ToParseable() { return ""; }
+		public abstract string ToParseable();
 
 		public virtual void Analog(double value)
 		{
+		}
+
+		public void Press(double intensity)
+		{
+			Intensity = intensity;
+			Press();
+		}
+
+		public void Release(double intensity)
+		{
+			Intensity = intensity;
+			Release();
+		}
+
+		public void Active(double intensity)
+		{
+			Intensity = intensity;
+			Active();
 		}
 
 		/// <summary>
@@ -38,9 +57,16 @@ namespace PadTie {
 		{
 		}
 
-		internal void Activate()
+		public void Activate(double intensity)
+		{
+			Intensity = intensity;
+			Activate();
+		}
+
+		public virtual void Activate()
 		{
 			Press();
+			Thread.Sleep(110);
 			Release();
 		}
 

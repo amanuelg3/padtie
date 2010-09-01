@@ -21,14 +21,8 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_34E8CB500EFD74AADDE8AAB28AC169AB"
-        "OwnerKey" = "8:_CC3D30C8AC86188AEC2C9D3FB6034A98"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_34E8CB500EFD74AADDE8AAB28AC169AB"
-        "OwnerKey" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
+        "MsmKey" = "8:_2CA6B33E9DB746FC8C334287801E4C07"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -57,18 +51,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_7B03AAE7E96E212C86F897E716804EB6"
-        "OwnerKey" = "8:_34E8CB500EFD74AADDE8AAB28AC169AB"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_7B03AAE7E96E212C86F897E716804EB6"
-        "OwnerKey" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_8895521D94F54A5D8C845E03690C702E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -81,38 +63,62 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_AD784D7A4C594242964C0F4513B77826"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B6EB12C18B604835BDDE17EDA791D9A5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_B7FA77E2D8AA44A0ABA36ACB260D2AE4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_CC3D30C8AC86188AEC2C9D3FB6034A98"
+        "MsmKey" = "8:_BDFD8AA4FD9E45768CB7462AF77A53F4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BF696B2467CA105B35731ED4EACE5759"
+        "OwnerKey" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BF696B2467CA105B35731ED4EACE5759"
+        "OwnerKey" = "8:_F211F01F13247A5CB57B52A790A6CE4E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F211F01F13247A5CB57B52A790A6CE4E"
         "OwnerKey" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7B03AAE7E96E212C86F897E716804EB6"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CC3D30C8AC86188AEC2C9D3FB6034A98"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_34E8CB500EFD74AADDE8AAB28AC169AB"
+        "OwnerKey" = "8:_F211F01F13247A5CB57B52A790A6CE4E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BF696B2467CA105B35731ED4EACE5759"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -140,6 +146,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
         "Release"
@@ -227,21 +246,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_34E8CB500EFD74AADDE8AAB28AC169AB"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2CA6B33E9DB746FC8C334287801E4C07"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.DirectX.DirectInput, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
-                "ScatterAssemblies"
-                {
-                    "_34E8CB500EFD74AADDE8AAB28AC169AB"
-                    {
-                    "Name" = "8:Microsoft.DirectX.DirectInput.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Microsoft.DirectX.DirectInput.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Super Mouse.config.xml"
+            "TargetName" = "8:Super Mouse.config.xml"
             "Tag" = "8:"
             "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
             "Condition" = "8:"
@@ -255,7 +263,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3884B6A3A7464A90AD0CCC696B146F6F"
@@ -338,37 +346,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7B03AAE7E96E212C86F897E716804EB6"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
-                "ScatterAssemblies"
-                {
-                    "_7B03AAE7E96E212C86F897E716804EB6"
-                    {
-                    "Name" = "8:Microsoft.DirectX.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Microsoft.DirectX.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8895521D94F54A5D8C845E03690C702E"
             {
             "SourcePath" = "8:..\\Releases\\PadTie-0.1a1\\Shatter.config.xml"
@@ -382,6 +359,46 @@
             "Hidden" = "11:FALSE"
             "System" = "11:FALSE"
             "Permanent" = "11:TRUE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AD784D7A4C594242964C0F4513B77826"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\gamepads\\0x187c0600.xml"
+            "TargetName" = "8:0x187c0600.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_85522A5ADBF24EA4A46945C682018B50"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B6EB12C18B604835BDDE17EDA791D9A5"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Super Browser.config.xml"
+            "TargetName" = "8:Super Browser.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
@@ -409,14 +426,65 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CC3D30C8AC86188AEC2C9D3FB6034A98"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BDFD8AA4FD9E45768CB7462AF77A53F4"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Media Player Classic.config.xml"
+            "TargetName" = "8:Media Player Classic.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BF696B2467CA105B35731ED4EACE5759"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:SlimDX, Version=2.0.10.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_BF696B2467CA105B35731ED4EACE5759"
+                    {
+                    "Name" = "8:SlimDX.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:SlimDX.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F211F01F13247A5CB57B52A790A6CE4E"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:PadTie, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_CC3D30C8AC86188AEC2C9D3FB6034A98"
+                    "_F211F01F13247A5CB57B52A790A6CE4E"
                     {
                     "Name" = "8:PadTie.dll"
                     "Attributes" = "3:512"
@@ -467,6 +535,17 @@
                         {
                         }
                     }
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_AB85D6EF9B584C3680D5127B3CAAFCCF"
+                    {
+                    "Name" = "8:SlimDX"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_58BA1CDFC74345239E5CD9DF9F0B84AC"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_4CF421800E8E4BAF9693A233E83E9D99"
@@ -507,15 +586,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Pad Tie!"
-        "ProductCode" = "8:{91E860E3-2D3F-44FE-ACBA-DD7FE39FE178}"
-        "PackageCode" = "8:{1A449833-69D9-4A94-ACEC-B9525236CCF7}"
+        "ProductCode" = "8:{1588E291-3A8F-4D84-B996-0F6BBE09D54E}"
+        "PackageCode" = "8:{803E0D4C-99B3-42AE-9028-F94F9C11D8DF}"
         "UpgradeCode" = "8:{BF15CF56-ADA2-4871-9547-E2220CC1118B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
-        "DetectNewerInstalledVersion" = "11:TRUE"
+        "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.1.3"
+        "ProductVersion" = "8:1.0.2"
         "Manufacturer" = "8:Stride Technologies"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://code.google.com/p/padtie"
@@ -760,13 +839,13 @@
             "Attributes" = "3:1"
                 "Dialogs"
                 {
-                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_3486C4197A994C538BF6700B7BCC033D"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_201DD6FBAC1B426381CCF4566D13CF96"
                     {
                     "Sequence" = "3:200"
-                    "DisplayName" = "8:License Agreement"
+                    "DisplayName" = "8:Read Me"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
-                    "SourcePath" = "8:<VsdDialogDir>\\VsdLicenseDlg.wid"
+                    "SourcePath" = "8:<VsdDialogDir>\\VsdReadmeDlg.wid"
                         "Properties"
                         {
                             "BannerBitmap"
@@ -780,11 +859,11 @@
                             "Setting" = "3:1"
                             "UsePlugInResources" = "11:TRUE"
                             }
-                            "EulaText"
+                            "ReadmeText"
                             {
-                            "Name" = "8:EulaText"
-                            "DisplayName" = "8:#1008"
-                            "Description" = "8:#1108"
+                            "Name" = "8:ReadmeText"
+                            "DisplayName" = "8:#1010"
+                            "Description" = "8:#1110"
                             "Type" = "3:6"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
@@ -807,31 +886,9 @@
                             }
                         }
                     }
-                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_48083FB1AFC147C8B996A21A0FDC157A"
-                    {
-                    "Sequence" = "3:400"
-                    "DisplayName" = "8:Confirm Installation"
-                    "UseDynamicProperties" = "11:TRUE"
-                    "IsDependency" = "11:FALSE"
-                    "SourcePath" = "8:<VsdDialogDir>\\VsdConfirmDlg.wid"
-                        "Properties"
-                        {
-                            "BannerBitmap"
-                            {
-                            "Name" = "8:BannerBitmap"
-                            "DisplayName" = "8:#1001"
-                            "Description" = "8:#1101"
-                            "Type" = "3:8"
-                            "ContextData" = "8:Bitmap"
-                            "Attributes" = "3:4"
-                            "Setting" = "3:1"
-                            "UsePlugInResources" = "11:TRUE"
-                            }
-                        }
-                    }
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_4CA7939BFBA0452690859F7FF088020F"
                     {
-                    "Sequence" = "3:300"
+                    "Sequence" = "3:210"
                     "DisplayName" = "8:Installation Folder"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
@@ -864,54 +921,6 @@
                             }
                         }
                     }
-                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_75A55194603E4D3BBFB1DD9941BF791F"
-                    {
-                    "Sequence" = "3:100"
-                    "DisplayName" = "8:Welcome"
-                    "UseDynamicProperties" = "11:TRUE"
-                    "IsDependency" = "11:FALSE"
-                    "SourcePath" = "8:<VsdDialogDir>\\VsdWelcomeDlg.wid"
-                        "Properties"
-                        {
-                            "BannerBitmap"
-                            {
-                            "Name" = "8:BannerBitmap"
-                            "DisplayName" = "8:#1001"
-                            "Description" = "8:#1101"
-                            "Type" = "3:8"
-                            "ContextData" = "8:Bitmap"
-                            "Attributes" = "3:4"
-                            "Setting" = "3:1"
-                            "UsePlugInResources" = "11:TRUE"
-                            }
-                            "CopyrightWarning"
-                            {
-                            "Name" = "8:CopyrightWarning"
-                            "DisplayName" = "8:#1002"
-                            "Description" = "8:#1102"
-                            "Type" = "3:3"
-                            "ContextData" = "8:"
-                            "Attributes" = "3:0"
-                            "Setting" = "3:2"
-                            "Value" = "8:(C) 2010 William Lahti. "
-                            "DefaultValue" = "8:#1202"
-                            "UsePlugInResources" = "11:TRUE"
-                            }
-                            "Welcome"
-                            {
-                            "Name" = "8:Welcome"
-                            "DisplayName" = "8:#1003"
-                            "Description" = "8:#1103"
-                            "Type" = "3:3"
-                            "ContextData" = "8:"
-                            "Attributes" = "3:0"
-                            "Setting" = "3:2"
-                            "Value" = "8:Thanks for choosing Pad Tie! The installer will guide you through the steps required to install [ProductName] on your computer."
-                            "DefaultValue" = "8:#1203"
-                            "UsePlugInResources" = "11:TRUE"
-                            }
-                        }
-                    }
                 }
             }
             "{DF760B10-853B-4699-99F2-AFF7185B4A62}:_891F307821A848039155FA010BE100AE"
@@ -923,7 +932,7 @@
                 {
                     "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_2DCD403D68744D3EA3B03A806ACAED0E"
                     {
-                    "Sequence" = "3:200"
+                    "Sequence" = "3:110"
                     "DisplayName" = "8:Installation Folder"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
@@ -943,13 +952,13 @@
                             }
                         }
                     }
-                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_BDBBAE29ACC741E5B4CC3D0E6E02744C"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_C4A876394A88471A8E32CB7E54089941"
                     {
-                    "Sequence" = "3:100"
-                    "DisplayName" = "8:Welcome"
+                    "Sequence" = "3:200"
+                    "DisplayName" = "8:Confirm Installation"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
-                    "SourcePath" = "8:<VsdDialogDir>\\VsdAdminWelcomeDlg.wid"
+                    "SourcePath" = "8:<VsdDialogDir>\\VsdAdminConfirmDlg.wid"
                         "Properties"
                         {
                             "BannerBitmap"
@@ -961,43 +970,17 @@
                             "ContextData" = "8:Bitmap"
                             "Attributes" = "3:4"
                             "Setting" = "3:1"
-                            "UsePlugInResources" = "11:TRUE"
-                            }
-                            "CopyrightWarning"
-                            {
-                            "Name" = "8:CopyrightWarning"
-                            "DisplayName" = "8:#1002"
-                            "Description" = "8:#1102"
-                            "Type" = "3:3"
-                            "ContextData" = "8:"
-                            "Attributes" = "3:0"
-                            "Setting" = "3:2"
-                            "Value" = "8:(C) 2010 William Lahti. "
-                            "DefaultValue" = "8:#1202"
-                            "UsePlugInResources" = "11:TRUE"
-                            }
-                            "Welcome"
-                            {
-                            "Name" = "8:Welcome"
-                            "DisplayName" = "8:#1003"
-                            "Description" = "8:#1103"
-                            "Type" = "3:3"
-                            "ContextData" = "8:"
-                            "Attributes" = "3:0"
-                            "Setting" = "3:2"
-                            "Value" = "8:Thanks for choosing Pad Tie! The installer will guide you through the steps required to install [ProductName] on your computer."
-                            "DefaultValue" = "8:#1203"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }
                     }
-                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_C3027CB2E0934EFDA89A20AF4ED9EA81"
+                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_C9C25F9A8D924DCDAD74207BC4381490"
                     {
-                    "Sequence" = "3:110"
-                    "DisplayName" = "8:License Agreement"
+                    "Sequence" = "3:100"
+                    "DisplayName" = "8:Read Me"
                     "UseDynamicProperties" = "11:TRUE"
                     "IsDependency" = "11:FALSE"
-                    "SourcePath" = "8:<VsdDialogDir>\\VsdAdminLicenseDlg.wid"
+                    "SourcePath" = "8:<VsdDialogDir>\\VsdAdminReadmeDlg.wid"
                         "Properties"
                         {
                             "BannerBitmap"
@@ -1011,11 +994,11 @@
                             "Setting" = "3:1"
                             "UsePlugInResources" = "11:TRUE"
                             }
-                            "EulaText"
+                            "ReadmeText"
                             {
-                            "Name" = "8:EulaText"
-                            "DisplayName" = "8:#1008"
-                            "Description" = "8:#1108"
+                            "Name" = "8:ReadmeText"
+                            "DisplayName" = "8:#1010"
+                            "Description" = "8:#1110"
                             "Type" = "3:6"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
@@ -1034,28 +1017,6 @@
                             "Setting" = "3:0"
                             "Value" = "3:4"
                             "DefaultValue" = "3:4"
-                            "UsePlugInResources" = "11:TRUE"
-                            }
-                        }
-                    }
-                    "{688940B3-5CA9-4162-8DEE-2993FA9D8CBC}:_C4A876394A88471A8E32CB7E54089941"
-                    {
-                    "Sequence" = "3:300"
-                    "DisplayName" = "8:Confirm Installation"
-                    "UseDynamicProperties" = "11:TRUE"
-                    "IsDependency" = "11:FALSE"
-                    "SourcePath" = "8:<VsdDialogDir>\\VsdAdminConfirmDlg.wid"
-                        "Properties"
-                        {
-                            "BannerBitmap"
-                            {
-                            "Name" = "8:BannerBitmap"
-                            "DisplayName" = "8:#1001"
-                            "Description" = "8:#1101"
-                            "Type" = "3:8"
-                            "ContextData" = "8:Bitmap"
-                            "Attributes" = "3:4"
-                            "Setting" = "3:1"
                             "UsePlugInResources" = "11:TRUE"
                             }
                         }

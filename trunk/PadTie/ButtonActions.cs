@@ -15,10 +15,11 @@ namespace PadTie {
 		{
 			Core = core;
 			EnableGestures = enableGestures;
+			Intensity = 1;
 		}
 
 		public enum Gesture {
-			Link, Tap, DoubleTap, Hold
+			Link, Tap, DoubleTap, Hold, Raw, None
 		}
 
 		public void Map(Gesture g, InputAction action)
@@ -75,42 +76,47 @@ namespace PadTie {
 		public event EventHandler PressReceived;
 		public event EventHandler ReleaseReceived;
 
-		public void Process(byte raw)
+		public void Process(int raw)
 		{
+			if (TapQueued) Console.WriteLine("Tap queued at start...");
+
 			bool wasPressed = Pressed;
 			bool isPressed = (raw != 0);
 
+			if (Raw != null && Raw.AcceptAnalog)
+				Raw.Analog(raw);
 
 			if (wasPressed != isPressed) {
 				if (isPressed) {
 					// Pressed
 					if (PressReceived != null) PressReceived(this, EventArgs.Empty);
-					if (Link != null) Link.Press();
+					if (Link != null) Link.Press(Intensity);
 				} else {
 					// Released
 					Held = false;
 
 					if (ReleaseReceived != null) ReleaseReceived(this, EventArgs.Empty);
-					if (Link != null) Link.Release();
+					if (Link != null) Link.Release(Intensity);
 
 					if (EnableGestures && PressedStamp + new TimeSpan(0, 0, 0, 0, Core.TapTimeout) > DateTime.Now) {
+						// Tap
 
 						if (DoubleTap != null) {
 							if (TapQueued && TapStamp + new TimeSpan(0, 0, 0, 0, Core.DoubleTapTimeout) > DateTime.Now) {
 								// Second tap
 								Console.WriteLine("Double Tap!");
-								DoubleTap.Activate();
+								DoubleTap.Activate(Intensity);
 								TapStamp = DateTime.Now;
 								TapQueued = false;
-							} else {
+							} else if (!TapQueued) {
 								// First tap
-								Console.WriteLine("Tap!");
 								TapStamp = DateTime.Now;
 								TapQueued = true;
+								Console.WriteLine("Tap! [queued]");
 							}
 						} else {
 							Console.WriteLine("Tap!");
-							if (Tap != null) Tap.Activate();
+							if (Tap != null) Tap.Activate(Intensity);
 						}
 					}
 				}
@@ -119,22 +125,34 @@ namespace PadTie {
 				PressedStamp = DateTime.Now;
 			}
 
+			if (TapQueued) Console.WriteLine("Tap queued in middle...");
+			
 			if (EnableGestures && TapQueued && TapStamp + new TimeSpan(0, 0, 0, 0, Core.DoubleTapTimeout) < DateTime.Now) {
-				Console.WriteLine("Tap!");
-				if (Tap != null) Tap.Activate();
+				Console.WriteLine("Real Tap!");
+				if (Tap != null) Tap.Activate(Intensity);
 				TapQueued = false;
 			}
 
 			if (isPressed) {
-				if (Link != null) Link.Active();
+				if (Link != null) Link.Active(Intensity);
 
 				if (EnableGestures && !Held && PressedStamp + new TimeSpan(0, 0, 0, 0, Core.HoldTimeout) <= DateTime.Now) {
 					Console.WriteLine("Hold!");
-					if (Hold != null) Hold.Activate();
+					if (Hold != null) Hold.Activate(Intensity);
 					Held = true;
 				}
+
 			}
+			
+			if (TapQueued) Console.WriteLine("Tap queued at end...");
+			
 		}
+
+		/// <summary>
+		/// An action linked here will receive no Press/Release events. Instead, if AcceptAnalog is 
+		/// set on the handler, the Analog() method will be called.
+		/// </summary>
+		public InputAction Raw { get; set; }
 
 		/// <summary>
 		/// An action linked here will receive press/release events from the button
@@ -156,5 +174,7 @@ namespace PadTie {
 		/// An action linked here will be activated when the button is tapped twice in quick succession
 		/// </summary>
 		public InputAction DoubleTap { get; set; }
+
+		public double Intensity { get; set; }
 	}
 }

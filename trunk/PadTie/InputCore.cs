@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 
 using System.Text;
-using DI = Microsoft.DirectX.DirectInput;
+using DI = SlimDX.DirectInput;
 using System.Runtime.InteropServices;
 
 namespace PadTie {
 	public class InputCore {
-		public InputCore()
+		public InputCore(IntPtr diMainWindow)
 		{
+			DIMainWindow = diMainWindow;
 			TapTimeout = 500;
 			DoubleTapTimeout = 250;
 			HoldTimeout = 700;
@@ -17,25 +18,33 @@ namespace PadTie {
 			AxisPoleSize = 0.8;
 
 			Mouse = new MouseController(this);
-
 			Controllers = new List<InputController>();
-			int index = 0;
+
+			manager = new DI.DirectInput();
+
+			SlimDX.Configuration.ThrowOnError = true;
+			SlimDX.Configuration.AddResultWatch(SlimDX.DirectInput.ResultCode.InputLost, SlimDX.ResultWatchFlags.Throw);
+			SlimDX.Configuration.AddResultWatch(SlimDX.DirectInput.ResultCode.Unplugged, SlimDX.ResultWatchFlags.Throw);
+			SlimDX.Configuration.AddResultWatch(SlimDX.DirectInput.ResultCode.NotAcquired, SlimDX.ResultWatchFlags.Throw);
 
 			Console.WriteLine("Enumerating devices...");
 			ScanForControllers();
 		}
 
+		DI.DirectInput manager;
+
+		public object Tag { get; set; }
+
 		public bool ScanForControllers()
 		{
 			bool foundSome = false;
+			var list = manager.GetDevices(DI.DeviceClass.GameController, DI.DeviceEnumerationFlags.AttachedOnly);
 
-			foreach (DI.DeviceInstance d in DI.Manager.Devices) {
+			foreach (DI.DeviceInstance d in list) {
 				bool found = false;
-				
-				if (d.DeviceType != DI.DeviceType.Joystick) continue;
 
 				foreach (var cc in Controllers) {
-					if (cc.Device.DeviceInformation.InstanceGuid == d.InstanceGuid) {
+					if (cc.Device.Information.InstanceGuid == d.InstanceGuid) {
 						found = true;
 						break;
 					}
@@ -44,7 +53,7 @@ namespace PadTie {
 				if (found) continue;
 
 				Console.WriteLine("Found gamepad " + d.InstanceName + "...");
-				Controllers.Add(new InputController(this, new DI.Device(d.InstanceGuid), Controllers.Count));
+				Controllers.Add(new InputController(this, new DI.Joystick(manager, d.InstanceGuid), Controllers.Count));
 				foundSome = true;
 			}
 
@@ -67,5 +76,7 @@ namespace PadTie {
 				c.Check();
 			Mouse.RunIteration();
 		}
+
+		public IntPtr DIMainWindow { get; set; }
 	}
 }

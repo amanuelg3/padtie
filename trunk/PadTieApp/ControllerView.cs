@@ -147,8 +147,7 @@ namespace PadTieApp {
 			g.DrawImageUnscaled(controllerTop.Image, controllerTop.Location);
 
 			foreach (var slot in slotOverlays) {
-				if (slot.Visible) {
-
+				if (slot.Visible || Hovering == slot) {
 					DrawButton(slot, g);
 				}
 			}
@@ -213,7 +212,14 @@ namespace PadTieApp {
 
 		private void DrawButton(SlotOverlay overlay, Graphics g)
 		{
-			var brush = new SolidBrush(Color.FromArgb(200, overlay.Color));
+			Brush brush;
+
+			if (Hovering == overlay) {
+				brush = new SolidBrush(Color.FromArgb(170, overlay.Color));
+			} else {
+				brush = new SolidBrush(Color.FromArgb(200, overlay.Color));
+			}
+
 			switch (overlay.Shape) {
 				case SlotShape.Rect:
 					g.FillRectangle(brush, overlay.Metrics);
@@ -240,13 +246,24 @@ namespace PadTieApp {
 			e.Graphics.DrawImage(backStore, e.ClipRectangle, e.ClipRectangle, GraphicsUnit.Pixel);
 		}
 
+		public SlotOverlay Hovering { get; private set; }
+
 		private void ControllerView_MouseMove(object sender, MouseEventArgs e)
 		{
 			foreach (var o in slotOverlays) {
 				if (o.Metrics.Contains(e.Location)) {
 					this.Cursor = Cursors.Hand;
+					if (Hovering != o) {
+						Hovering = o;
+						Render();
+					}
 					return;
 				}
+			}
+
+			if (Hovering != null) {
+				Hovering = null;
+				Render();
 			}
 
 			this.Cursor = Cursors.Default;
@@ -262,20 +279,124 @@ namespace PadTieApp {
 
 		private void ControllerView_MouseClick(object sender, MouseEventArgs e)
 		{
-			var origItem = SelectedItem;
-			try {
-				foreach (var o in slotOverlays) {
-					if (o.Metrics.Contains(e.Location)) {
-						SelectedItem = o;
-						return;
-					}
-				}
+			if (previousSelectedItem != SelectedItem && SelectedItemChanged != null)
+				SelectedItemChanged(this, EventArgs.Empty);
+		}
 
-				SelectedItem = null;
-			} finally {
-				if (origItem != SelectedItem && SelectedItemChanged != null)
-					SelectedItemChanged(this, EventArgs.Empty);
+		SlotOverlay previousSelectedItem;
+
+		private void ControllerView_MouseDown(object sender, MouseEventArgs e)
+		{
+			previousSelectedItem = SelectedItem;
+
+			foreach (var o in slotOverlays) {
+				if (o.Metrics.Contains(e.Location)) {
+					SelectedItem = o;
+					return;
+				}
 			}
+
+			SelectedItem = null;
+		}
+
+		private void autoSelectInput_CheckedChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void btnMaskB_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskRightAnalog_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskY_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskX_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskDigitalYNeg_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskDigitalXNeg_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskSystem_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskDigitalYPos_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskStart_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskBack_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskRightXNeg_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskA_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskRightXPos_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskRightYNeg_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskRightYPos_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskTr_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskTl_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskBl_Paint(object sender, PaintEventArgs e)
+		{
+
+		}
+
+		private void btnMaskBr_Paint(object sender, PaintEventArgs e)
+		{
+
 		}
 	}
 
@@ -304,6 +425,20 @@ namespace PadTieApp {
 		public Rectangle Metrics;
 		public Color Color;
 		public SlotShape Shape;
+
+
+		public ButtonActions GetSlot(Controller c)
+		{
+			return GetSlot(c.Virtual);
+		}
+
+		public ButtonActions GetSlot(VirtualController c)
+		{
+			if (IsAxisGesture)
+				return c.GetAxis(Axis).GetPole(AxisGesture);
+			else
+				return c.GetButton(Button);
+		}
 	}
 
 }

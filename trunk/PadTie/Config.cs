@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
+using System.ComponentModel;
 
 namespace PadTie {
 	public class InputActionConfig {
@@ -41,6 +42,9 @@ namespace PadTie {
 		[XmlElement("dtap")] public InputActionConfig DoubleTap = InputActionConfig.Null;
 		[XmlElement("hold")] public InputActionConfig Hold = InputActionConfig.Null;
 
+		[XmlElement("overview"), DefaultValue("")]
+		public string Overview = "";
+
 		public InputActionConfig GetGesture(ButtonActions.Gesture g)
 		{
 			switch (g) {
@@ -51,6 +55,14 @@ namespace PadTie {
 			}
 			return null;
 		}
+	}
+
+	public class AxisActionsConfig : ButtonActionsConfig {
+		[XmlAttribute("type")]
+		public string CompatType = null;
+
+		[XmlText]
+		public string CompatParseable = null;
 	}
 
 	[Serializable]
@@ -72,6 +84,7 @@ namespace PadTie {
 				case VirtualController.Button.Tr: return this.Tr;
 				case VirtualController.Button.Start: return this.Start;
 				case VirtualController.Button.Back: return this.Back;
+				case VirtualController.Button.System: return this.System;
 				case VirtualController.Button.LeftAnalog: return this.LeftAnalogButton;
 				case VirtualController.Button.RightAnalog: return this.RightAnalogButton;
 
@@ -80,7 +93,7 @@ namespace PadTie {
 			return null;
 		}
 
-		public InputActionConfig GetAxisGesture(VirtualController.Axis axis, bool pos)
+		public AxisActionsConfig GetAxisGesture(VirtualController.Axis axis, bool pos)
 		{
 			switch (axis) {
 				case VirtualController.Axis.LeftX:
@@ -130,6 +143,8 @@ namespace PadTie {
 		public ButtonActionsConfig Back = new ButtonActionsConfig();
 		[XmlElement("start")]
 		public ButtonActionsConfig Start = new ButtonActionsConfig();
+		[XmlElement("system")]
+		public ButtonActionsConfig System = new ButtonActionsConfig();
 		[XmlElement("bl")]
 		public ButtonActionsConfig Bl = new ButtonActionsConfig();
 		[XmlElement("br")]
@@ -144,40 +159,31 @@ namespace PadTie {
 		public ButtonActionsConfig RightAnalogButton = new ButtonActionsConfig();
 
 		[XmlElement("la-up")]
-		public InputActionConfig LeftAnalogUp = InputActionConfig.Null;
+		public AxisActionsConfig LeftAnalogUp = new AxisActionsConfig();
 		[XmlElement("la-down")]
-		public InputActionConfig LeftAnalogDown = InputActionConfig.Null;
+		public AxisActionsConfig LeftAnalogDown = new AxisActionsConfig();
 		[XmlElement("la-left")]
-		public InputActionConfig LeftAnalogLeft = InputActionConfig.Null;
+		public AxisActionsConfig LeftAnalogLeft = new AxisActionsConfig();
 		[XmlElement("la-right")]
-		public InputActionConfig LeftAnalogRight = InputActionConfig.Null;
+		public AxisActionsConfig LeftAnalogRight = new AxisActionsConfig();
 
 		[XmlElement("ra-up")]
-		public InputActionConfig RightAnalogUp = InputActionConfig.Null;
+		public AxisActionsConfig RightAnalogUp = new AxisActionsConfig();
 		[XmlElement("ra-down")]
-		public InputActionConfig RightAnalogDown = InputActionConfig.Null;
+		public AxisActionsConfig RightAnalogDown = new AxisActionsConfig();
 		[XmlElement("ra-left")]
-		public InputActionConfig RightAnalogLeft = InputActionConfig.Null;
+		public AxisActionsConfig RightAnalogLeft = new AxisActionsConfig();
 		[XmlElement("ra-right")]
-		public InputActionConfig RightAnalogRight = InputActionConfig.Null;
+		public AxisActionsConfig RightAnalogRight = new AxisActionsConfig();
 
 		[XmlElement("dig-up")]
-		public InputActionConfig DigitalUp = InputActionConfig.Null;
+		public AxisActionsConfig DigitalUp = new AxisActionsConfig();
 		[XmlElement("dig-down")]
-		public InputActionConfig DigitalDown = InputActionConfig.Null;
+		public AxisActionsConfig DigitalDown = new AxisActionsConfig();
 		[XmlElement("dig-left")]
-		public InputActionConfig DigitalLeft = InputActionConfig.Null;
+		public AxisActionsConfig DigitalLeft = new AxisActionsConfig();
 		[XmlElement("dig-right")]
-		public InputActionConfig DigitalRight = InputActionConfig.Null;
-	}
-
-	[Serializable]
-	public class SettingsConfig {
-		public short TapInterval = 500;
-		public short DoubleTapInterval = 250;
-		public short HoldInterval = 700;
-		public double DefaultDeadzone = 0;
-		public double AxisPoleSize = 0.7;
+		public AxisActionsConfig DigitalRight = new AxisActionsConfig();
 	}
 
 	[Serializable, XmlRoot("config")]
@@ -200,11 +206,14 @@ namespace PadTie {
 		[XmlElement("pad")]
 		public List<PadConfig> Pads = new List<PadConfig>();
 
-		[XmlElement("settings")]
-		public SettingsConfig Settings = new SettingsConfig();
-
 		[XmlIgnore]
 		public string FileName;
+
+		[XmlAttribute("label"), DefaultValue("")]
+		public string Label = "";
+
+		[XmlElement("info"), DefaultValue("")]
+		public string Info = "";
 
 		public void Save()
 		{
@@ -224,6 +233,15 @@ namespace PadTie {
 				}
 			}
 		}
+
+		[XmlIgnore]
+		public bool UpdatedForCompatibility { get; set; }
+
+		[XmlIgnore]
+		public List<string> CompatibilityUpdates = new List<string>();
+
+		[XmlIgnore]
+		public bool NoPadsConfigured { get; set; }
 	}
 
 	public class DeviceMapping {
@@ -241,13 +259,13 @@ namespace PadTie {
 			return dm;
 		}
 
-		[XmlAttribute("pad")]
+		[XmlAttribute("pad"), DefaultValue(-1)]
 		public int Pad = -1;
 
 		[XmlAttribute("src")]
 		public string Source;
 
-		[XmlAttribute("gesture")]
+		[XmlAttribute("gesture"), DefaultValue("Raw")]
 		public string Gesture = null;
 
 		[XmlAttribute("dest")]
@@ -266,8 +284,14 @@ namespace PadTie {
 		/// When positive, specifies the pad number to map the device to. Otherwise we map
 		/// to the first free pad number.
 		/// </summary>
-		[XmlAttribute("pad")]
+		[XmlAttribute("pad"), DefaultValue(-1)]
 		public int PadNumber { get; set; }
+
+		[XmlAttribute("exclusive-lock"), DefaultValue(true)]
+		public bool ExclusiveLock = true;
+
+		[XmlIgnore]
+		public bool IsGeneric = false;
 
 		/// <summary>
 		/// If empty, only the deviceID is matched. Otherwise, the
@@ -283,8 +307,11 @@ namespace PadTie {
 		/// If empty, Pad Tie falls back on the DirectInput display-friendly
 		/// name, and if that is blank, falls back to the product name string.
 		/// </summary>
-		[XmlAttribute("label")]
+		[XmlAttribute("label"), DefaultValue("")]
 		public string Label = "";
+
+		[XmlElement("notes"), DefaultValue("")]
+		public string Notes = "";
 
 		[XmlElement("mapping")]
 		public List<DeviceMapping> Mappings =
@@ -292,8 +319,58 @@ namespace PadTie {
 	}
 
 	public class GlobalSettingsConfig {
-		[XmlAttribute("default-config")]
+		public GlobalSettingsConfig()
+		{
+		}
+
+		[XmlElement("default-config"), DefaultValue("")]
 		public string DefaultConfigFile = "";
+
+		[XmlElement("tap-interval"), DefaultValue(500)]
+		public short TapInterval = 500;
+
+		[XmlElement("double-tap-interval"), DefaultValue(250)]
+		public short DoubleTapInterval = 250;
+
+		[XmlElement("hold-interval"), DefaultValue(700)]
+		public short HoldInterval = 700;
+		
+		[XmlElement("default-deadzone"), DefaultValue(0.01)]
+		public double DefaultDeadzone = 0.01;
+		
+		[XmlElement("axis-pole-size"), DefaultValue(0.8)]
+		public double AxisPoleSize = 0.8;
+
+		[XmlElement("show-balloon-tips"), DefaultValue(true)]
+		public bool ShowBalloonTips = true;
+
+		[XmlElement("balloon-tip-timeout"), DefaultValue(60)]
+		public int BalloonTipTimeout = 60;
+
+		[XmlElement("show-compat-notices"), DefaultValue(true)]
+		public bool ShowCompatibilityNotices = true;
+
+		[XmlElement("show-no-gamepad-notices"), DefaultValue(true)]
+		public bool ShowNoGamepadConfigured = true;
+
+		[XmlElement("remember-window-size"), DefaultValue(true)]
+		public bool RememberWindowSize = true;
+
+		[XmlElement("window-x"), DefaultValue(-1)]
+		public int WindowX = -1;
+		
+		[XmlElement("window-y"), DefaultValue(-1)]
+		public int WindowY = -1;
+		
+		[XmlElement("window-w"), DefaultValue(-1)]
+		public int WindowWidth = -1;
+		
+		[XmlElement("window-h"), DefaultValue(-1)]
+		public int WindowHeight = -1;
+
+		[XmlElement("window-max"), DefaultValue(false)]
+		public bool WindowMaximized = false;
+
 	}
 
 	[Serializable, XmlRoot("padtie-config")]
@@ -361,6 +438,9 @@ namespace PadTie {
 
 		[XmlAttribute("product")]
 		public string Product;
+
+		[XmlAttribute("exclusive-lock")]
+		public bool ExclusiveLock;
 
 		[XmlElement("notes")]
 		public string Notes;

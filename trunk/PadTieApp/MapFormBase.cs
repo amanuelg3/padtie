@@ -14,6 +14,7 @@ namespace PadTieApp {
 				form.MapAxisGesture(vc,
 					slot.Axis,
 					slot.IsPositive ? AxisActions.Gestures.Positive : AxisActions.Gestures.Negative,
+					slot.ButtonGesture,
 					action);
 			} else {
 				var gesture = slot.ButtonGesture;

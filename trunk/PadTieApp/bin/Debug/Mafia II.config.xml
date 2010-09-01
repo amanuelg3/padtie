@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" label="Mafia II">
+  <pad index="1">
+    <a>
+      <link type="PadTie.KeyAction">ControlKey,</link>
+      <tap type="none" />
+      <dtap type="PadTie.KeyAction">Return,</dtap>
+      <hold type="none" />
+    </a>
+    <b>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </b>
+    <x>
+      <link type="PadTie.KeyAction">ShiftKey,</link>
+      <tap type="none" />
+      <dtap type="PadTie.KeyAction">Escape,</dtap>
+      <hold type="none" />
+      <overview>Run</overview>
+    </x>
+    <y>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </y>
+    <back>
+      <link type="PadTie.KeyAction">Escape,</link>
+      <tap type="PadTie.KeyAction">Escape,</tap>
+      <dtap type="none" />
+      <hold type="PadTie.KeyAction">O,Menu</hold>
+      <overview>Pause, H: Dash</overview>
+    </back>
+    <start>
+      <link type="PadTie.KeyAction">Return,</link>
+      <tap type="PadTie.KeyAction">Return,</tap>
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Enter [menu]</overview>
+    </start>
+    <system>
+      <link type="none" />
+      <tap type="PadTie.KeyAction">O,Menu</tap>
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Dashboard</overview>
+    </system>
+    <bl>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </bl>
+    <br>
+      <link type="PadTie.MouseButtonAction">Left</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Fire</overview>
+    </br>
+    <tl>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </tl>
+    <tr>
+      <link type="PadTie.MouseButtonAction">Right</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Melee</overview>
+    </tr>
+    <la>
+      <link type="PadTie.KeyAction">Return,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la>
+    <ra>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra>
+    <la-up type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">W,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Walk Forward</overview>W,</la-up>
+    <la-down type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">S,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Walk Backward</overview>S,</la-down>
+    <la-left type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">A,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Strafe Left</overview>A,</la-left>
+    <la-right type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">D,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Strafe Right</overview>D,</la-right>
+    <ra-up type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">0,-25</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Look Up</overview>0,-25</ra-up>
+    <ra-down type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">0,25</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Look Down</overview>0,25</ra-down>
+    <ra-left type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">-25,0</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Turn Left</overview>-25,0</ra-left>
+    <ra-right type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">25,0</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Turn Right</overview>25,0</ra-right>
+    <dig-up type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-up>
+    <dig-down type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-down>
+    <dig-left type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-left>
+    <dig-right type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-right>
+  </pad>
+  <info>Layout Author: William Lahti\nThis layout is built-in to Pad Tie 0.1b2 and later.\n\nMaps your gamepad to the default controls for the PC version of Mafia II.</info>
+</config>

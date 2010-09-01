@@ -15,15 +15,19 @@ namespace PadTieApp {
 			InitializeComponent();
 		}
 
-		public VirtualController Controller { get; set; }
+		public PadTieForm MainForm { get; set; }
+		public Controller Controller { get; set; }
 		public CapturedInput Value { get; set; }
 
 		private void captureButton_Click(object sender, EventArgs e)
 		{
+			
 			if (Controller == null) return;
 
+			lblSlot.Font = new Font(lblSlot.Font, FontStyle.Bold);
+			lblSlot.ForeColor = Color.DarkBlue;
 			lblSlot.Text = "Slot: Waiting for input...";
-			Controller.CaptureNext(delegate(CapturedInput input)
+			Controller.Virtual.CaptureNext(delegate(CapturedInput input)
 			{
 				input.ButtonGesture = this.ButtonGesture;
 				SetInput(input);
@@ -47,20 +51,48 @@ namespace PadTieApp {
 			}
 		}
 
-		public void SetInput (CapturedInput input)
+		public void BeginCapture()
 		{
+			captureButton_Click(this, EventArgs.Empty);
+		}
+
+		public void SetInput(CapturedInput input)
+		{
+			SetInput(input, false);
+		}
+
+		CapturedInput previousMapping;
+
+		public void SetInput (CapturedInput input, bool alreadyMapped)
+		{
+			Controller.Virtual.CancelCapture();
+
+			if (input == null) {
+				lblSlot.Text = "";
+				Value = null;
+				return;
+			}
+
+			if (alreadyMapped)
+				previousMapping = input.Clone();
+
 			input = input.Clone();
+			bool error = false;
 
 			if (input.IsAxisGesture) {
 				string name = "Unknown Axis";
 				string dir = "Unknown direction";
+				var slot = Controller.Virtual.GetAxis(input.Axis).GetPole(input.AxisGesture).GetGesture(input.ButtonGesture);
 
 				name = Util.GetStickDisplayName(input.Axis);
 				dir = Util.GetAxisGestureName(input.Axis, input.IsPositive);
-
+				
 				lblSlot.Text = "Slot: " + name + " (" + dir + ")";
-				lblGesture.Visible = false;
-				gestureBox.Visible = false;
+				
+				if (slot != null && previousMapping != input) {
+					lblSlot.Text += ", which is already assigned to " + Util.GetActionName(slot) + ". This action will be replaced.";
+					error = true;
+				}
 			} else {
 				string name = input.Button.ToString();
 
@@ -71,12 +103,19 @@ namespace PadTieApp {
 
 
 				lblSlot.Text = "Slot: " + name;
-				lblGesture.Visible = true;
-				gestureBox.Visible = true;
 
-				if ((int)input.ButtonGesture != this.gestureBox.SelectedIndex)
-					this.gestureBox.SelectedIndex = (int)input.ButtonGesture;
 			}
+
+			if (error) {
+				lblSlot.Font = new Font(lblSlot.Font, FontStyle.Regular);
+				lblSlot.ForeColor = Color.Maroon;
+			} else {
+				lblSlot.Font = new Font(lblSlot.Font, FontStyle.Regular);
+				lblSlot.ForeColor = Control.DefaultForeColor;
+			}
+
+			if ((int)input.ButtonGesture != this.gestureBox.SelectedIndex)
+				this.gestureBox.SelectedIndex = (int)input.ButtonGesture;
 
 			Value = input;
 		}
@@ -90,6 +129,26 @@ namespace PadTieApp {
 		{
 			if (Value != null)
 				Value.ButtonGesture = this.ButtonGesture;
+		}
+
+		private void chooseBtn_Click(object sender, EventArgs e)
+		{
+			var d = new ChooseSlotDialog(MainForm, false);
+			d.FocusedPad = Controller.Index;
+			d.ShowAllPads = false;
+			d.ShowDialog(this.ParentForm);
+
+			if (d.DialogResult == DialogResult.OK) {
+				if (d.SelectedNode == null) return;
+
+				var tag = d.SelectedNode.Tag;
+
+				if (tag is ChooseSlotDialog.SlotNodeTag) {
+					var slot = (tag as ChooseSlotDialog.SlotNodeTag).slot.Clone();
+					slot.ButtonGesture = ButtonGesture;
+					SetInput(slot);
+				}
+			}
 		}
 	}
 }

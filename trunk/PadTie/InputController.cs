@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DI = Microsoft.DirectX.DirectInput;
-using Microsoft.DirectX.DirectInput;
+using DI = SlimDX.DirectInput;
+using SlimDX.DirectInput;
 
 namespace PadTie {
 	public class InputController {
-		public InputController(InputCore core, DI.Device dev, int index)
+		public InputController(InputCore core, DI.Joystick dev, int index)
 		{
 			Core = core;
 			Device = dev;
+
+			ApplyExclusivity();
 			Device.Acquire();
+                    
 			ID = index;
 			Buttons = new ButtonActions[ButtonCount];
 			Axes = new AxisActions[AxisCount];
@@ -19,6 +22,8 @@ namespace PadTie {
 			for (int i = 0, max = Buttons.Length; i < max; ++i) Buttons[i] = new ButtonActions(Core, false, i + 1);
 			for (int i = 0, max = Axes.Length; i < max; ++i) Axes[i] = new AxisActions(Core, false, true, i + 1);
 		}
+
+		public bool ExclusiveLock = false;
 
 		/// <summary>
 		/// This flag can be used by the application to mark the input controller as mapped to a 
@@ -28,9 +33,9 @@ namespace PadTie {
 
 		public InputCore Core { get; private set; }
 		public int ID { get; private set; }
-		public DI.Device Device { get; private set; }
-		public int ButtonCount { get { return Device.Caps.NumberButtons; } }
-		public int AxisCount { get { return Device.Caps.NumberAxes + Device.Caps.NumberPointOfViews * 2; } }
+		public DI.Joystick Device { get; private set; }
+		public int ButtonCount { get { return Device.Capabilities.ButtonCount; } }
+		public int AxisCount { get { return Device.Capabilities.AxesCount + Device.Capabilities.PovCount * 2; } }
 		
 		public bool Removed = false;
 		public ButtonActions[] Buttons { get; private set; }
@@ -40,40 +45,87 @@ namespace PadTie {
 		{
 			if (Removed) return;
 
-			byte[] buttonData;
+			bool[] buttonData;
+			int[] hats, uv;
+			int axisX, axisY, axisZ, axisRZ;
 
+			DI.JoystickState state;
 			// Buttons 
 
+			SlimDX.Result r;
+			
+			// SlimDX has some serious issues with actually getting 
+			// exceptions thrown when you want.
+			
 			try {
-				Device.Poll();
-				buttonData = Device.CurrentJoystickState.GetButtons();
-			} catch (InputLostException) {
-				Removed = true;
+
+				if ((r = Device.Acquire()).IsFailure)
+					throw new DirectInputException(r);
+
+				if ((Device.Capabilities.Flags & DeviceFlags.PolledDevice) != 0) {
+					if ((r = Device.Poll()).IsFailure)
+						throw new DirectInputException(r);
+				}
+
+				state = Device.GetCurrentState();
+
+				if (SlimDX.Result.Last.IsFailure)
+					throw new DirectInputException(SlimDX.Result.Last);
+			
+				buttonData = state.GetButtons();
+				hats = state.GetPointOfViewControllers();
+				axisX = state.X;
+				axisY = state.Y;
+				axisZ = state.Z;
+				axisRZ = state.RotationZ;
+				uv = state.GetForceSliders();
+			} catch (DI.DirectInputException e) {
+				if (e.ResultCode == DI.ResultCode.InputLost ||
+					e.ResultCode == DI.ResultCode.NotAcquired) {
+					Console.WriteLine("Input lost: trying to reacquire...");
+
+					Device.Unacquire();
+					try {
+						ApplyExclusivity();
+					} catch (DI.DirectInputException e2) { }
+
+					try {
+						r = Device.Acquire();
+					} catch (DI.DirectInputException e2) {
+						r = e2.ResultCode;
+						ExclusiveLock = false;
+					}
+
+					if (r == SlimDX.DirectInput.ResultCode.Unplugged) {
+						Console.WriteLine("Gamepad disconnected...");
+						Removed = true;
+					} else if (r.IsFailure) {
+						Console.WriteLine("Failure while acquiring device: " + r.Description);
+					} else {
+						Console.WriteLine("Reacquired successfully.");
+					}
+				} else if (e.ResultCode == DI.ResultCode.Unplugged) {
+					Removed = true;
+				} else {
+					Console.WriteLine("DirectInput exception: " + e.ResultCode + ": \n" + e);
+				}
+
 				return;
 			}
 
 			for (int x = 0, max = ButtonCount; x < max; ++x)
-				Buttons[x].Process(buttonData[x]);
+				Buttons[x].Process((byte)(buttonData[x] ? 1 : 0));
 
 			// Axes
 
-			Axes[0].Process(Device.CurrentJoystickState.X);
-			Axes[1].Process(Device.CurrentJoystickState.Y);
-			Axes[2].Process(Device.CurrentJoystickState.Z);
-			Axes[3].Process(Device.CurrentJoystickState.Rz);
-
-			int[] hats;
-
-			try {
-				hats = Device.CurrentJoystickState.GetPointOfView();
-			} catch (InputLostException) {
-				Removed = true;
-				return;
-			}
+			Axes[0].Process(axisX);
+			Axes[1].Process(axisY);
+			Axes[2].Process(axisZ);
+			Axes[3].Process(axisRZ);
 
 			int axisIndex = 4;
 			foreach (int hat in hats) {
-				if (axisIndex - 4 >= Device.Caps.NumberPointOfViews)
+				if (axisIndex - 4 >= Device.Capabilities.PovCount)
 					break;
 
 				var xAxis = Axes[axisIndex];
@@ -98,27 +150,28 @@ namespace PadTie {
 			}
 
 			//Axes[3].Process(Device.CurrentJoystickState.Rx);
-
-			int[] uv;
-
-			try {
-				uv = Device.CurrentJoystickState.GetSlider();
-			} catch (InputLostException) {
-				Removed = true;
-				return;
-			}
-
 			//if (Axes.Length > 3) Axes[3].Process(uv[0]);
 			//if (Axes.Length > 4) Axes[4].Process(uv[1]);
 		}
 
-		public string Name { get { return Device.DeviceInformation.InstanceName; } }
-		public string ProductName { get { return Device.DeviceInformation.ProductName; } }
-		public string ProductGUID { get { return Device.DeviceInformation.ProductGuid.ToString(); } }
-		public string InstanceGUID { get { return Device.DeviceInformation.InstanceGuid.ToString(); } }
-		public int VendorID { get { return Device.Properties.VendorIdentityProductId & 0xFFFF; } }
-		public int ProductID { get { return (Device.Properties.VendorIdentityProductId >> 16) & 0xFFFF; } }
-		public int HatCount { get { return Device.Caps.NumberPointOfViews; } }
+		private void ApplyExclusivity()
+		{
+			if (Core.DIMainWindow != null) {
+				if (ExclusiveLock)
+					Device.SetCooperativeLevel(Core.DIMainWindow, CooperativeLevel.Exclusive | CooperativeLevel.Background);
+				else
+					Device.SetCooperativeLevel(Core.DIMainWindow, CooperativeLevel.Nonexclusive | CooperativeLevel.Background);
+			}
+		}
+
+		public string Name { get { return Device.Information.InstanceName; } }
+		public string ProductName { get { return Device.Information.ProductName; } }
+		public string ProductGUID { get { return Device.Information.ProductGuid.ToString(); } }
+		public string InstanceGUID { get { return Device.Information.InstanceGuid.ToString(); } }
+		public int VendorID { get { return Device.Properties.VendorId; } }
+		public int ProductID { get { return Device.Properties.ProductId; } }
+		public int HatCount { get { return Device.Capabilities.PovCount; } }
+		public bool ForceFeedback { get { return (Device.Capabilities.Flags & DeviceFlags.ForceFeedback) != 0; } }
 
 		public void Reset()
 		{

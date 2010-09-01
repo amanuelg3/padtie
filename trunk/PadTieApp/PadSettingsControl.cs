@@ -9,11 +9,13 @@ using System.Windows.Forms;
 using PadTie;
 
 namespace PadTieApp {
-	public partial class PadSettingsControl : UserControl {
+	public partial class PadSettingsControl : UserControl, IFontifiable {
 		public PadSettingsControl()
 		{
 			InitializeComponent();
 		}
+
+		public bool Fontified { get; set; }
 
 		InputCore core;
 		PadTieForm mainForm;
@@ -247,8 +249,12 @@ namespace PadTieApp {
 					name = "Down";
 					break;
 			}
-
-			buttonMapNodes[Util.GetAxisGestureID(axis, axisGesture)] = root.Nodes.Add(name.ToString());
+			var n = root.Nodes.Add(name.ToString());
+			buttonMapNodes[Util.GetAxisGestureID(axis, axisGesture)] = n;
+			buttonMapNodes[Util.GetAxisGestureID(axis, axisGesture) + "/link"] = n.Nodes.Add("Link");
+			buttonMapNodes[Util.GetAxisGestureID(axis, axisGesture) + "/tap"] = n.Nodes.Add("Tap");
+			buttonMapNodes[Util.GetAxisGestureID(axis, axisGesture) + "/dtap"] = n.Nodes.Add("Double Tap");
+			buttonMapNodes[Util.GetAxisGestureID(axis, axisGesture) + "/hold"] = n.Nodes.Add("Hold");
 		}
 
 		Dictionary<string, TreeNode> buttonMapNodes =
@@ -327,10 +333,14 @@ namespace PadTieApp {
 			deviceInstanceGUID.Text = cc.Device.InstanceGUID.ToUpper();
 			deviceVendorID.Text = "0x" + cc.Device.VendorID.ToString("X4");
 			deviceProductID.Text = "0x" + cc.Device.ProductID.ToString("X4");
-			devicePadNum.Text = cc.Index.ToString();
-			deviceButtons.Text = cc.Device.ButtonCount.ToString();
-			deviceAxes.Text = (cc.Device.AxisCount - cc.Device.HatCount).ToString();
-			deviceHats.Text = cc.Device.HatCount.ToString();
+
+			UpdateDeviceInfo();
+
+			deviceButtons.Text = string.Format("{0} buttons, {1} axes, {2} hats, force feedback: {3}",
+				cc.Device.ButtonCount.ToString(),
+				(cc.Device.AxisCount - cc.Device.HatCount).ToString(),
+				cc.Device.HatCount.ToString(),
+				cc.Device.ForceFeedback ? "yes" : "no");
 
 			cc.Virtual.AxisAnalogReceived += Analog;
 			cc.Virtual.ButtonActiveReceived += Active;
@@ -360,16 +370,43 @@ namespace PadTieApp {
 			RefreshDeviceMappings();
 		}
 
+		private void UpdateDeviceInfo()
+		{
+			string name = controller.Device.ProductName;
+
+			if (controller.DeviceConfig.Label != "") {
+				productName.Visible = true;
+				deviceName.Text = controller.DeviceConfig.Label;
+				productName.Text = controller.Device.ProductName;
+			} else {
+				productName.Visible = false;
+				deviceName.Text = controller.Device.ProductName;
+			}
+
+			deviceLabel.Text = controller.DeviceConfig.Label;
+			padNotes.Text = controller.DeviceConfig.Notes.Replace("\\n", "\r\n");
+		}
+
 		public void RefreshDeviceMappings()
 		{
 			buttonMappings.Items.Clear();
 			foreach (var dm in controller.DeviceConfig.Mappings)
 				buttonMappings.Items.Add(new DeviceMappingItem(dm));
 		}
-
+		
 		private void PadSettingsControl_Load(object sender, EventArgs e)
 		{
+            padView.SendToBack();
 
+			Fontify.Go(this);
+		}
+
+		private void FixTabLayout (TabPage tp, Panel panel)
+		{
+			tabs.SelectedTab = tp;
+			Application.DoEvents();
+			panel.SetBounds(0, 0, tp.Width, tp.Height);
+			panel.Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 		}
 
 		private void mapButton_Click(object sender, EventArgs e)
@@ -378,13 +415,17 @@ namespace PadTieApp {
 				return;
 
 			if ((string)actionTree.SelectedNode.Tag == "keystroke")
-				new MapKeystrokeForm(mainForm, controller.Virtual).ShowDialog(this);
+				new MapKeystrokeForm(mainForm, controller).ShowDialog(this);
 			else if ((string)actionTree.SelectedNode.Tag == "pointer")
-				new MapPointerForm(mainForm, controller.Virtual).ShowDialog(this);
+				new MapPointerForm(mainForm, controller).ShowDialog(this);
 			else if ((string)actionTree.SelectedNode.Tag == "mouse-button")
-				new MapMouseButtonForm(mainForm, controller.Virtual).ShowDialog(this);
+				new MapMouseButtonForm(mainForm, controller).ShowDialog(this);
 			else if ((string)actionTree.SelectedNode.Tag == "mouse-wheel")
-				new MapMouseWheelForm(mainForm, controller.Virtual).ShowDialog(this);
+				new MapMouseWheelForm(mainForm, controller).ShowDialog(this);
+			else if ((string)actionTree.SelectedNode.Tag == "command")
+				new MapCommandDialog(mainForm, controller).ShowDialog(this);
+			else if ((string)actionTree.SelectedNode.Tag == "open-file")
+				new MapOpenFileDialog(mainForm, controller).ShowDialog(this);
 		}
 
 		private void actionTree_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -395,6 +436,9 @@ namespace PadTieApp {
 		private void currentMappings_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			var n = currentMappings.SelectedNode;
+
+			if (n == null)
+				return;
 
 			if (n.Tag == null) {
 				activeMapping.Text = "Unassigned";
@@ -420,28 +464,41 @@ namespace PadTieApp {
 				return;
 			}
 
-			var desc = action.SlotDescription;
-			var cc = this.controller;
+			EditAction(action);
+		}
 
+		public void EditAction (InputAction action)
+		{
+			if (action == null)
+				return;
+
+			var cc = this.controller;
 			if (action is KeyAction)
-				new MapKeystrokeForm(mainForm, cc.Virtual, action as KeyAction).ShowDialog(this);
+				new MapKeystrokeForm(mainForm, cc, action as KeyAction).ShowDialog(this);
 			else if (action is MouseButtonAction)
-				new MapMouseButtonForm(mainForm, cc.Virtual, action as MouseButtonAction).ShowDialog(this);
+				new MapMouseButtonForm(mainForm, cc, action as MouseButtonAction).ShowDialog(this);
 			else if (action is MousePointerAction)
-				new MapPointerForm(mainForm, cc.Virtual, action as MousePointerAction).ShowDialog(this);
+				new MapPointerForm(mainForm, cc, action as MousePointerAction).ShowDialog(this);
 			else if (action is MouseWheelAction)
-				new MapMouseWheelForm(mainForm, cc.Virtual, action as MouseWheelAction).ShowDialog(this);
+				new MapMouseWheelForm(mainForm, cc, action as MouseWheelAction).ShowDialog(this);
+			else if (action is RunCommandAction)
+				new MapCommandDialog(mainForm, cc, action as RunCommandAction).ShowDialog(this);
+			else if (action is OpenFileAction)
+				new MapOpenFileDialog(mainForm, cc, action as OpenFileAction).ShowDialog(this);
+			else
+				MessageBox.Show("Error: This version of Pad Tie is not able to edit actions of type " + action.GetType().Name);
 		}
 
 		private void unmapBtn_Click(object sender, EventArgs e)
 		{
-			var action = currentMappings.SelectedNode.Tag as InputAction;
+			ClearAction(currentMappings.SelectedNode.Tag as InputAction);
+		}
 
-			if (action == null)
-				return;
-
+		public void ClearAction(InputAction action)
+		{
+			if (action == null) return;
 			MapUtil.Map(mainForm, controller.Virtual, action.SlotDescription, null);
-			currentMappings_AfterSelect(sender, null);
+			currentMappings_AfterSelect(currentMappings, null);
 		}
 
 		private void changeBtn_Click(object sender, EventArgs e)
@@ -503,6 +560,258 @@ namespace PadTieApp {
 			wiz.MainForm = mainForm;
 			wiz.Controller = controller;
 			wiz.ShowDialog(this);
+		}
+
+		private void currentMappings_DoubleClick(object sender, EventArgs e)
+		{
+			editBtn_Click(sender, e);
+		}
+
+		private void buttonMappings_DoubleClick(object sender, EventArgs e)
+		{
+			changeBtn_Click(sender, e);
+		}
+
+		void UpdateGestureMenu(bool assigned, ToolStripMenuItem root, ToolStripMenuItem edit, ToolStripMenuItem replace, ToolStripMenuItem clear)
+		{
+			if (assigned) {
+				edit.Visible = true;
+				replace.Text = "Replace...";
+				clear.Visible = true;
+				root.Font = new Font(root.Font, FontStyle.Bold);
+			} else {
+				edit.Visible = false;
+				replace.Text = "Assign...";
+				clear.Visible = false;
+				root.Font = new Font(root.Font, FontStyle.Regular);
+			}
+
+			 var regolo = new Font(root.Font, FontStyle.Regular);
+			foreach (ToolStripMenuItem item in root.DropDownItems) item.Font = regolo;
+		}
+
+		private void padView_MouseUp(object sender, MouseEventArgs e)
+		{
+		}
+
+		private void actionTree_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			var node = actionTree.SelectedNode;
+			string message = "";
+			if (node != null && node.Tag is string) {
+				if (node.Tag as string == "pointer")
+					message = "Control the mouse pointer.";
+				else if (node.Tag as string == "mouse-button")
+					message = "Simulate mouse clicks.";
+				else if (node.Tag as string == "mouse-wheel")
+					message = "Simulate the mouse wheel.";
+				else if (node.Tag as string == "keystroke")
+					message = "Send a keystroke to the active application.";
+
+				message += " Double click the action or click 'Add...' to map it to a gamepad button.";
+			} else {
+				message = "Click an action above for a short description here.";
+			}
+
+			actionTip.Text = message;
+		}
+
+		private void editLinkMenu_Click(object sender, EventArgs e)
+		{
+			EditAction(linkContextMenu.Tag as InputAction);
+		}
+
+		private void editTapMenu_Click(object sender, EventArgs e)
+		{
+			EditAction(tapContextMenu.Tag as InputAction);
+		}
+
+		private void editDTapMenu_Click(object sender, EventArgs e)
+		{
+			EditAction(dtapContextMenu.Tag as InputAction);
+		}
+
+		private void editHoldMenu_Click(object sender, EventArgs e)
+		{
+			EditAction(holdContextMenu.Tag as InputAction);
+		}
+
+		private void clearLinkMenu_Click(object sender, EventArgs e)
+		{
+			ClearAction(linkContextMenu.Tag as InputAction);
+		}
+
+		private void clearTapMenu_Click(object sender, EventArgs e)
+		{
+			ClearAction(tapContextMenu.Tag as InputAction);
+		}
+
+		private void clearDTapMenu_Click(object sender, EventArgs e)
+		{
+			ClearAction(dtapContextMenu.Tag as InputAction);
+		}
+
+		private void clearHoldMenu_Click(object sender, EventArgs e)
+		{
+			ClearAction(holdContextMenu.Tag as InputAction);
+		}
+
+		private void clearAllMenuItem_Click(object sender, EventArgs e)
+		{
+			var ba = clearAllMenuItem.Tag as ButtonActions;
+			ClearAction(ba.Link);
+			ClearAction(ba.Tap);
+			ClearAction(ba.DoubleTap);
+			ClearAction(ba.Hold);
+		}
+
+		void ReplaceGesture(ButtonActions.Gesture gesture)
+		{
+			var d = new ActionSelectDialog();
+			var slot = (slotMenu.Tag as CapturedInput).Clone();
+
+			slot.ButtonGesture = gesture;
+			d.ActionSelect.MainForm = mainForm;
+			d.ActionSelect.Controller = controller;
+			d.ActionSelect.Slot = slot;
+
+			d.ShowDialog(this.ParentForm);
+		}
+
+		private void replaceLinkMenu_Click(object sender, EventArgs e)
+		{
+			ReplaceGesture(ButtonActions.Gesture.Link);
+		}
+
+		private void replaceTapMenu_Click(object sender, EventArgs e)
+		{
+			ReplaceGesture(ButtonActions.Gesture.Tap);
+		}
+
+		private void replaceDoubleTapMenu_Click(object sender, EventArgs e)
+		{
+			ReplaceGesture(ButtonActions.Gesture.DoubleTap);
+		}
+
+		private void replaceHoldMenu_Click(object sendder, EventArgs e)
+		{
+			ReplaceGesture(ButtonActions.Gesture.Hold);
+		}
+
+		private void label15_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void tabPage4_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void remapPad_Click(object sender, EventArgs e)
+		{
+			var dlg = new RemapPadDialog(mainForm, controller.Index, controller.Device.ProductName);
+			dlg.ShowDialog(this.ParentForm);
+
+			if (dlg.DialogResult == DialogResult.OK) {
+				controller.DeviceConfig.PadNumber = dlg.PadNumber;
+				mainForm.GlobalConfig.Save();
+				controller.Index = 0; // this way ReassignPadNumber will not consider the old index as in use
+
+				// Attempt to associate the new pad number, or pick the lowest free one, and then reload the current
+				// configuration so the mappings work correctly.
+
+				mainForm.ReassignPadNumber(controller);
+			}
+		}
+
+		internal void SetPadNumber(int padNumber)
+		{
+			//devicePadNum.Text = padNumber.ToString();
+		}
+
+		private void deviceLabel_TextChanged(object sender, EventArgs e)
+		{
+			controller.DeviceConfig.Label = deviceLabel.Text;
+			UpdateDeviceInfo();
+			string lbl = controller.Device.ProductName;
+
+			if (deviceLabel.Text != "")
+				lbl = deviceLabel.Text;
+
+			if (controller.Tab != null)
+				controller.Tab.Text = "Pad #" + controller.Index + " - " + lbl;
+			labelHasChanged = true;
+		}
+
+		private void deviceLabel_Leave(object sender, EventArgs e)
+		{
+			if (labelHasChanged)
+				mainForm.GlobalConfig.Save();
+		}
+
+		bool labelHasChanged = false;
+		private void deviceLabel_Enter(object sender, EventArgs e)
+		{
+			labelHasChanged = false;
+		}
+
+		private void padNotes_Leave(object sender, EventArgs e)
+		{
+			controller.DeviceConfig.Notes = padNotes.Text.Replace("\r", "").Replace("\n", "\\n");
+			mainForm.GlobalConfig.Save();
+		}
+
+		private void resetLabelBtn_Click(object sender, EventArgs e)
+		{
+			deviceLabel.Text = "";
+		}
+
+		bool fixedLayout = false;
+
+		private void PadSettingsControl_VisibleChanged(object sender, EventArgs e)
+		{
+			if (Visible && !fixedLayout) {
+				fixedLayout = true;
+				FixTabLayout(tabInfo, infoTabPanel);
+				FixTabLayout(tabButtons, buttonTabPanel);
+				FixTabLayout(tabActions, actionsTabPanel);
+				FixTabLayout(tabMappings, mappingsTabPanel);
+				FixTabLayout(tabNotes, padTabPanel);
+			}
+		}
+
+		private void padView_MouseDown(object sender, MouseEventArgs e)
+		{
+
+			var slot = padView.SelectedItem;
+			ButtonActions bslot;
+
+			if (slot == null) {
+				padView.ContextMenuStrip = null;
+				return;
+			} else {
+				padView.ContextMenuStrip = slotMenu;
+			}
+
+			bslot = slot.GetSlot(controller);
+			slotMenu.Tag = slot;
+
+			linkContextMenu.Text = "Link: " + Util.GetActionName(bslot.Link);
+			tapContextMenu.Text = "Tap: " + Util.GetActionName(bslot.Tap);
+			holdContextMenu.Text = "Hold: " + Util.GetActionName(bslot.Hold);
+			dtapContextMenu.Text = "Double Tap: " + Util.GetActionName(bslot.DoubleTap);
+
+			UpdateGestureMenu(bslot.Link != null, linkContextMenu, editLinkMenu, replaceLinkMenu, clearLinkMenu);
+			UpdateGestureMenu(bslot.Tap != null, tapContextMenu, editTapMenu, replaceTapMenu, clearTapMenu);
+			UpdateGestureMenu(bslot.DoubleTap != null, dtapContextMenu, editDTapMenu, replaceDoubleTapMenu, clearDTapMenu);
+			UpdateGestureMenu(bslot.Hold != null, holdContextMenu, editHoldMenu, replaceHoldMenu, clearHoldMenu);
+
+			linkContextMenu.Tag = bslot.Link;
+			tapContextMenu.Tag = bslot.Tap;
+			dtapContextMenu.Tag = bslot.DoubleTap;
+			holdContextMenu.Tag = bslot.Hold;
+			clearAllMenuItem.Tag = bslot;
 		}
 	}
 
