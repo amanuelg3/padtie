@@ -5,6 +5,9 @@
 
 Having problems with Pad Tie? This page provides a whole bunch of tips, tricks, and help with the most common issues experienced. 
 
+*Table of Contents*
+<wiki:toc max_depth="2" />
+
 == Is Pad Tie analogous to X360CE? ==
 
 No. X360CE is an intermediate layer between Xinput (the system used by Xbox 360 compatible controllers) and DirectInput (the system used by most all controllers). Essentially it tricks games into thinking your controller is a bonafide Xbox 360 controller straight from Microsoft. This level of emulation is *much* nicer than what Pad Tie does, as the game will opt to present you with button names instead of keys, there will be almost no overhead lag, it requires no mapping, etc. If you are able to use X360CE, I entirely recommend it.
