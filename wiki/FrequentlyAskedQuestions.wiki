@@ -1,4 +1,4 @@
-#summary Tips and tricks for when Pad Tie is being bad.
+#summary Everything you are dying to know!
 #labels Featured
 
 = Frequently Asked Questions =
@@ -7,6 +7,18 @@ Having problems with Pad Tie? This page provides a whole bunch of tips, tricks, 
 
 *Table of Contents*
 <wiki:toc max_depth="2" />
+
+== Why can't I use Pad Tie on my Mac or Linux box? ==
+
+I do apologize that Pad Tie is Windows-only as I am a Linux user myself and it sucks being ignored. Luckily porting to Linux and OS X is high on the list of things to do, but it won't happen until Pad Tie for Windows is stable enough to let it float on it's own.
+
+The code is well architected to deal with the other platforms. We will use Mono for both the Linux and the OS X versions. Pad Tie's user interface uses Windows Forms, which while not at all an ideal solution, is actually decently implemented in Mono. Undoubtedly more work will be required in this area. But the meat of the issue is porting the PadTie library (which handles all the real work like making gamepads trigger actions) to use the appropriate means for the platform. For input (reading your gamepads) both ports will likely use the same library (likely SDL or something similar). Synthesizing events is totally different on both platforms, though and will have to be developed separately.
+
+As a full time university student I only get a chance to work on Pad Tie on the weekends and the evenings. I intend to develop and test the Linux port first. I don't have a Mac however, which will make development for the platform more difficult. Luckily Apple has some decent documentation for the needed frameworks and I think I wrangle a Mac for a weekend to get everything working properly. 
+
+So, yeah. Eventually.
+
+As always, of course, I welcome any and all capable coders to dive in and improve or port the code.
 
 == Is Pad Tie analogous to X360CE? ==
 
@@ -23,9 +35,23 @@ No, Pad Tie is wholly original.
 Because Pad Tie is 250% more awesome! Much more modern interface with visual
 views of the controller, much more flexible configuration system allows you to share them and have them work for everyone. Pad Tie lets you map gestures like "tap", "double tap", and "hold" to your actions, not just "pressed". This makes Pad Tie much more capable as to what layout it can present.
 
+== Is Pad Tie portable like !JoyToKey? ==
+
+Yes and no. 
+ * No because Pad Tie needs .NET 4 and SlimDX installed on any computer it is run on. A distribution which is portable amongst any Win7 install would likely be easy, but we need .NET 4 Client Profile, which is not included in earlier versions of Windows.
+ * Yes because as of 0.1b2 Pad Tie can detect when it's safe/wise to write to it's own folder (since in Vista and later you cannot write to Program Files) and it will do so for your global configuration and for any custom layouts you create. Note that installing to Program Files on XP will not cause Pad Tie to write into Program Files. 
+
+This is the precedence Pad Tie assigns to global configurations:
+ # Try to open globalconfig.xml from the Pad Tie directory
+ # Try to open My Documents\Pad Tie\globalconfig.xml
+ # If wise, try to create in the Pad Tie directory and use that
+ # Create globalconfig in My Documents\Pad Tie.
+
 == I used the ZIP/MSI and cannot launch Pad Tie! ==
 
-If you installed via the Windows ZIP or MSI packages we offer, you should be aware that it does not install the third party components required for Pad Tie to work. 
+If you installed via the Windows ZIP or MSI packages we offer, you should be aware that it does not install the third party components required for Pad Tie to work. The "Full Installer" option includes a full setup program which automatically installs dependencies.
+
+== What does Pad Tie depend upon? ==
  * If you are using Windows XP, Vista, or Server 2003 (not Windows 7) you will also need to install the [http://www.microsoft.com/downloads/details.aspx?FamilyID=5765d7a8-7722-4888-a970-ac39b33fd8ab&displaylang=en .NET 4 Client Profile].
  * All users will require the [http://slimdx.org/download.php SlimDX End User Runtime].
 
