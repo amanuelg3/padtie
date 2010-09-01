@@ -10,12 +10,75 @@ using PadTie;
 using System.Threading;
 using System.IO;
 using System.Globalization;
+using System.Reflection;
 
 namespace PadTieApp {
-	public partial class PadTieForm : Form {
+	public partial class PadTieForm : Form, IFontifiable {
 		public PadTieForm()
 		{
 			InitializeComponent();
+		}
+
+		public bool Fontified { get; set; }
+
+		public class SwitchConfigAction : InputAction {
+			public SwitchConfigAction(InputCore core, ConfigItem item, bool onRelease) :
+				this (core, item.FileName, item.IsBuiltIn, onRelease)
+			{
+			}
+
+			public SwitchConfigAction(InputCore core, string file, bool isBuiltIn, bool onRelease)
+			{
+				Core = core;
+				MainForm = core.Tag as PadTieForm;
+				FileName = file;
+				IsBuiltIn = isBuiltIn;
+				SwitchOnRelease = onRelease;
+			}
+
+			public InputCore Core;
+			public string FileName;
+			public bool IsBuiltIn;
+			public bool SwitchOnRelease;
+			public PadTieForm MainForm;
+
+			public override string ToString()
+			{
+				ConfigItem i = new ConfigItem (FileName, IsBuiltIn);
+				return string.Format("Switch configuration to '{0}' ({1})", i.Title, IsBuiltIn ? "Built in" : "Custom");
+			}
+
+			public override string ToParseable()
+			{
+				return string.Join(",", new string[] { FileName, IsBuiltIn + "", SwitchOnRelease + "" });
+			}
+
+			public static SwitchConfigAction Parse(InputCore core, string parseable)
+			{
+				string[] props = parseable.Split(',');
+
+				if (props.Length < 3)
+					throw new FormatException("Invalid property data for action 'Switch Configuration'");
+
+				return new SwitchConfigAction(core, props[0], bool.Parse(props[1]), bool.Parse(props[2]));
+			}
+
+			public void Switch()
+			{
+				MainForm.ChangeConfig(new ConfigItem(FileName, IsBuiltIn));
+			}
+
+			public override void Press()
+			{
+				if (!SwitchOnRelease)
+					Switch();
+			}
+
+			public override void Release()
+			{
+				if (SwitchOnRelease)
+					Switch();
+			}
 		}
 
 		private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -27,12 +90,26 @@ namespace PadTieApp {
 		List<Controller> controllers = new List<Controller>();
 		Config config;
 
+		public Controller[] Controllers { get { return controllers.ToArray(); } }
 		public InputCore PadTie { get { return padTie; } }
+
+		public Controller FindControllerForConfig(DeviceConfig config)
+		{
+			foreach (var cc in controllers) {
+				if (cc.DeviceConfig.DeviceID == config.DeviceID)
+					return cc;
+			}
+
+			return null;
+		}
 
 		public string FindConfigFile(string file)
 		{
 			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
 			string cfgDir = GetDocs();
+
+			if (File.Exists(file))
+				return file;
 
 			if (!Directory.Exists(cfgDir))
 				Directory.CreateDirectory(cfgDir);
@@ -46,53 +123,98 @@ namespace PadTieApp {
 			return file;
 		}
 
+		FileSystemWatcher wConfigDir = null;
+		bool wChanged = false;
+
 		public Config Config { get { return config; } }
 		public void RefreshConfigList()
 		{
-			configBox.Items.Clear();
+			RefreshConfigList(false);
+		}
+
+		public void RefreshConfigList(bool force)
+		{
+			Directory.GetLastWriteTime(Application.ExecutablePath);
 			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
 			string cfgDir = GetDocs();
 
-			ConfigItem current = null;
-			List<string> items = new List<string>();
 
-			if (Directory.Exists (cfgDir)) foreach (string item in Directory.GetFiles(cfgDir, "*.config.xml"))
-				items.Add(item);
+			if (wConfigDir == null) {
+				wConfigDir = new FileSystemWatcher(cfgDir);
+				wConfigDir.Filter = "*.config.xml";
+				wConfigDir.Changed += delegate(object sender, FileSystemEventArgs e)
+				{
+					wChanged = true;
+				};
+				wConfigDir.EnableRaisingEvents = true;
+				wChanged = false;
+			} else if (!wChanged && !force) {
+				return;
+			}
+			
+			wChanged = false;
+			refreshingConfigs = true;
 
-			if (Directory.Exists(appDir)) foreach (string item in Directory.GetFiles(appDir, "*.config.xml"))
-				items.Add(item);
+			try {
+				configBox.Items.Clear();
+				switchConfigMenu.DropDownItems.Clear();
 
-			items.Sort(delegate(string a, string b)
-			{
-				return StringComparer.Create(CultureInfo.InvariantCulture, true).Compare(
-					Path.GetFileName(a), Path.GetFileName(b));
-			});
+				ConfigItem current = null;
+				List<string> items = new List<string>();
 
-			foreach (string item in items) {
-				var ci = new ConfigItem(item); // find config ensures we have the user copy of the config
+				if (Directory.Exists(cfgDir)) foreach (string item in Directory.GetFiles(cfgDir, "*.config.xml"))
+						items.Add(item);
 
-				if (appDir == Path.GetDirectoryName(item))
-					ci.IsBuiltIn = true;
+				if (Directory.Exists(appDir)) foreach (string item in Directory.GetFiles(appDir, "*.config.xml"))
+						items.Add(item);
 
-				if (ci.Title == "default") {
-					ci.Title = "Default";
+				items.Sort(delegate(string a, string b)
+				{
+					return StringComparer.Create(CultureInfo.InvariantCulture, true).Compare(
+						Path.GetFileName(a), Path.GetFileName(b));
+				});
+
+				foreach (string item in items) {
+					var ci = new ConfigItem(item); // find config ensures we have the user copy of the config
+
+					if (appDir == Path.GetDirectoryName(item))
+						ci.IsBuiltIn = true;
+
+					if (ci.Title == "default") {
+						ci.Title = "Default";
+					}
+
+					if (ci.FileName == config.FileName)
+						current = ci;
+					switchConfigMenu.DropDownItems.Add(new ToolStripMenuItem(ci.ToString(), null,
+						delegate(object sender, EventArgs e)
+						{
+							ChangeConfig(ci);
+							RefreshConfigList(true);
+						}
+					));
+					configBox.Items.Add(ci);
 				}
 
-				if (ci.FileName == config.FileName)
-					current = ci;
-
-				configBox.Items.Add(ci);
+				configBox.SelectedItem = current;
+			} finally {
+				refreshingConfigs = false;
 			}
-
-			configBox.SelectedItem = current;
 		}
 
+		bool refreshingConfigs = false;
 		public class ConfigItem {
 			public ConfigItem(string file)
 			{
 				// Just do it twice to get rid of the '.config'
 				Title = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(file));
 				FileName = file;
+			}
+
+			public ConfigItem(string file, bool isBuiltIn) :
+				this(file)
+			{
+				IsBuiltIn = isBuiltIn;
 			}
 
 			public string FileName;
@@ -109,7 +231,7 @@ namespace PadTieApp {
 			public bool IsBuiltIn { get; set; }
 		}
 
-		public void LoadGlobalConfig()
+		public void LoadGlobalConfig(string configFile)
 		{
 			// The global configuration deals with the mapping between physical devices
 			// and their virtual controller counterparts. If no device entry exists for 
@@ -117,8 +239,14 @@ namespace PadTieApp {
 			// and it is assigned the first pad number which does not have any mappings 
 			// associated with it.
 
-			// Sort the device configs by pad number, so we can just assign as we go
+			if (!File.Exists(configFile)) {
+				globalConfig = new GlobalConfig();
+				globalConfig.Save(configFile);
+			} else {
+				globalConfig = GlobalConfig.Load(configFile);
+			}
 
+			UpdateSettings();
 			MapDeviceConfigs();
 			ConfigureNewDevices();
 		}
@@ -150,13 +278,15 @@ namespace PadTieApp {
 				else
 					configFile = Path.Combine(appDir, configFile);
 
+				bool noConfig = false;
+
 				if (!File.Exists(configFile)) {
+					noConfig = true;
 					configFile = Path.Combine(appDir, "Generic.xml");
 
-					if (!File.Exists (configFile))
-						MessageBox.Show ("Error: Your gamepad does not have a pre-made configuration and Pad Tie could not find the generic one.");
-					else
-						MessageBox.Show ("Your '" + ic.ProductName + "' device does not have a pre-made configuration, you will likely have to fix your button mappings.");
+					if (!File.Exists(configFile)) {
+						MessageBox.Show("Error: Your gamepad does not have a pre-made configuration and Pad Tie could not find the generic one. Please report this bug.");
+					}	
 				}
 				
 				var dc = new DeviceConfig();
@@ -164,6 +294,7 @@ namespace PadTieApp {
 				dc.DeviceID = "0x" + ic.VendorID.ToString("X4") + ic.ProductID.ToString("X4");
 				dc.Present = false;
 				dc.PadNumber = -1;
+				dc.IsGeneric = noConfig;
 
 				if (File.Exists(configFile)) {
 					var gpc = GamepadConfig.Load(configFile);
@@ -187,6 +318,32 @@ namespace PadTieApp {
 				globalConfig.Save();
 				MapDeviceConfigs();
 			}
+		}
+
+		public void ReassignPadNumber(Controller cc)
+		{
+			var dc = cc.DeviceConfig;
+
+			int padNumber;
+			if (dc.PadNumber != -1 && dc.PadNumber >= freePad) {
+				padNumber = dc.PadNumber;
+				freePad = padNumber + 1;
+			} else {
+				List<int> inUse = new List<int>();
+				foreach (var c in controllers)
+					inUse.Add(c.Index);
+
+				int p = 1;
+				while (inUse.Contains(p)) ++p;
+				padNumber = p;
+			}
+
+			cc.Index = padNumber;
+
+			ReapplyConfig();
+			cc.Tab.Text = "Pad #" + padNumber;
+			cc.Tab.Tag = padNumber;
+			cc.SettingsUI.SetPadNumber(padNumber);
 		}
 
 		public void MapDeviceConfigs()
@@ -239,17 +396,22 @@ namespace PadTieApp {
 					cc.DeviceConfig = dc;
 					cc.SettingsUI = new PadSettingsControl();
 					cc.SettingsUI.Initialize(this, padTie, cc, padNumber);
-					
-					cc.Tab = new TabPage("Pad #" + padNumber);
+
+					string name = cc.Device.ProductName;
+
+					if (cc.DeviceConfig.Label != "")
+						name = cc.DeviceConfig.Label;
+
+					cc.Tab = new TabPage("Pad #" + padNumber + " - " + name);
 					cc.Tab.Controls.Add(cc.SettingsUI);
+					cc.Tab.Tag = padNumber;
 					padTabs.TabPages.Add(cc.Tab);
 
-					cc.SettingsUI.Left = 0;
-					cc.SettingsUI.Top = 0;
-					cc.SettingsUI.Width = cc.Tab.Width;
-					cc.SettingsUI.Height = cc.Tab.Height;
-					cc.SettingsUI.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+					SortTabs();
 
+					cc.SettingsUI.SetBounds(0, 0, cc.Tab.Width, cc.Tab.Height);
+					cc.SettingsUI.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+					
 					// Set up the mappings according to the config
 
 					foreach (var mapping in dc.Mappings) {
@@ -271,8 +433,10 @@ namespace PadTieApp {
 								ic.Buttons[buttonNumber].Tap = ba;
 							else if (mapping.Gesture == "DoubleTap")
 								ic.Buttons[buttonNumber].DoubleTap = ba;
-							else
+							else if (mapping.Gesture == "Link")
 								ic.Buttons[buttonNumber].Link = ba;
+							else
+								ic.Buttons[buttonNumber].Raw = ba;
 
 						} else if (mapping.Source.StartsWith("axis:")) {
 							int axisNumber = int.Parse(mapping.Source.Substring("axis:".Length));
@@ -284,31 +448,61 @@ namespace PadTieApp {
 					}
 
 					Console.WriteLine("Found and mapped configuration for device '{0}' to pad #{1}", ic.ProductName, padNumber);
+					cc.IsGeneric = dc.IsGeneric;
 					break;
 				}
 			}
 		}
 
+		private void SortTabs()
+		{
+			TabPage[] pages = new TabPage[padTabs.TabCount];
+			for (int j = 0, max = padTabs.TabCount; j < max; ++j) pages[j] = padTabs.TabPages[j];
+			Array.Sort<TabPage>(pages, delegate(TabPage a, TabPage b) {
+				int aNumber = 0, bNumber = 0;
+
+				if (a.Tag == null) aNumber = 0;
+				else if (a.Tag as string == "first") aNumber = -1;
+				else if (a.Tag as string == "last") aNumber = int.MaxValue - 2;
+				else if (a.Tag as string == "end") aNumber = int.MaxValue - 1;
+				else if (a.Tag is int) aNumber = (int)a.Tag;
+
+				if (b.Tag == null) bNumber = 0;
+				else if (b.Tag as string == "first") bNumber = -1;
+				else if (b.Tag as string == "last") bNumber = int.MaxValue - 2;
+				else if (b.Tag as string == "end") bNumber = int.MaxValue - 1;
+				else if (b.Tag is int) bNumber = (int)b.Tag;
+
+				return aNumber - bNumber;
+			});
+			padTabs.TabPages.Clear();
+			padTabs.TabPages.AddRange(pages);
+		}
+
+		/// <summary>
+		/// Reloads the configuration from disk- changes previously written to the config will now be applied.
+		/// </summary>
 		public void ReloadConfig()
 		{
 			LoadConfig(Config.Load(Config.FileName));
 		}
 
+		/// <summary>
+		/// Reapplies the settings of a configuration, without reloading it from disk.
+		/// </summary>
+		public void ReapplyConfig()
+		{
+			if (Config != null)
+				ChangeConfig(new ConfigItem(Config.FileName, Config.Builtin));
+		}
+
 		public void LoadConfig()
 		{
 			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
-			string userDir  = GetDocs();
 			string configFile = FindConfigFile("default.config.xml");
-			string globalConfigFile = Path.Combine(userDir, "globalconfig.xml");
+			string globalConfigFile = Path.Combine(GetDocs(), "globalconfig.xml");
 
-			if (!File.Exists(globalConfigFile)) {
-				globalConfig = new GlobalConfig();
-				globalConfig.Save(globalConfigFile);
-			} else {
-				globalConfig = GlobalConfig.Load(globalConfigFile);
-			}
-
-			LoadGlobalConfig();
+			LoadGlobalConfig(globalConfigFile);
 
 			if (globalConfig.Settings.DefaultConfigFile != "")
 				configFile = FindConfigFile(Path.GetFileName(globalConfig.Settings.DefaultConfigFile));
@@ -335,6 +529,29 @@ namespace PadTieApp {
 		public void LoadConfig(Config config)
 		{
 			this.config = config;
+			this.config.UpdatedForCompatibility = false;
+			this.config.CompatibilityUpdates.Clear();
+			bool valid = false;
+
+			infobox.Text = this.config.Info.Replace("\\n", "\r\n");
+			layoutName.Text = this.config.Label;
+			layoutNameTemplate = false;
+			infoTemplate = false;
+			infobox.Font = new Font(infobox.Font, FontStyle.Regular);
+			layoutName.Font = new Font(layoutName.Font, FontStyle.Regular);
+
+			if (infobox.Text == "") {
+				infobox.Text = "Click to enter description.";
+				infobox.Font = new Font(infobox.Font, FontStyle.Italic);
+				infoTemplate = true;
+			}
+
+			if (layoutName.Text == "") {
+				layoutName.Text = "Click to set title for layout";
+				layoutName.Font = new Font(layoutName.Font, FontStyle.Italic);
+				layoutNameTemplate = true;
+			}
+
 			foreach (var pc in config.Pads) {
 				var cc = GetController(pc.Index);
 				if (cc == null) {
@@ -347,70 +564,166 @@ namespace PadTieApp {
 				}
 
 				LoadPadConfig(cc, pc);
+				valid = true;
 			}
 
-			UpdateSettings();
+			UpdateLegend();
+
+			this.config.NoPadsConfigured = !valid;
+
+			if (this.config.NoPadsConfigured && this.controllers.Count > 0) {
+				List<string> li = new List<string>();
+				List<string> cli = new List<string>();
+
+				foreach (var pad in this.config.Pads)
+					li.Add ("#" + pad.Index);
+
+				foreach (var cc in controllers)
+					cli.Add(string.Format("{0} (#{1})", cc.Device.ProductName, cc.Index));
+
+				if (li.Count > 1)
+					li[li.Count - 1] = " or " + li[li.Count - 1];
+
+				if (cli.Count > 1)
+					cli[cli.Count - 1] = " and " + cli[cli.Count - 1];
+
+				string liJoiner = ", ", cliJoiner = ", ";
+
+				if (li.Count == 2)
+					liJoiner = "";
+
+				if (cli.Count == 2)
+					cliJoiner = "";
+
+				string gamepads = "gamepads";
+				if (li.Count == 1) gamepads = "gamepad";
+				
+				ShowBalloonTip(
+					"No layouts have been applied to your gamepads",
+					"The layout you have selected does not include settings for the gamepads you have connected. " +
+						"Connect the " + gamepads + " assigned as " + 
+						string.Join(liJoiner, li.ToArray()) + " or remap your current pads via their Device tabs.\n\n" + 
+						"The following gamepad(s) are connected: " + 
+							string.Join (cliJoiner, cli.ToArray()), 
+					ToolTipIcon.Warning);
+			}
+
+			if (this.config.UpdatedForCompatibility) {
+				if (!this.config.Builtin) {
+					string changes = " - " + string.Join("\n - ", this.config.CompatibilityUpdates.ToArray());
+					BalloonHandler = delegate()
+					{
+						MessageBox.Show("The following changes were made to your custom configuration: \n" + changes, 
+							"Configuration update details", MessageBoxButtons.OK,
+							MessageBoxIcon.Information);
+					};
+					ShowBalloonTip( 
+						"Layout has been updated for Pad Tie 0.1b and later",
+						"The layout file has been updated for use in the " +
+							"current version of Pad Tie. Click for details.", ToolTipIcon.Info);
+					//SaveConfig();
+				}
+			}
+		}
+
+		public void ShowBalloonTip(string title, string message, ToolTipIcon icon)
+		{
+			if (!globalConfig.Settings.ShowBalloonTips)
+				return;
+			notifyIcon.ShowBalloonTip(globalConfig.Settings.BalloonTipTimeout * 1000, title, message, icon);
 		}
 
 		void UpdateSettings()
 		{
-			this.padTie.GlobalDeadzone = config.Settings.DefaultDeadzone;
-			this.padTie.AxisPoleSize = config.Settings.AxisPoleSize;
-			this.padTie.DoubleTapTimeout = config.Settings.DoubleTapInterval;
-			this.padTie.TapTimeout = config.Settings.TapInterval;
-			this.padTie.HoldTimeout = config.Settings.HoldInterval;
+			this.padTie.GlobalDeadzone = globalConfig.Settings.DefaultDeadzone;
+			this.padTie.AxisPoleSize = globalConfig.Settings.AxisPoleSize;
+			this.padTie.DoubleTapTimeout = globalConfig.Settings.DoubleTapInterval;
+			this.padTie.TapTimeout = globalConfig.Settings.TapInterval;
+			this.padTie.HoldTimeout = globalConfig.Settings.HoldInterval;
 
 			loadingSettings = true;
-			deadzoneSetting.Value = (decimal)(Config.Settings.DefaultDeadzone * 100);
-			axisPoleSizeSetting.Value = (decimal)(Config.Settings.AxisPoleSize * 100);
-			doubleTapIntervalSetting.Value = config.Settings.DoubleTapInterval;
-			tapIntervalSetting.Value = config.Settings.TapInterval;
-			holdIntervalSetting.Value = config.Settings.HoldInterval;
+			showBalloonSetting.Checked = globalConfig.Settings.ShowBalloonTips;
+			balloonTimeoutSetting.Value = globalConfig.Settings.BalloonTipTimeout;
+			showCompatBalloonSetting.Checked = globalConfig.Settings.ShowCompatibilityNotices;
+			noGamepadsConfiguredSetting.Checked = globalConfig.Settings.ShowNoGamepadConfigured;
+			deadzoneSetting.Value = (decimal)(globalConfig.Settings.DefaultDeadzone * 100);
+			axisPoleSizeSetting.Value = (decimal)(globalConfig.Settings.AxisPoleSize * 100);
+			doubleTapIntervalSetting.Value = globalConfig.Settings.DoubleTapInterval;
+			tapIntervalSetting.Value = globalConfig.Settings.TapInterval;
+			holdIntervalSetting.Value = globalConfig.Settings.HoldInterval;
 			loadingSettings = false;
 		}
 
 		bool loadingSettings = false;
 
 		public class AxisConfig {
-			public AxisConfig(InputActionConfig neg, InputActionConfig pos)
+			public AxisConfig(AxisActionsConfig neg, AxisActionsConfig pos)
 			{
 				Negative = neg;
 				Positive = pos;
 			}
 
-			public InputActionConfig Negative, Positive;
+			public AxisActionsConfig Negative, Positive;
+		}
+
+		public void LoadAxisGesture(Controller cc, VirtualController.Axis axis, bool isPos, AxisActionsConfig cfg)
+		{
+			UpdateAlphaActionType(cfg.Link);
+			UpdateAlphaActionType(cfg.Tap);
+			UpdateAlphaActionType(cfg.DoubleTap);
+			UpdateAlphaActionType(cfg.Hold);
+
+			if ((cfg.Link.Type == "none" || string.IsNullOrEmpty(cfg.Link.Type)) && cfg.CompatType != "none" && !string.IsNullOrEmpty(cfg.CompatType)) {
+				MapUtil.Map(this, cc.Virtual, new CapturedInput(axis, isPos, ButtonActions.Gesture.Link), CreateActionFromConfig(new InputActionConfig(cfg.CompatType, cfg.CompatParseable)));
+
+				config.UpdatedForCompatibility = true;
+				config.CompatibilityUpdates.Add("Updated axis '" + Util.GetAxisDisplayName(axis) + "' to use 0.1b format.");
+
+				cfg.Link.Type = cfg.CompatType;
+				cfg.Link.Parseable = cfg.CompatParseable;
+			} else {
+				MapUtil.Map(this, cc.Virtual, new CapturedInput(axis, isPos, ButtonActions.Gesture.Link), CreateActionFromConfig(cfg.Link));
+
+				cfg.CompatType = cfg.Link.Type;
+				cfg.CompatParseable = cfg.Link.Parseable;
+			}
+
+			MapUtil.Map(this, cc.Virtual, new CapturedInput(axis, isPos, ButtonActions.Gesture.Tap), CreateActionFromConfig(cfg.Tap));
+			MapUtil.Map(this, cc.Virtual, new CapturedInput(axis, isPos, ButtonActions.Gesture.DoubleTap), CreateActionFromConfig(cfg.DoubleTap));
+			MapUtil.Map(this, cc.Virtual, new CapturedInput(axis, isPos, ButtonActions.Gesture.Hold), CreateActionFromConfig(cfg.Hold));
 		}
 
 		public void LoadPadConfig(Controller cc, PadConfig pc)
 		{
 			cc.Config = pc;
-			LoadButton(cc.Virtual, VirtualController.Button.A, pc.A);
-			LoadButton(cc.Virtual, VirtualController.Button.B, pc.B);
-			LoadButton(cc.Virtual, VirtualController.Button.X, pc.X);
-			LoadButton(cc.Virtual, VirtualController.Button.Y, pc.Y);
-			LoadButton(cc.Virtual, VirtualController.Button.Br, pc.Br);
-			LoadButton(cc.Virtual, VirtualController.Button.Bl, pc.Bl);
-			LoadButton(cc.Virtual, VirtualController.Button.Tr, pc.Tr);
-			LoadButton(cc.Virtual, VirtualController.Button.Tl, pc.Tl);
-			LoadButton(cc.Virtual, VirtualController.Button.Start, pc.Start);
-			LoadButton(cc.Virtual, VirtualController.Button.Back, pc.Back);
-			LoadButton(cc.Virtual, VirtualController.Button.LeftAnalog, pc.LeftAnalogButton);
-			LoadButton(cc.Virtual, VirtualController.Button.RightAnalog, pc.RightAnalogButton);
+			LoadButton(cc, VirtualController.Button.A, pc.A);
+			LoadButton(cc, VirtualController.Button.B, pc.B);
+			LoadButton(cc, VirtualController.Button.X, pc.X);
+			LoadButton(cc, VirtualController.Button.Y, pc.Y);
+			LoadButton(cc, VirtualController.Button.Br, pc.Br);
+			LoadButton(cc, VirtualController.Button.Bl, pc.Bl);
+			LoadButton(cc, VirtualController.Button.Tr, pc.Tr);
+			LoadButton(cc, VirtualController.Button.Tl, pc.Tl);
+			LoadButton(cc, VirtualController.Button.Start, pc.Start);
+			LoadButton(cc, VirtualController.Button.System, pc.System);
+			LoadButton(cc, VirtualController.Button.Back, pc.Back);
+			LoadButton(cc, VirtualController.Button.LeftAnalog, pc.LeftAnalogButton);
+			LoadButton(cc, VirtualController.Button.RightAnalog, pc.RightAnalogButton);
 
-			MapUtil.Map (this, cc.Virtual, new CapturedInput(VirtualController.Axis.LeftX, false), CreateActionFromConfig(pc.LeftAnalogLeft));
-			MapUtil.Map (this, cc.Virtual, new CapturedInput(VirtualController.Axis.LeftX, true), CreateActionFromConfig(pc.LeftAnalogRight));
-			MapUtil.Map(this, cc.Virtual, new CapturedInput(VirtualController.Axis.LeftY, false), CreateActionFromConfig(pc.LeftAnalogUp));
-			MapUtil.Map(this, cc.Virtual, new CapturedInput(VirtualController.Axis.LeftY, true), CreateActionFromConfig(pc.LeftAnalogDown));
+			LoadAxisGesture(cc, VirtualController.Axis.LeftX, false, pc.LeftAnalogLeft);
+			LoadAxisGesture(cc, VirtualController.Axis.LeftX, true, pc.LeftAnalogRight);
+			LoadAxisGesture(cc, VirtualController.Axis.LeftY, false, pc.LeftAnalogUp);
+			LoadAxisGesture(cc, VirtualController.Axis.LeftY, true, pc.LeftAnalogDown);
 			
-			MapUtil.Map(this, cc.Virtual, new CapturedInput(VirtualController.Axis.RightX, false), CreateActionFromConfig(pc.RightAnalogLeft));
-			MapUtil.Map(this, cc.Virtual, new CapturedInput(VirtualController.Axis.RightX, true), CreateActionFromConfig(pc.RightAnalogRight));
-			MapUtil.Map(this, cc.Virtual, new CapturedInput(VirtualController.Axis.RightY, false), CreateActionFromConfig(pc.RightAnalogUp));
-			MapUtil.Map(this, cc.Virtual, new CapturedInput(VirtualController.Axis.RightY, true), CreateActionFromConfig(pc.RightAnalogDown));
+			LoadAxisGesture(cc, VirtualController.Axis.RightX, false, pc.RightAnalogLeft);
+			LoadAxisGesture(cc, VirtualController.Axis.RightX, true, pc.RightAnalogRight);
+			LoadAxisGesture(cc, VirtualController.Axis.RightY, false, pc.RightAnalogUp);
+			LoadAxisGesture(cc, VirtualController.Axis.RightY, true, pc.RightAnalogDown);
 
-			MapUtil.Map(this, cc.Virtual, new CapturedInput(VirtualController.Axis.DigitalX, false), CreateActionFromConfig(pc.DigitalLeft));
-			MapUtil.Map(this, cc.Virtual, new CapturedInput(VirtualController.Axis.DigitalX, true), CreateActionFromConfig(pc.DigitalRight));
-			MapUtil.Map(this, cc.Virtual, new CapturedInput(VirtualController.Axis.DigitalY, false), CreateActionFromConfig(pc.DigitalUp));
-			MapUtil.Map(this, cc.Virtual, new CapturedInput(VirtualController.Axis.DigitalY, true), CreateActionFromConfig(pc.DigitalDown));
+			LoadAxisGesture(cc, VirtualController.Axis.DigitalX, false, pc.DigitalLeft);
+			LoadAxisGesture(cc, VirtualController.Axis.DigitalX, true, pc.DigitalRight);
+			LoadAxisGesture(cc, VirtualController.Axis.DigitalY, false, pc.DigitalUp);
+			LoadAxisGesture(cc, VirtualController.Axis.DigitalY, true, pc.DigitalDown);
 
 			cc.Virtual.LeftXAxis.Tag = new AxisConfig(pc.LeftAnalogLeft, pc.LeftAnalogRight);
 			cc.Virtual.LeftYAxis.Tag = new AxisConfig(pc.LeftAnalogUp, pc.LeftAnalogDown);
@@ -427,9 +740,30 @@ namespace PadTieApp {
 			return CreateActionFromConfig(c.Type, c.Parseable);
 		}
 
-		public void LoadButton(VirtualController vc, VirtualController.Button button, ButtonActionsConfig ac)
+		/// <summary>
+		/// Updates input action configs made by Pad Tie 0.1a to use the new type model
+		/// </summary>
+		/// <param name="c"></param>
+		public void UpdateAlphaActionType(InputActionConfig c)
 		{
+			if (IsAlphaActionType(c.Type)) {
+				var action = CreateActionFromConfig(c);
+				c.Type = GetActionType(action);
+				config.UpdatedForCompatibility = true;
+				config.CompatibilityUpdates.Add("Updated action '" + action + "' to use 0.1b format");
+			}
+
+		}
+
+		public void LoadButton(Controller cc, VirtualController.Button button, ButtonActionsConfig ac)
+		{
+			var vc = cc.Virtual;
 			vc.GetButton(button).Tag = ac;
+
+			UpdateAlphaActionType(ac.Link);
+			UpdateAlphaActionType(ac.Tap);
+			UpdateAlphaActionType(ac.DoubleTap);
+			UpdateAlphaActionType(ac.Hold);
 
 			if (ac.Link.Type != "none")
 				MapButton(vc, button, ButtonActions.Gesture.Link, CreateActionFromConfig(ac.Link.Type, ac.Link.Parseable), false);
@@ -443,21 +777,47 @@ namespace PadTieApp {
 
 		public InputAction CreateActionFromConfig(string type, string parseable)
 		{
+			if (type == null)
+				return null;
+
 			switch (type) {
 				case "key":
-					return KeyAction.Parse (parseable);
+					return KeyAction.Parse (padTie, parseable);
 				case "pointer":
-					return MousePointerAction.Parse (padTie, parseable);
+					return MousePointerAction.Parse(padTie, parseable);
 				case "button":
-					return MouseButtonAction.Parse (padTie, parseable);
+					return MouseButtonAction.Parse(padTie, parseable);
 				case "wheel":
 					return MouseWheelAction.Parse(padTie, parseable);
 				case "command":
-					// TODO
-					break;
+					return RunCommandAction.Parse(padTie, parseable);
+				case "open-file":
+					return OpenFileAction.Parse(padTie, parseable);
 				case "switch-config":
-					// TODO
-					break;
+					return SwitchConfigAction.Parse(padTie, parseable);
+				default:
+					// The *new* way of doing things: load the action via reflection by it's AQN
+
+					Type t = Type.GetType(type, false);
+
+					if (t == null)
+						t = typeof(PadTieForm).Assembly.GetType(type, false);
+					
+					if (t == null)
+						t = typeof(InputCore).Assembly.GetType(type, false);
+
+					if (t != null && t.IsSubclassOf(typeof(InputAction))) {
+						var m = t.GetMethod("Parse", new[] { typeof(InputCore), typeof(string) }, null);
+
+						if (m != null) {
+							var ret = m.Invoke(null, new object[] { padTie, parseable });
+
+							if (ret != null && ret is InputAction) {
+								return ret as InputAction;
+							}
+						}
+					}
+				break;
 			}
 
 			return null;
@@ -489,11 +849,30 @@ namespace PadTieApp {
 			MapButton(vc, button, gesture, action, true);
 		}
 
+		public bool IsAlphaActionType(string type)
+		{
+			if (type == "key" || type == "pointer" || type == "button" || type == "wheel" || 
+				type == "command" || type == "open-file" || type == "switch-config")
+				return true;
+			return false;
+		}
+
 		public string GetActionType(InputAction action)
 		{
 			if (action == null)
 				return "none";
 
+			var type = action.GetType();
+			var an = type.Assembly.GetName();
+			var anPadTie = typeof(InputCore).Assembly.GetName();
+			var anPadTieApp = typeof(PadTieForm).Assembly.GetName();
+
+			if (an.Name == anPadTie.Name || an.Name == anPadTieApp.Name)
+				return type.FullName;
+			else
+				return action.GetType().AssemblyQualifiedName;
+
+			/*
 			if (action is KeyAction)
 				return "key";
 			else if (action is MousePointerAction)
@@ -502,7 +881,14 @@ namespace PadTieApp {
 				return "button";
 			else if (action is MouseWheelAction)
 				return "wheel";
-			return null;
+			else if (action is RunCommandAction)
+				return "command";
+			else if (action is OpenFileAction)
+				return "open-file";
+			else if (action is SwitchConfigAction)
+				return "switch-config";
+			return null; 
+			*/
 		}
 
 		public Controller GetController(VirtualController vc)
@@ -576,54 +962,102 @@ namespace PadTieApp {
 			}
 		}
 
-		public void MapAxisGesture(VirtualController vc, VirtualController.Axis axis, AxisActions.Gestures gesture, InputAction action)
+		public void MapAxisGesture(VirtualController vc, VirtualController.Axis axis, AxisActions.Gestures gesture, 
+			ButtonActions.Gesture poleGesture, InputAction action)
 		{
-			MapAxisGesture(vc, axis, gesture, action, true);
+			MapAxisGesture(vc, axis, gesture, poleGesture, action, true);
 		}
 
-		public void MapAxisGesture(VirtualController vc, VirtualController.Axis axis, AxisActions.Gestures gesture, InputAction action, bool save)
+		public void MapAxisGesture(VirtualController vc, VirtualController.Axis axis, AxisActions.Gestures gesture, 
+			ButtonActions.Gesture poleGesture, InputAction action, bool save)
 		{
-			if (action != null)
-				action.SlotDescription = new CapturedInput(axis, gesture == AxisActions.Gestures.Positive);
+			var slot = new CapturedInput(axis, gesture == AxisActions.Gestures.Positive, poleGesture);
+
+			if (action != null) {
+				// Attempt to unset the action's previous slot
+				if (action.SlotDescription != null && slot != action.SlotDescription)
+					MapUtil.Map(this, vc, action.SlotDescription, null);
+				action.SlotDescription = slot;
+			}
 
 			Controller cc = GetController(vc);
 			if (cc == null) return;
 
-			var gestureID = Util.GetAxisGestureID(axis, gesture);
+			var gestureID = Util.GetAxisGestureID(axis, gesture, poleGesture);
 			cc.SettingsUI.SetMapping(gestureID, Util.GetActionName(action), action);
 			var aa = vc.GetAxis(axis);
-			aa.Map(gesture, action);
+
+			if (poleGesture == ButtonActions.Gesture.Link)
+				aa.GetPole(gesture).Link = action;
+			else if (poleGesture == ButtonActions.Gesture.Tap)
+				aa.GetPole(gesture).Tap = action;
+			else if (poleGesture == ButtonActions.Gesture.DoubleTap)
+				aa.GetPole(gesture).DoubleTap = action;
+			else if (poleGesture == ButtonActions.Gesture.Hold)
+				aa.GetPole(gesture).Hold = action;
 
 			if (save) {
 				var config = aa.Tag as AxisConfig;
 				InputActionConfig inputActionConfig;
 
 				if (config != null) {
-					if (gesture == AxisActions.Gestures.Positive)
-						inputActionConfig = config.Positive;
-					else
-						inputActionConfig = config.Negative;
+					if (gesture == AxisActions.Gestures.Positive) {
+						inputActionConfig = config.Positive.GetGesture(poleGesture);
+						if (poleGesture == ButtonActions.Gesture.Link) {
+							// Bugfix for 0.1b2: Unsetting or moving actions from Link gesture of
+							// axes does not persist. Pad Tie was loading the stale compatibility 
+							// action info since the <link> gesture was 'none'
+							config.Positive.CompatType = GetActionType(action);
+							config.Positive.CompatParseable = (action == null ? "" : action.ToParseable());
+						}
+					} else {
+						inputActionConfig = config.Negative.GetGesture(poleGesture);
+
+						if (poleGesture == ButtonActions.Gesture.Link) {
+							// Bugfix for 0.1b2: Unsetting or moving actions from Link gesture of
+							// axes does not persist. Pad Tie was loading the stale compatibility 
+							// action info since the <link> gesture was 'none'
+							config.Negative.CompatType = GetActionType(action);
+							config.Negative.CompatParseable = (action == null ? "" : action.ToParseable());
+						}
+					}
 
 					inputActionConfig.Type = GetActionType(action);
 					inputActionConfig.Parseable = (action == null ? "" : action.ToParseable());
 					
 					SaveConfig();
 				}
-				
 			}
 		}
 
 		private void PadTieForm_Load(object sender, EventArgs e)
 		{
 			Init();
+			padLegend.Init(this);
+
 			LoadConfig();
 			RefreshConfigList();
+			
+			Fontify.Go(this);
+
+			if (globalConfig.Settings.RememberWindowSize && globalConfig.Settings.WindowWidth > 0) {
+				this.SetBounds(globalConfig.Settings.WindowX, globalConfig.Settings.WindowY, globalConfig.Settings.WindowWidth,
+					globalConfig.Settings.WindowHeight);
+
+				if (globalConfig.Settings.WindowMaximized)
+					this.WindowState = FormWindowState.Maximized;
+			}
+
+			Application.DoEvents();
 			this.Show();
+
 		}
 
 		internal void Init()
 		{
-			padTie = new InputCore();
+			padTie = new InputCore(this.Handle);
+			padTie.DIMainWindow = this.Handle;
+			padTie.Tag = this;
 		}
 
 		private void iterationTimer_Tick(object sender, EventArgs e)
@@ -646,6 +1080,15 @@ namespace PadTieApp {
 				if (cc.Device.Removed) {
 					padTabs.TabPages.Remove(cc.Tab);
 					removed.Add(cc);
+				}
+
+				if (cc.IsGeneric) {
+					cc.IsGeneric = false;
+
+					var wiz = new MappingWizard();
+					wiz.Controller = cc;
+					wiz.MainForm = this;
+					wiz.ShowDialog(this);
 				}
 			}
 
@@ -670,7 +1113,8 @@ namespace PadTieApp {
 			sfd.SupportMultiDottedExtensions = true;
 			sfd.DefaultExt = ".config.xml";
 			sfd.Filter = "Pad Tie configuration file (*.config.xml)|*.config.xml|All files (*.*)|*";
-
+			sfd.RestoreDirectory = true;
+			sfd.InitialDirectory = GetDocs();
 			var result = sfd.ShowDialog(this);
 			if (result == System.Windows.Forms.DialogResult.OK) {
 				config.Save(sfd.FileName);
@@ -678,11 +1122,9 @@ namespace PadTieApp {
 			}
 		}
 
-		private void configBox_TextChanged(object sender, EventArgs e)
+		public void ChangeConfig(ConfigItem item)
 		{
-			ConfigItem item = configBox.SelectedItem as ConfigItem;
-
-			if (item == null) return;
+			if (refreshingConfigs) return;
 
 			if (!File.Exists(item.FileName)) {
 				MessageBox.Show("Could not locate configuration, it may have been deleted.");
@@ -692,9 +1134,86 @@ namespace PadTieApp {
 
 			foreach (var cc in controllers)
 				cc.Reset();
-			var cfg = Config.Load(FindConfigFile(item.FileName));
+			var cfg = Config.Load(item.FileName);
 			cfg.Builtin = item.IsBuiltIn;
 			LoadConfig(cfg);
+		}
+
+		public void UpdateLegend()
+		{
+			Dictionary<string, string> layout = new Dictionary<string, string>();
+			Controller cc = GetController(padLegend.Pad);
+			bool editable = false;
+
+			if (cc == null) return;
+
+			if (padLegend.SelectedMode == LegendMode.Overview) {
+				editable = true;
+
+				if (config != null) {
+					if (config.Pads.Count <= cc.Index - 1) {
+
+					} else {
+						var pc = cc.Config;
+
+						foreach (var btn in VirtualController.ButtonList) {
+							var bc = pc.GetButton(btn);
+							if (bc == null) continue;
+							
+							if (!string.IsNullOrEmpty(bc.Overview))
+								layout[btn.ToString()] = bc.Overview;
+						}
+
+						foreach (var axis in VirtualController.AxisList) {
+							var pos = pc.GetAxisGesture(axis, true);
+							var neg = pc.GetAxisGesture(axis, false);
+
+							if (pos != null && !string.IsNullOrEmpty(pos.Overview))
+								layout[axis.ToString() + "/Pos"] = pos.Overview;
+							if (neg != null && !string.IsNullOrEmpty(neg.Overview))
+								layout[axis.ToString() + "/Neg"] = neg.Overview;
+						}
+					}
+				}
+			} else {
+				ButtonActions.Gesture gesture = ButtonActions.Gesture.Link;
+
+				if (padLegend.SelectedMode == LegendMode.Link)
+					gesture = ButtonActions.Gesture.Link;
+				else if (padLegend.SelectedMode == LegendMode.Tap)
+					gesture = ButtonActions.Gesture.Tap;
+				else if (padLegend.SelectedMode == LegendMode.DoubleTap)
+					gesture = ButtonActions.Gesture.DoubleTap;
+				else if (padLegend.SelectedMode == LegendMode.Hold)
+					gesture = ButtonActions.Gesture.Hold;
+
+				foreach (var btn in VirtualController.ButtonList) {
+					var ba = cc.Virtual.GetButton(btn);
+
+					if (ba == null) continue;
+
+					var action = ba.GetGesture(gesture);
+
+					if (action == null)
+						layout[btn.ToString()] = "Unassigned";
+					else
+						layout[btn.ToString()] = action.ToString();
+				}
+
+				foreach (var axis in VirtualController.AxisList) {
+					var ccAxis = cc.Virtual.GetAxis(axis);
+
+					if (ccAxis == null) continue;
+
+					var pos = ccAxis.Positive.GetGesture(gesture);
+					var neg = ccAxis.Negative.GetGesture(gesture);
+
+					layout[axis.ToString() + "/Pos"] = (pos != null ? pos.ToString() : "Unassigned");
+					layout[axis.ToString() + "/Neg"] = (neg != null ? neg.ToString() : "Unassigned");
+				}
+			}
+
+			padLegend.ApplyLayout(layout, editable);
 		}
 
 		public string GetDocs()
@@ -707,19 +1226,49 @@ namespace PadTieApp {
 			if (!Directory.Exists(GetDocs()))
 				Directory.CreateDirectory(GetDocs());
 
-			if (config.Builtin) {				
-				string userConfig = Path.Combine(GetDocs(), Path.GetFileName(config.FileName));
-				File.Copy(config.FileName, userConfig);
-				config.Save(userConfig);
-			} else {
+			Exception caught = null;
+
+			// Pad Tie 0.1b2: First try to save in whatever location we loaded from. If this fails, look for
+			// unauthorized access and the builtin flag then do the customary builtin layout -> custom layout file copy.
+			// Bonus points for real exception protection.
+
+			try {
 				config.Save();
+			} catch (Exception e) { caught = e; }
+
+			if (caught != null && caught is UnauthorizedAccessException && config.Builtin) {
+				string userConfig = Path.Combine(GetDocs(), Path.GetFileName(config.FileName));
+				if (File.Exists(userConfig)) {
+					var r = MessageBox.Show("A custom layout named '" + Path.GetFileName(config.FileName) + "' already exists. Overwrite it?",
+						"Custom layout exists", MessageBoxButtons.YesNo);
+
+					if (r != DialogResult.Yes)
+						return;
+
+					File.Delete(userConfig);
+				}
+
+				File.Copy(config.FileName, userConfig);
+				try {
+					config.Save(userConfig);
+				} catch (Exception e) {
+					MessageBox.Show("An error occurred while trying to save your new custom layout: " + e.Message,
+						"Could not save new custom layout");
+				}
+
+				Thread.Sleep(400);
+				Application.DoEvents();
+				RefreshConfigList(true);
+			} else if (caught != null) {
+				MessageBox.Show("An error occurred while trying to save your modifications: " + caught.Message, 
+					"Could not save layout");
 			}
 		}
 
 		private void tapIntervalSetting_ValueChanged(object sender, EventArgs e)
 		{
 			if (!loadingSettings) {
-				padTie.TapTimeout = Config.Settings.TapInterval = (short)tapIntervalSetting.Value;
+				padTie.TapTimeout = globalConfig.Settings.TapInterval = (short)tapIntervalSetting.Value;
 				SaveConfig();
 			}
 		}
@@ -727,7 +1276,7 @@ namespace PadTieApp {
 		private void doubleTapIntervalSetting_ValueChanged(object sender, EventArgs e)
 		{
 			if (!loadingSettings) {
-				padTie.DoubleTapTimeout = Config.Settings.DoubleTapInterval = (short)doubleTapIntervalSetting.Value;
+				padTie.DoubleTapTimeout = globalConfig.Settings.DoubleTapInterval = (short)doubleTapIntervalSetting.Value;
 				SaveConfig();
 			}
 		}
@@ -735,7 +1284,7 @@ namespace PadTieApp {
 		private void holdIntervalSetting_ValueChanged(object sender, EventArgs e)
 		{
 			if (!loadingSettings) {
-				padTie.HoldTimeout = config.Settings.HoldInterval = (short)holdIntervalSetting.Value;
+				padTie.HoldTimeout = globalConfig.Settings.HoldInterval = (short)holdIntervalSetting.Value;
 				SaveConfig();
 			}
 		}
@@ -743,7 +1292,7 @@ namespace PadTieApp {
 		private void deadzoneSetting_ValueChanged(object sender, EventArgs e)
 		{
 			if (!loadingSettings) {
-				padTie.GlobalDeadzone = config.Settings.DefaultDeadzone = ((double)deadzoneSetting.Value / 100);
+				padTie.GlobalDeadzone = globalConfig.Settings.DefaultDeadzone = ((double)deadzoneSetting.Value / 100);
 				SaveConfig();
 			}
 		}
@@ -751,7 +1300,7 @@ namespace PadTieApp {
 		private void axisPoleSizeSetting_ValueChanged(object sender, EventArgs e)
 		{
 			if (!loadingSettings) {
-				padTie.AxisPoleSize = config.Settings.AxisPoleSize = ((double)axisPoleSizeSetting.Value / 100);
+				padTie.AxisPoleSize = globalConfig.Settings.AxisPoleSize = ((double)axisPoleSizeSetting.Value / 100);
 				SaveConfig();
 			}
 		}
@@ -790,9 +1339,241 @@ namespace PadTieApp {
 			if (!this.Visible) Show();
 			this.Activate();
 		}
+
+		private void refreshConfigListTimer_Tick(object sender, EventArgs e)
+		{
+			RefreshConfigList();
+		}
+
+		internal Block BalloonHandler;
+
+		private void notifyIcon_BalloonTipClicked(object sender, EventArgs e)
+		{
+			if (BalloonHandler != null) BalloonHandler();
+		}
+
+		private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
+		{
+
+		}
+
+		private void configBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			ConfigItem item = configBox.SelectedItem as ConfigItem;
+			if (item == null) return;
+			ChangeConfig(item);
+		}
+
+		bool updatingMenu = false;
+
+		private void layoutToolBtn_MouseDown(object sender, MouseEventArgs e)
+		{
+			updatingMenu = true;
+			try {
+				bool b = (globalConfig.Settings.DefaultConfigFile == config.FileName);
+				defaultMenuItem.Checked = b;
+				defaultMenuItem.Enabled = !b;
+			} finally {
+				updatingMenu = false;
+			}
+		}
+
+		private void defaultMenuItem_CheckStateChanged(object sender, EventArgs e)
+		{
+			if (updatingMenu || !defaultMenuItem.Checked) return;
+			globalConfig.Settings.DefaultConfigFile = config.FileName;
+			globalConfig.Save();
+			defaultMenuItem.Enabled = false;
+		}
+
+		private void showBalloonSetting_CheckedChanged(object sender, EventArgs e)
+		{
+			globalConfig.Settings.ShowBalloonTips = showBalloonSetting.Checked;
+			globalConfig.Save();
+		}
+
+		private void showCompatBalloonSetting_CheckedChanged(object sender, EventArgs e)
+		{
+			globalConfig.Settings.ShowCompatibilityNotices = showCompatBalloonSetting.Checked;
+			globalConfig.Save();
+		}
+
+		private void noGamepadsConfiguredSetting_CheckedChanged(object sender, EventArgs e)
+		{
+			globalConfig.Settings.ShowNoGamepadConfigured = noGamepadsConfiguredSetting.Checked;
+			globalConfig.Save();
+		}
+
+		private void balloonTimeoutSetting_ValueChanged(object sender, EventArgs e)
+		{
+			globalConfig.Settings.BalloonTipTimeout = (int)balloonTimeoutSetting.Value;
+			globalConfig.Save();
+		}
+
+		bool layoutNameTemplate = false;
+
+		private void layoutName_Enter(object sender, EventArgs e)
+		{
+			layoutName.BorderStyle = BorderStyle.Fixed3D;
+			layoutName.BackColor = Color.FromKnownColor(KnownColor.Window);
+
+			if (layoutNameTemplate) {
+				layoutName.Text = "";
+				layoutName.Font = new Font(layoutName.Font, FontStyle.Regular);
+				layoutNameTemplate = false;
+			}
+		}
+
+		private void layoutName_Leave(object sender, EventArgs e)
+		{
+			layoutName.BorderStyle = BorderStyle.None;
+			layoutName.BackColor = Color.FromKnownColor(KnownColor.Control);
+
+			if (config.Label != layoutName.Text) {
+				config.Label = layoutName.Text;
+				SaveConfig();
+			}
+
+			if (layoutName.Text == "") {
+				layoutName.Text = "Click to set title for layout";
+				layoutName.Font = new Font(layoutName.Font, FontStyle.Italic);
+				layoutNameTemplate = true;
+			}
+		}
+
+		private void infobox_Enter(object sender, EventArgs e)
+		{
+			infobox.BorderStyle = BorderStyle.Fixed3D;
+			infobox.BackColor = Color.FromKnownColor(KnownColor.Window);
+
+			if (infoTemplate) {
+				infobox.Text = "";
+				infobox.Font = new Font(infobox.Font, FontStyle.Regular);
+				infoTemplate = false;
+			}
+		}
+
+		private void infobox_Leave(object sender, EventArgs e)
+		{
+			infobox.BorderStyle = BorderStyle.None;
+			infobox.BackColor = Color.FromKnownColor(KnownColor.Control);
+
+			string pinfo = infobox.Text.Replace("\r", "").Replace("\n", "\\n");
+			if (config.Info != pinfo) {
+				config.Info = pinfo;
+				SaveConfig();
+			}
+		}
+
+		bool infoTemplate = false;
+
+		private void PadTieForm_ResizeEnd(object sender, EventArgs e)
+		{
+			if (globalConfig != null && globalConfig.Settings.RememberWindowSize) {
+				Console.WriteLine("Changed window size to {0}x{1}", Width, Height);
+				globalConfig.Settings.WindowWidth = Width;
+				globalConfig.Settings.WindowHeight = Height;
+				globalConfig.Save();
+			}
+		}
+
+		System.Windows.Forms.Timer moveTimeout = null;
+
+		private void PadTieForm_Move(object sender, EventArgs e)
+		{
+			if (globalConfig != null && globalConfig.Settings.RememberWindowSize) {
+				// Disabled since ResizeEnd seems to be called after a move operation finishes as well
+				
+				/*
+				if (moveTimeout == null) {
+					
+					moveTimeout = new System.Windows.Forms.Timer();
+					moveTimeout.Interval = 4000;
+					moveTimeout.Tick += delegate(object sender2, EventArgs e2) {
+						Console.WriteLine("Saving global config after window move timeout elapsed");
+						globalConfig.Save();
+						moveTimeout.Stop();
+					};
+				}
+				moveTimeout.Stop();
+				moveTimeout.Start();
+				*/
+
+				globalConfig.Settings.WindowX = Left;
+				globalConfig.Settings.WindowY = Top;
+			}
+		}
+
+		FormWindowState oldState = FormWindowState.Normal;
+
+		private void PadTieForm_Resize(object sender, EventArgs e)
+		{
+			if (globalConfig != null && globalConfig.Settings.RememberWindowSize) {
+				if (oldState != WindowState) {
+					if (WindowState == FormWindowState.Maximized) {
+						globalConfig.Settings.WindowMaximized = true;
+						globalConfig.Save();
+					} else if (WindowState == FormWindowState.Normal) {
+						globalConfig.Settings.WindowMaximized = false;
+						globalConfig.Save();
+					} else if (WindowState == FormWindowState.Minimized) {
+						Console.WriteLine("Form minimized");
+					}
+
+					oldState = WindowState;
+				}
+			}
+		}
+
+		private void padLegend_PadChanged(object sender, EventArgs e)
+		{
+			UpdateLegend();
+		}
+
+		private void padLegend_SelectedModeChanged(object sender, EventArgs e)
+		{
+			UpdateLegend();
+		}
+
+		private void padLegend_LayoutChanged(object sender, EventArgs e)
+		{
+			var cc = GetController(padLegend.Pad);
+
+			if (cc == null) return;
+			var layout = padLegend.GetLayout();
+
+			foreach (var btn in VirtualController.ButtonList) {
+				var ba = cc.Config.GetButton(btn);
+				if (ba == null)
+					continue;
+				if (layout.ContainsKey(btn.ToString()))
+					ba.Overview = layout[btn.ToString()];
+			}
+
+			foreach (var axis in VirtualController.AxisList) {
+				var pos = cc.Config.GetAxisGesture(axis, true);
+				var neg = cc.Config.GetAxisGesture(axis, false);
+				var posID = axis.ToString() + "/Pos";
+				var negID = axis.ToString() + "/Neg";
+				
+				if (pos != null && layout.ContainsKey(posID))
+					pos.Overview = layout[posID];
+				if (neg != null && layout.ContainsKey(negID))
+					neg.Overview = layout[negID];
+			}
+
+			SaveConfig();
+		}
 	}
 
+	public delegate void Block();
+
 	public class Util {
+		public static EnumT ParseEnum<EnumT>(string value)
+		{
+			return (EnumT)Enum.Parse(typeof(EnumT), value);
+		}
+
 		public static VirtualController.Axis AxisFromGesture(AxisGesture gesture)
 		{
 			switch (gesture) {
@@ -953,6 +1734,11 @@ namespace PadTieApp {
 			}
 		}
 
+		public static string GetAxisGestureID(VirtualController.Axis axis, AxisActions.Gestures gesture, ButtonActions.Gesture poleGesture)
+		{
+			return GetAxisGestureID(axis, gesture) + "/" + GetButtonGestureID(poleGesture);
+		}
+
 		public static string GetAxisGestureID(VirtualController.Axis axis, AxisActions.Gestures gesture)
 		{
 			string id = "";
@@ -1024,5 +1810,7 @@ namespace PadTieApp {
 		}
 
 		public TabPage Tab { get; set; }
+
+		public bool IsGeneric { get; set; }
 	}
 }

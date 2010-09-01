@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using PadTie;
 
 namespace PadTieApp {
-	public partial class ChangeMappingDialog : Form {
+	public partial class ChangeMappingDialog : Form, IFontifiable {
 		public ChangeMappingDialog(PadTieForm form, int pad, string source, string gesture, string dest)
 		{
 			InitializeComponent();
@@ -88,6 +88,8 @@ namespace PadTieApp {
 
 		bool isAxis = false;
 
+		public bool Fontified { get; set; }
+
 		public string Destination
 		{
 			get
@@ -163,6 +165,11 @@ namespace PadTieApp {
 		private void okBtn_Click(object sender, EventArgs e)
 		{
 			this.Close();
+		}
+
+		private void ChangeMappingDialog_Load(object sender, EventArgs e)
+		{
+			Fontify.Go(this);
 		}
 	}
 }

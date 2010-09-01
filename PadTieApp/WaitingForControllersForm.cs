@@ -29,7 +29,7 @@ namespace PadTieApp {
 
 		private void WaitingForControllersForm_Load(object sender, EventArgs e)
 		{
-
+			Fontify.Go(this);
 		}
 	}
 }

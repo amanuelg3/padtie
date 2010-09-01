@@ -21,7 +21,15 @@ namespace PadTie {
 		public static MousePointerAction Parse(InputCore core, string parseable)
 		{
 			string[] parts = parseable.Split(',');
-			return new MousePointerAction(core, int.Parse(parts[0]), int.Parse(parts[1]));
+
+			var mpa = new MousePointerAction(core, int.Parse(parts[0]), int.Parse(parts[1]));
+
+			if (parts.Length > 2) {
+				mpa.Continuous = bool.Parse(parts[2]);
+				mpa.UseIntensity = bool.Parse(parts[3]);
+			}
+
+			return mpa;
 		}
 
 		public override string ToString()
@@ -59,7 +67,7 @@ namespace PadTie {
 
 		public override string ToParseable()
 		{
-			return string.Format("{0},{1}", X, Y);
+			return string.Format("{0},{1},{2},{3}", X, Y, Continuous, UseIntensity);
 		}
 
 		public bool Continuous { get; set; }

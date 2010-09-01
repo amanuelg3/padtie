@@ -37,18 +37,19 @@
 			// slotCapture
 			// 
 			this.slotCapture.Controller = null;
-			this.slotCapture.Location = new System.Drawing.Point(5, 60);
-			this.slotCapture.MaximumSize = new System.Drawing.Size(1000, 79);
-			this.slotCapture.MinimumSize = new System.Drawing.Size(233, 79);
+			this.slotCapture.Location = new System.Drawing.Point(7, 66);
+			this.slotCapture.MaximumSize = new System.Drawing.Size(1000, 106);
+			this.slotCapture.MinimumSize = new System.Drawing.Size(298, 106);
 			this.slotCapture.Name = "slotCapture";
-			this.slotCapture.Size = new System.Drawing.Size(282, 79);
+			this.slotCapture.Size = new System.Drawing.Size(298, 106);
 			this.slotCapture.TabIndex = 19;
 			this.slotCapture.Value = null;
 			// 
 			// cancelBtn
 			// 
+			this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelBtn.Location = new System.Drawing.Point(125, 145);
+			this.cancelBtn.Location = new System.Drawing.Point(144, 176);
 			this.cancelBtn.Name = "cancelBtn";
 			this.cancelBtn.Size = new System.Drawing.Size(75, 23);
 			this.cancelBtn.TabIndex = 18;
@@ -58,8 +59,9 @@
 			// 
 			// okBtn
 			// 
+			this.okBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.okBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.okBtn.Location = new System.Drawing.Point(206, 145);
+			this.okBtn.Location = new System.Drawing.Point(225, 176);
 			this.okBtn.Name = "okBtn";
 			this.okBtn.Size = new System.Drawing.Size(75, 23);
 			this.okBtn.TabIndex = 17;
@@ -73,7 +75,7 @@
 			this.groupBox1.Controls.Add(this.mouseButton);
 			this.groupBox1.Location = new System.Drawing.Point(7, 5);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(274, 55);
+			this.groupBox1.Size = new System.Drawing.Size(292, 55);
 			this.groupBox1.TabIndex = 16;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Pointer Motion";
@@ -99,8 +101,9 @@
             "Extra 2 (Forward)"});
 			this.mouseButton.Location = new System.Drawing.Point(87, 19);
 			this.mouseButton.Name = "mouseButton";
-			this.mouseButton.Size = new System.Drawing.Size(178, 21);
+			this.mouseButton.Size = new System.Drawing.Size(199, 21);
 			this.mouseButton.TabIndex = 19;
+			this.mouseButton.SelectedIndexChanged += new System.EventHandler(this.mouseButton_SelectedIndexChanged);
 			// 
 			// MapMouseButtonForm
 			// 
@@ -108,13 +111,14 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelBtn;
-			this.ClientSize = new System.Drawing.Size(292, 178);
+			this.ClientSize = new System.Drawing.Size(311, 209);
 			this.Controls.Add(this.slotCapture);
 			this.Controls.Add(this.cancelBtn);
 			this.Controls.Add(this.okBtn);
 			this.Controls.Add(this.groupBox1);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "MapMouseButtonForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "MapMouseButtonForm";
 			this.Load += new System.EventHandler(this.MapMouseButtonForm_Load);
 			this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MapMouseButtonForm_KeyPress);

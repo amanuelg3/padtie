@@ -19,6 +19,11 @@ namespace PadTie {
 			set { Action.AcceptAnalog = value; }
 		}
 
+		public override string ToParseable()
+		{
+			return "";
+		}
+
 		public InputAction Action { get; private set; }
 
 		public override void Analog(double value)

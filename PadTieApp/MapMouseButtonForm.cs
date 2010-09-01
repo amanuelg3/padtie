@@ -9,30 +9,38 @@ using System.Windows.Forms;
 using PadTie;
 
 namespace PadTieApp {
-	public partial class MapMouseButtonForm : Form {
+	public partial class MapMouseButtonForm : Form, IMapDialog, IFontifiable {
 		private MouseButtonAction editing;
-		public MapMouseButtonForm(PadTieForm form, VirtualController vc)
+		public MapMouseButtonForm(PadTieForm form, Controller cc)
 		{
 			InitializeComponent();
-			Controller = vc;
+			Controller = cc;
 			MainForm = form;
-			slotCapture.Controller = vc;
+			slotCapture.Controller = cc;
+			slotCapture.MainForm = form;
 		}
 		
-		public MapMouseButtonForm(PadTieForm main, VirtualController vc, MouseButtonAction editing):
-			this (main, vc)
+		public MapMouseButtonForm(PadTieForm main, Controller cc, MouseButtonAction editing):
+			this (main, cc)
 		{
 			this.editing = editing;
 
 			mouseButton.SelectedIndex = (int)editing.Button;
-			slotCapture.SetInput(editing.SlotDescription);
+			slotCapture.SetInput(editing.SlotDescription, true);
 		}
 
-		public VirtualController Controller { get; private set; }
+		public Controller Controller { get; private set; }
 		public PadTieForm MainForm { get; private set; }
+		public bool Fontified { get; set; }
+
+		public void SetInput(CapturedInput slot)
+		{
+			slotCapture.SetInput(slot);
+		}
 
 		private void cancelBtn_Click(object sender, EventArgs e)
 		{
+			DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.Close();
 		}
 
@@ -63,23 +71,32 @@ namespace PadTieApp {
 				editing.Button = b;
 
 				if (input != editing.SlotDescription)
-					MapUtil.Map(MainForm, Controller, input, null);
+					MapUtil.Map(MainForm, Controller.Virtual, input, null);
 				action = editing;
 			} else {
 				action = new MouseButtonAction(Controller.Core, b);
 			}
-			MapUtil.Map(MainForm, Controller, input, action);
+			MapUtil.Map(MainForm, Controller.Virtual, input, action);
 
+			DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.Close();
 		}
 
 		private void MapMouseButtonForm_Load(object sender, EventArgs e)
 		{
 			if (mouseButton.SelectedIndex == -1) mouseButton.SelectedIndex = 0;
+
+			Fontify.Go(this);
 		}
 
 		private void MapMouseButtonForm_KeyPress(object sender, KeyPressEventArgs e)
 		{
+		}
+
+		private void mouseButton_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (slotCapture.Value == null)
+				slotCapture.BeginCapture();
 		}
 	}
 }

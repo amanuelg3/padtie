@@ -1,53 +1,67 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" label="DiRT II">
   <pad index="1">
     <a>
-      <link type="key">Down,</link>
+      <link type="PadTie.KeyAction">Down,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Brake</overview>
     </a>
     <b>
       <link type="none" />
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Not Used</overview>
     </b>
     <x>
-      <link type="key">Up,</link>
+      <link type="PadTie.KeyAction">Up,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Accelerate</overview>
     </x>
     <y>
       <link type="none" />
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Not Used</overview>
     </y>
     <back>
-      <link type="key">Escape,</link>
-      <tap type="key">Escape,</tap>
+      <link type="PadTie.KeyAction">Escape,</link>
+      <tap type="PadTie.KeyAction">Escape,</tap>
       <dtap type="none" />
-      <hold type="key">O,Menu</hold>
+      <hold type="PadTie.KeyAction">O,Menu</hold>
+      <overview>Pause, Hold: Dashboard</overview>
     </back>
     <start>
-      <link type="key">Return,</link>
+      <link type="PadTie.KeyAction">Return,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Enter [menu]</overview>
     </start>
-    <bl>
-      <link type="key">F2,</link>
+    <system>
+      <link type="none" />
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+    </system>
+    <bl>
+      <link type="PadTie.KeyAction">F2,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Rewind</overview>
     </bl>
     <br>
-      <link type="key">F3,</link>
+      <link type="PadTie.KeyAction">F3,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Fast Forward</overview>
     </br>
     <tl>
       <link type="none" />
@@ -56,13 +70,14 @@
       <hold type="none" />
     </tl>
     <tr>
-      <link type="key">F12,</link>
+      <link type="PadTie.KeyAction">F12,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Resume Playing</overview>
     </tr>
     <la>
-      <link type="key">Return,</link>
+      <link type="PadTie.KeyAction">Return,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
@@ -73,20 +88,79 @@
       <dtap type="none" />
       <hold type="none" />
     </ra>
-    <la-up type="key">Up,</la-up>
-    <la-down type="key">Down,</la-down>
-    <la-left type="key">Left,</la-left>
-    <la-right type="key">Right,</la-right>
-    <ra-up type="pointer">0,-25</ra-up>
-    <ra-down type="pointer">0,25</ra-down>
-    <ra-left type="pointer">-25,0</ra-left>
-    <ra-right type="pointer">25,0</ra-right>
+    <la-up type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">Up,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Accelerate</overview>Up,</la-up>
+    <la-down type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">Down,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Brake</overview>Down,</la-down>
+    <la-left type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">Left,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Turn Left</overview>Left,</la-left>
+    <la-right type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">Right,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Turn Right</overview>Right,</la-right>
+    <ra-up type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">0,-25</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Mouse Up</overview>0,-25</ra-up>
+    <ra-down type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">0,25</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Mouse Down</overview>0,25</ra-down>
+    <ra-left type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">-25,0</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Mouse Left</overview>-25,0</ra-left>
+    <ra-right type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">25,0</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Mouse Right</overview>25,0</ra-right>
+    <dig-up type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Edit</overview>
+    </dig-up>
+    <dig-down type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-down>
+    <dig-left type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-left>
+    <dig-right type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-right>
   </pad>
-  <settings>
-    <TapInterval>500</TapInterval>
-    <DoubleTapInterval>250</DoubleTapInterval>
-    <HoldInterval>700</HoldInterval>
-    <DefaultDeadzone>0</DefaultDeadzone>
-    <AxisPoleSize>0.5</AxisPoleSize>
-  </settings>
+  <info>Layout Author: William Lahti\nThis layout is built-in to Pad Tie 0.1a and later.\n\nProvides gamepad support for the default key mappings in the PC version of Colin McRae's DiRT II. Also includes full support for the OnLive dashboard for those playing via OnLive!</info>
 </config>

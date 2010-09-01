@@ -9,48 +9,59 @@ using System.Windows.Forms;
 using PadTie;
 
 namespace PadTieApp {
-	public partial class MapMouseWheelForm : Form {
-		public MapMouseWheelForm(PadTieForm mainForm, VirtualController vc)
+	public partial class MapMouseWheelForm : Form, IMapDialog, IFontifiable {
+		public MapMouseWheelForm(PadTieForm mainForm, Controller cc)
 		{
 			InitializeComponent();
-			slotCapture.Controller = vc;
-			Controller = vc;
+			Controller = cc;
 			MainForm = mainForm;
+			slotCapture.Controller = cc;
+			slotCapture.MainForm = mainForm;
 		}
 
-		MouseWheelAction editing;
-
-		public VirtualController Controller { get; set; }
-		public PadTieForm MainForm { get; set; }
-
-		public MapMouseWheelForm(PadTieForm mainForm, VirtualController vc, MouseWheelAction editing):
-			this (mainForm, vc)
+		public MapMouseWheelForm(PadTieForm mainForm, Controller cc, MouseWheelAction editing) :
+			this(mainForm, cc)
 		{
 			this.editing = editing;
 			motion.Text = editing.Value.ToString();
 			continuous.Checked = editing.Continuous;
 			useIntensity.Checked = editing.UseIntensity;
-			slotCapture.SetInput(editing.SlotDescription);
+			slotCapture.SetInput(editing.SlotDescription, true);
+		}
+
+		MouseWheelAction editing;
+
+		public Controller Controller { get; set; }
+		public PadTieForm MainForm { get; set; }
+		public bool Fontified { get; set; }
+
+		public void SetInput(CapturedInput slot)
+		{
+			slotCapture.SetInput(slot);
 		}
 
 		private void oneClickUp_Click(object sender, EventArgs e)
 		{
 			motion.Text = "120";
+			if (slotCapture.Value == null) slotCapture.BeginCapture();
 		}
 
 		private void oneClickDown_Click(object sender, EventArgs e)
 		{
 			motion.Text = "-120";
+			if (slotCapture.Value == null) slotCapture.BeginCapture();
 		}
 
 		private void twoClicksDown_Click(object sender, EventArgs e)
 		{
 			motion.Text = "-240";
+			if (slotCapture.Value == null) slotCapture.BeginCapture();
 		}
 
 		private void twoClicksUp_Click(object sender, EventArgs e)
 		{
 			motion.Text = "240";
+			if (slotCapture.Value == null) slotCapture.BeginCapture();
 		}
 
 		private void okBtn_Click(object sender, EventArgs e)
@@ -79,25 +90,27 @@ namespace PadTieApp {
 				action = editing;
 				action.Value = w;
 				if (action.SlotDescription != input)
-					MapUtil.Map(MainForm, Controller, action.SlotDescription, null);
+					MapUtil.Map(MainForm, Controller.Virtual, action.SlotDescription, null);
 
 			}
 
 			action.UseIntensity = useIntensity.Checked;
 			action.Continuous = continuous.Checked;
 
-			MapUtil.Map(MainForm, Controller, input, action);
+			MapUtil.Map(MainForm, Controller.Virtual, input, action);
 
+			DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.Close();
 		}
 
 		private void MapMouseWheelForm_Load(object sender, EventArgs e)
 		{
-
+			Fontify.Go(this);
 		}
 
 		private void cancelBtn_Click(object sender, EventArgs e)
 		{
+			DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.Close();
 		}
 	}

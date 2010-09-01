@@ -16,11 +16,26 @@ namespace PadTie {
 			ButtonGesture = gesture;
 		}
 
-		public CapturedInput(VirtualController.Axis axis, bool isPos)
+		public CapturedInput(VirtualController.Axis axis, bool isPos):
+			this (axis, isPos, ButtonActions.Gesture.Link)
+		{
+		}
+
+		public CapturedInput(VirtualController.Axis axis, bool isPos, ButtonActions.Gesture gesture)
 		{
 			IsAxisGesture = true;
 			Axis = axis;
 			IsPositive = isPos;
+			ButtonGesture = gesture;
+		}
+
+		public override string ToString()
+		{
+			if (IsAxisGesture) {
+				return string.Format("{0}{1}:{2}", IsPositive ? "+" : "-", Axis, ButtonGesture);
+			} else {
+				return string.Format("{0}:{2}", Button, ButtonGesture);
+			}
 		}
 
 		public static bool operator ==(CapturedInput a, CapturedInput b)
@@ -34,12 +49,15 @@ namespace PadTie {
 			if (a.IsAxisGesture != b.IsAxisGesture)
 				return false;
 
+			if (a.ButtonGesture != b.ButtonGesture)
+				return false;
+
 			if (a.IsAxisGesture) {
 				if (a.Axis != b.Axis || a.IsPositive != b.IsPositive)
 					return false;
 				return true;
 			} else {
-				if (a.Button != b.Button || a.ButtonGesture != b.ButtonGesture)
+				if (a.Button != b.Button)
 					return false;
 				return true;
 			}
@@ -81,6 +99,9 @@ namespace PadTie {
 		public VirtualController.Axis Axis;
 		public bool IsPositive = false;
 		public ButtonActions.Gesture ButtonGesture = ButtonActions.Gesture.Link;
+
+
+		public AxisActions.Gestures AxisGesture { get { return IsPositive ? AxisActions.Gestures.Positive : AxisActions.Gestures.Negative; } }
 	}
 
 	public class VirtualController {
@@ -276,6 +297,7 @@ namespace PadTie {
 				case VirtualController.Button.Tl: return this.Tl;
 				case VirtualController.Button.Tr: return this.Tr;
 				case VirtualController.Button.Start: return this.Start;
+				case VirtualController.Button.System: return this.System;
 				case VirtualController.Button.Back: return this.Back;
 				case VirtualController.Button.LeftAnalog: return this.LeftAnalogButton;
 				case VirtualController.Button.RightAnalog: return this.RightAnalogButton;
@@ -355,6 +377,11 @@ namespace PadTie {
 			capture = c;
 		}
 
+		public void CancelCapture()
+		{
+			capture = null;
+		}
+
 		public class ButtonEventArgs : EventArgs {
 			public ButtonEventArgs(Button button, bool pressed)
 			{
@@ -380,168 +407,100 @@ namespace PadTie {
 			{
 				Controller = vc;
 				Button = b;
+				AcceptAnalog = true;
+			}
+			
+			public override string ToParseable()
+			{
+				return string.Join(",", new string[] { PadNumber.ToString(), Button.ToString() });
 			}
 
+			public int PadNumber;
 			public VirtualController Controller { get; private set; }
 			public Button Button { get; private set; }
 
-			public override void Active()
-			{
-				Controller.ButtonActive(Button);
-
-				if (!Controller.Enabled) return;
-
-				switch (Button) {
-					case Button.A:
-						Controller.A.Process(1);
-						break;
-					case Button.B:
-						Controller.B.Process(1);
-						break;
-					case Button.X:
-						Controller.X.Process(1);
-						break;
-					case Button.Y:
-						Controller.Y.Process(1);
-						break;
-					case Button.Br:
-						Controller.Br.Process(1);
-						break;
-					case Button.Bl:
-						Controller.Bl.Process(1);
-						break;
-					case Button.Tr:
-						Controller.Tr.Process(1);
-						break;
-					case Button.Tl:
-						Controller.Tl.Process(1);
-						break;
-					case Button.Back:
-						Controller.Back.Process(1);
-						break;
-					case Button.Start:
-						Controller.Start.Process(1);
-						break;
-					case Button.System:
-						Controller.System.Process(1);
-						break;
-					case Button.LeftAnalog:
-						Controller.LeftAnalogButton.Process(1);
-						break;
-					case Button.RightAnalog:
-						Controller.RightAnalogButton.Process(1);
-						break;
-					default:
-						Console.WriteLine("VC.ButtonAction (active) Unknown virtual button " + Button);
-						break;
-				}
-			}
+			int lastValue = -1;
 
 			public override void Press()
 			{
-				if (Controller.capture != null) {
-					Controller.capture(new CapturedInput(Button));
-					Controller.capture = null;
-				}
-
-				Controller.ButtonPressed(Button);
-
-				if (!Controller.Enabled) return;
-
-				switch (Button) {
-					case Button.A:
-						Controller.A.Process(1);
-						break;
-					case Button.B:
-						Controller.B.Process(1);
-						break;
-					case Button.X:
-						Controller.X.Process(1);
-						break;
-					case Button.Y:
-						Controller.Y.Process(1);
-						break;
-					case Button.Br:
-						Controller.Br.Process(1);
-						break;
-					case Button.Bl:
-						Controller.Bl.Process(1);
-						break;
-					case Button.Tr:
-						Controller.Tr.Process(1);
-						break;
-					case Button.Tl:
-						Controller.Tl.Process(1);
-						break;
-					case Button.Back:
-						Controller.Back.Process(1);
-						break;
-					case Button.Start:
-						Controller.Start.Process(1);
-						break;
-					case Button.System:
-						Controller.System.Process(1);
-						break;
-					case Button.LeftAnalog:
-						Controller.LeftAnalogButton.Process(1);
-						break;
-					case Button.RightAnalog:
-						Controller.RightAnalogButton.Process(1);
-						break;
-					default:
-						Console.WriteLine("VC.ButtonAction (release) Unknown virtual button " + Button);
-						break;
-				}
+				Analog(1);
 			}
 
 			public override void Release()
 			{
-				Controller.ButtonReleased(Button);
+				Analog(0);
+			}
+
+			public override void Active()
+			{
+				Analog(1);
+			}
+
+			public override void Analog(double value)
+			{
+				int rval = (int)value;
 
 				if (!Controller.Enabled) return;
+			
+				if (rval == 1) {
+					if (lastValue == rval) {
+						Controller.ButtonActive(Button);
+					} else {
+						if (Controller.capture != null) {
+							Controller.capture(new CapturedInput(Button));
+							Controller.capture = null;
+						}
+
+						Controller.ButtonPressed(Button);
+					}
+				} else if (rval == 0 && lastValue != rval) {
+					Controller.ButtonReleased(Button);
+				}
+
+				lastValue = rval;
 
 				switch (Button) {
 					case Button.A:
-						Controller.A.Process(0);
+						Controller.A.Process(rval);
 						break;
 					case Button.B:
-						Controller.B.Process(0);
+						Controller.B.Process(rval);
 						break;
 					case Button.X:
-						Controller.X.Process(0);
+						Controller.X.Process(rval);
 						break;
 					case Button.Y:
-						Controller.Y.Process(0);
+						Controller.Y.Process(rval);
 						break;
 					case Button.Br:
-						Controller.Br.Process(0);
+						Controller.Br.Process(rval);
 						break;
 					case Button.Bl:
-						Controller.Bl.Process(0);
+						Controller.Bl.Process(rval);
 						break;
 					case Button.Tr:
-						Controller.Tr.Process(0);
+						Controller.Tr.Process(rval);
 						break;
 					case Button.Tl:
-						Controller.Tl.Process(0);
+						Controller.Tl.Process(rval);
 						break;
 					case Button.Back:
-						Controller.Back.Process(0);
+						Controller.Back.Process(rval);
 						break;
 					case Button.Start:
-						Controller.Start.Process(0);
+						Controller.Start.Process(rval);
 						break;
 					case Button.System:
-						Controller.System.Process(0);
+						Controller.System.Process(rval);
 						break;
 					case Button.LeftAnalog:
-						Controller.LeftAnalogButton.Process(0);
+						Controller.LeftAnalogButton.Process(rval);
 						break;
 					case Button.RightAnalog:
-						Controller.RightAnalogButton.Process(0);
+						Controller.RightAnalogButton.Process(rval);
 						break;
 					default:
-						Console.WriteLine("VC.ButtonAction (release) Unknown virtual button " + Button);
+						Console.WriteLine("VC.ButtonAction (active) Unknown virtual button " + Button);
 						break;
 				}
 			}
@@ -555,7 +514,13 @@ namespace PadTie {
 				Axis = a;
 				AcceptAnalog = true;
 			}
+			
+			public override string ToParseable()
+			{
+				return string.Join(",", new string[] { PadNumber + "", Axis + "" });
+			}
 
+			public int PadNumber;
 			public VirtualController Controller { get; private set; }
 			public Axis Axis { get; private set; }
 

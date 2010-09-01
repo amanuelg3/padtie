@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" label="Madballs in Babo">
   <pad index="1">
     <a>
-      <link type="key">E,</link>
+      <link type="PadTie.KeyAction">E,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Open/Use [E]</overview>
     </a>
     <b>
       <link type="none" />
@@ -14,55 +15,68 @@
       <hold type="none" />
     </b>
     <x>
-      <link type="key">Up,</link>
+      <link type="PadTie.KeyAction">Up,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
     </x>
     <y>
-      <link type="key">ShiftKey,</link>
+      <link type="PadTie.KeyAction">ShiftKey,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Toggle Weapon Mode</overview>
     </y>
     <back>
-      <link type="key">Escape,</link>
-      <tap type="key">Escape,</tap>
+      <link type="PadTie.KeyAction">Escape,</link>
+      <tap type="PadTie.KeyAction">Escape,</tap>
       <dtap type="none" />
-      <hold type="key">O,Menu</hold>
+      <hold type="PadTie.KeyAction">O,Menu</hold>
+      <overview>Pause, Hold: Dash</overview>
     </back>
     <start>
-      <link type="key">Return,</link>
+      <link type="PadTie.KeyAction">Return,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Enter [menu]</overview>
     </start>
+    <system>
+      <link type="none" />
+      <tap type="PadTie.KeyAction">O,Menu</tap>
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Dashboard</overview>
+    </system>
     <bl>
-      <link type="key">F2,</link>
+      <link type="PadTie.KeyAction">F2,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
     </bl>
     <br>
-      <link type="button">Left</link>
+      <link type="PadTie.MouseButtonAction">Left</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Fire</overview>
     </br>
     <tl>
-      <link type="key">Space,</link>
+      <link type="PadTie.KeyAction">Space,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Special / Dash</overview>
     </tl>
     <tr>
-      <link type="button">Right</link>
+      <link type="PadTie.MouseButtonAction">Right</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
+      <overview>Grenade</overview>
     </tr>
     <la>
-      <link type="key">Return,</link>
+      <link type="PadTie.KeyAction">Return,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
@@ -73,20 +87,78 @@
       <dtap type="none" />
       <hold type="none" />
     </ra>
-    <la-up type="key">W,</la-up>
-    <la-down type="key">S,</la-down>
-    <la-left type="key">A,</la-left>
-    <la-right type="key">D,</la-right>
-    <ra-up type="pointer">0,-25</ra-up>
-    <ra-down type="pointer">0,25</ra-down>
-    <ra-left type="pointer">-25,0</ra-left>
-    <ra-right type="pointer">25,0</ra-right>
+    <la-up type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">W,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Move Forward</overview>W,</la-up>
+    <la-down type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">S,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Move Backware</overview>S,</la-down>
+    <la-left type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">A,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Strafe Left</overview>A,</la-left>
+    <la-right type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">D,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Strafe Right</overview>D,</la-right>
+    <ra-up type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">0,-25</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Aim Up</overview>0,-25</ra-up>
+    <ra-down type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">0,25</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Aim Down</overview>0,25</ra-down>
+    <ra-left type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">-25,0</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Turn Left</overview>-25,0</ra-left>
+    <ra-right type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">25,0</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Turn Right</overview>25,0</ra-right>
+    <dig-up type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-up>
+    <dig-down type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-down>
+    <dig-left type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-left>
+    <dig-right type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-right>
   </pad>
-  <settings>
-    <TapInterval>500</TapInterval>
-    <DoubleTapInterval>250</DoubleTapInterval>
-    <HoldInterval>700</HoldInterval>
-    <DefaultDeadzone>0</DefaultDeadzone>
-    <AxisPoleSize>0.5</AxisPoleSize>
-  </settings>
+  <info>Layout Author: William Lahti\nThis layout is built-in to Pad Tie 0.1a and later.\n\nMaps your gamepad to the default keys of the PC release of Madballs in Babo, as featured in the OnLive game service. Includes support for the OnLive dashboard.</info>
 </config>

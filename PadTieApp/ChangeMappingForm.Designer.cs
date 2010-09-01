@@ -163,6 +163,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Name = "ChangeMappingDialog";
 			this.Text = "Change device mapping";
+			this.Load += new System.EventHandler(this.ChangeMappingDialog_Load);
 			((System.ComponentModel.ISupportInitialize)(this.padSelector)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

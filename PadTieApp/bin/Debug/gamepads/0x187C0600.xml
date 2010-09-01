@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<gamepad xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" deviceID="0x187c0600" vendor="" product="Alienware Dual Compatible Game Pad">
+  <notes>Created by Pad Tie's Mapping Wizard!</notes>
+  <mapping pad="-1" src="button:6" gesture="Link" dest="Tl" />
+  <mapping pad="-1" src="button:4" gesture="Link" dest="Bl" />
+  <mapping pad="-1" src="button:5" gesture="Link" dest="Br" />
+  <mapping pad="-1" src="button:7" gesture="Link" dest="Tr" />
+  <mapping pad="-1" src="button:1" gesture="Link" dest="A" />
+  <mapping pad="-1" src="button:2" gesture="Link" dest="B" />
+  <mapping pad="-1" src="button:0" gesture="Link" dest="X" />
+  <mapping pad="-1" src="button:3" gesture="Link" dest="Y" />
+  <mapping pad="-1" src="button:9" gesture="Link" dest="Start" />
+  <mapping pad="-1" src="button:8" gesture="Link" dest="Back" />
+  <mapping pad="-1" src="button:10" gesture="Link" dest="LeftAnalog" />
+  <mapping pad="-1" src="button:11" gesture="Link" dest="RightAnalog" />
+  <mapping pad="-1" src="axis:1" gesture="" dest="LeftY" />
+  <mapping pad="-1" src="axis:0" gesture="" dest="LeftX" />
+  <mapping pad="-1" src="axis:5" gesture="" dest="DigitalY" />
+  <mapping pad="-1" src="axis:4" gesture="" dest="DigitalX" />
+  <mapping pad="-1" src="axis:2" gesture="" dest="RightY" />
+  <mapping pad="-1" src="axis:3" gesture="" dest="RightX" />
+</gamepad>

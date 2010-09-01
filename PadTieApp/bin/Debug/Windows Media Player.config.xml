@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" label="Windows Media Player 12">
+  <pad index="1">
+    <a>
+      <link type="none" />
+      <tap type="PadTie.KeyAction">Return,</tap>
+      <dtap type="PadTie.KeyAction">T,Control</dtap>
+      <hold type="none" />
+      <overview>Enter [menu]</overview>
+    </a>
+    <b>
+      <link type="PadTie.KeyAction">Escape,</link>
+      <tap type="none" />
+      <dtap type="PadTie.KeyAction">W,Control</dtap>
+      <hold type="none" />
+      <overview>Back/Close [Escape]</overview>
+    </b>
+    <x>
+      <link type="PadTie.KeyAction">Next,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </x>
+    <y>
+      <link type="PadTie.KeyAction">PageUp,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="PadTie.KeyAction">J,Control</hold>
+    </y>
+    <back>
+      <link type="PadTie.KeyAction">Return,Menu</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Toggle Fullscreen</overview>
+    </back>
+    <start>
+      <link type="PadTie.KeyAction">P,Control</link>
+      <tap type="none" />
+      <dtap type="PadTie.KeyAction">L,</dtap>
+      <hold type="none" />
+      <overview>Play/Pause</overview>
+    </start>
+    <system>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </system>
+    <bl>
+      <link type="PadTie.KeyAction">Next,Control</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </bl>
+    <br>
+      <link type="PadTie.MouseButtonAction">Left</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Left Mouse</overview>
+    </br>
+    <tl>
+      <link type="PadTie.KeyAction">PageUp,Control</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </tl>
+    <tr>
+      <link type="PadTie.MouseButtonAction">Right</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Right Mouse</overview>
+    </tr>
+    <la>
+      <link type="PadTie.KeyAction">OemMinus,Control</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la>
+    <ra>
+      <link type="PadTie.KeyAction">Oemplus,Control</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Edit</overview>
+    </ra>
+    <la-up type="PadTie.MouseWheelAction">
+      <link type="PadTie.MouseWheelAction">120</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Volume Up</overview>120</la-up>
+    <la-down type="PadTie.MouseWheelAction">
+      <link type="PadTie.MouseWheelAction">-120</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Volume Down</overview>-120</la-down>
+    <la-left type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">Left,Control</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Rewind (medium)</overview>Left,Control</la-left>
+    <la-right type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">Right,Control</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Forward (medium)</overview>Right,Control</la-right>
+    <ra-up type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">0,-25</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Mouse Up</overview>0,-25</ra-up>
+    <ra-down type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">0,25</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Mouse Down</overview>0,25</ra-down>
+    <ra-left type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">-25,0</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Mouse Left</overview>-25,0</ra-left>
+    <ra-right type="PadTie.MousePointerAction">
+      <link type="PadTie.MousePointerAction">25,0</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Mouse Right</overview>25,0</ra-right>
+    <dig-up type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">VolumeUp,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Volume Up</overview>VolumeUp,</dig-up>
+    <dig-down type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">VolumeDown,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Volume Down</overview>VolumeDown,</dig-down>
+    <dig-left type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">Left,</link>
+      <tap type="PadTie.KeyAction">Left,</tap>
+      <dtap type="PadTie.KeyAction">Left,Control</dtap>
+      <hold type="none" />
+      <overview>T: Last Frame, DT: Rewind (med)</overview>Left,</dig-left>
+    <dig-right type="none">
+      <link type="none" />
+      <tap type="PadTie.KeyAction">Right,</tap>
+      <dtap type="PadTie.KeyAction">Right,Control</dtap>
+      <hold type="none" />
+      <overview>T: Next Frame, DT: Forward (med)</overview>
+    </dig-right>
+  </pad>
+  <info>Layout Author: William Lahti\nThis layout is built-in to Pad Tie 0.1b2 and later.\n\nAttempts to map your gamepad to Windows Media Player. Unfortunately, WMP12 is very tab-based, and is hard to control blindly. For now though it can pause, toggle full screen, etc. See Legend for details. </info>
+</config>

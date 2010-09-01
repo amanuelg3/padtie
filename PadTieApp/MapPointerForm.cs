@@ -9,20 +9,28 @@ using System.Windows.Forms;
 using PadTie;
 
 namespace PadTieApp {
-	public partial class MapPointerForm : Form {
-		public MapPointerForm(PadTieForm form, VirtualController c)
+	public partial class MapPointerForm : Form, IMapDialog, IFontifiable {
+		public MapPointerForm(PadTieForm form, Controller c)
 		{
 			InitializeComponent();
 
 			MainForm = form;
 			Controller = c;
 			slotCapture.Controller = c;
+			slotCapture.MainForm = form;
+		}
+
+		public bool Fontified { get; set; }
+
+		public void SetInput(CapturedInput slot)
+		{
+			slotCapture.SetInput(slot);
 		}
 		
 		public MousePointerAction editing;
 		
-		public MapPointerForm(PadTieForm main, VirtualController vc, MousePointerAction editing):
-			this (main, vc)
+		public MapPointerForm(PadTieForm main, Controller cc, MousePointerAction editing):
+			this (main, cc)
 		{
 			this.editing = editing;
 			motionX.Text = editing.X.ToString();
@@ -30,11 +38,11 @@ namespace PadTieApp {
 			continuous.Checked = editing.Continuous;
 			useIntensity.Checked = editing.UseIntensity;
 
-			slotCapture.SetInput(editing.SlotDescription);
+			slotCapture.SetInput(editing.SlotDescription, true);
 		}
 
 		public PadTieForm MainForm { get; private set; }
-		public VirtualController Controller { get; private set; }
+		public Controller Controller { get; private set; }
 
 		private void cBtn_Click(object sender, EventArgs e)
 		{
@@ -55,6 +63,8 @@ namespace PadTieApp {
 
 			motionX.Text = (x * speed).ToString();
 			motionY.Text = (y * speed).ToString();
+
+			if (slotCapture.Value == null) slotCapture.BeginCapture();
 		}
 
 		private void nBtn_Click(object sender, EventArgs e)
@@ -99,6 +109,7 @@ namespace PadTieApp {
 
 		private void cancelBtn_Click(object sender, EventArgs e)
 		{
+			DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.Close();
 		}
 
@@ -129,20 +140,21 @@ namespace PadTieApp {
 				action.X = x;
 				action.Y = y;
 				if (action.SlotDescription != input)
-					MapUtil.Map(MainForm, Controller, action.SlotDescription, null);
+					MapUtil.Map(MainForm, Controller.Virtual, action.SlotDescription, null);
 			}
 
 			action.Continuous = continuous.Checked;
 			action.UseIntensity = useIntensity.Checked;
 
-			MapUtil.Map(MainForm, Controller, input, action);
+			MapUtil.Map(MainForm, Controller.Virtual, input, action);
 
+			DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.Close();
 		}
 
 		private void MapPointerForm_Load(object sender, EventArgs e)
 		{
-
+			Fontify.Go(this);
 		}
 
 		private void MapPointerForm_KeyUp(object sender, KeyEventArgs e)
@@ -151,6 +163,11 @@ namespace PadTieApp {
 				okBtn_Click(sender, EventArgs.Empty);
 			else if (e.KeyCode == Keys.Escape)
 				cancelBtn_Click(sender, EventArgs.Empty);
+		}
+
+		private void slotCapture_Enter(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

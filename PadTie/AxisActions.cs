@@ -10,9 +10,12 @@ namespace PadTie {
 	}
 
 	public class AxisActions {
-		public AxisActions(InputCore core, bool enableGestures) :
-			this(core, enableGestures, null)
+		public AxisActions(InputCore core, bool enableGestures)
 		{
+			Core = core;
+			EnableGestures = enableGestures;
+			Positive = new ButtonActions(core, enableGestures);
+			Negative = new ButtonActions(core, enableGestures);
 		}
 
 		public AxisActions(InputCore core, bool enableGestures, object id) :
@@ -22,16 +25,14 @@ namespace PadTie {
 		}
 
 		public AxisActions(InputCore core, bool enableGestures, bool enableDeadzone, object id) :
-			this(core, enableGestures)
+			this(core, enableGestures, id)
 		{
 			EnableDeadzone = enableDeadzone;
-			Identifier = id;
 		}
 
-		public AxisActions(InputCore core, bool enableGestures, AxisActions importMonitors)
+		public AxisActions(InputCore core, bool enableGestures, AxisActions importMonitors):
+			this (core, enableGestures)
 		{
-			Core = core;
-			EnableGestures = enableGestures;
 			Deadzone = -1;
 			PoleSize = -1;
 			if (importMonitors != null) {
@@ -75,24 +76,19 @@ namespace PadTie {
 			Analog = 2,
 		}
 
-		public void Map(Gestures gesture, InputAction action)
+		public ButtonActions GetPole(AxisPole pole)
 		{
-			if (gesture == Gestures.Positive)
-				Positive = action;
-			else if (gesture == Gestures.Negative)
-				Negative = action;
-			else if (gesture == Gestures.Analog)
-				Analog = action;
+			return GetPole(pole == AxisPole.Positive ? Gestures.Positive : Gestures.Negative);
 		}
 
-		public InputAction GetGesture(Gestures gesture)
+		public ButtonActions GetPole(Gestures gesture)
 		{
 			if (gesture == Gestures.Positive)
 				return Positive;
 			else if (gesture == Gestures.Negative)
 				return Negative;
 			else if (gesture == Gestures.Analog)
-				return Analog;
+				throw new InvalidOperationException();
 
 			return null;
 		}
@@ -104,8 +100,8 @@ namespace PadTie {
 		/// the new analog data.
 		/// </summary>
 		public InputAction Analog;
-		public InputAction Negative;
-		public InputAction Positive;
+		public ButtonActions Negative;
+		public ButtonActions Positive;
 
 		public void Process(int raw)
 		{
@@ -141,39 +137,43 @@ namespace PadTie {
 				Analog.Analog(value);
 			}
 
+			int posValue = 0, negValue = 0;
+
 			if (pole != LastPole) {
 				if (LastPole != AxisPole.None) {
 					if (LastPole == AxisPole.Positive) {
-						if (Positive != null) Positive.Release();
+						posValue = 0;
 						if (PositiveRelease != null) {
 							PositiveRelease(this, EventArgs.Empty);
 						}
 					} else if (LastPole == AxisPole.Negative) {
-						if (Negative != null) Negative.Release();
+						negValue = 0;
 						if (NegativeRelease != null)
 							NegativeRelease(this, EventArgs.Empty);
 					}
 				}
 
 				if (pole == AxisPole.Positive) {
-					if (Positive != null) Positive.Press();
-					if (PositivePress != null) {
+					posValue = 1;
+					if (PositivePress != null)
 						PositivePress(this, EventArgs.Empty);
-					}
 				} else if (pole == AxisPole.Negative) {
-					if (Negative != null) Negative.Press();
+					negValue = 1;
 					if (NegativePress != null)
 						NegativePress(this, EventArgs.Empty);
 				}
 
 				LastPole = pole;
-			} else if (pole == AxisPole.Positive && Positive != null) {
+			} else if (pole == AxisPole.Positive) {
 				Positive.Intensity = intensity;
-				Positive.Active();
-			} else if (pole == AxisPole.Negative && Negative != null) {
+				posValue = 1;
+			} else if (pole == AxisPole.Negative) {
 				Negative.Intensity = intensity;
-				Negative.Active();
+				negValue = 1;
 			}
+
+			if (Positive != null) Positive.Process(posValue);
+			if (Negative != null) Negative.Process(negValue);
 		}
 	}
 }

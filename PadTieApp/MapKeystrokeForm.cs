@@ -9,20 +9,27 @@ using System.Windows.Forms;
 using PadTie;
 
 namespace PadTieApp {
-	public partial class MapKeystrokeForm : Form {
-		public MapKeystrokeForm(PadTieForm main, VirtualController vc)
+	public partial class MapKeystrokeForm : Form, IMapDialog, IFontifiable {
+		public MapKeystrokeForm(PadTieForm main, Controller cc)
 		{
 			InitializeComponent();
-			slotCapture.Controller = vc;
-			Controller = vc;
+			Controller = cc;
 			MainForm = main;
+			slotCapture.Controller = cc;
+			slotCapture.MainForm = main;
 		}
 
-		public VirtualController Controller { get; set; }
-		public PadTieForm MainForm { get; set; }
+		public void SetInput(CapturedInput slot)
+		{
+			slotCapture.SetInput(slot);
+		}
 
-		public MapKeystrokeForm(PadTieForm main, VirtualController vc, KeyAction editing):
-			this (main, vc)
+		public Controller Controller { get; set; }
+		public PadTieForm MainForm { get; set; }
+		public bool Fontified { get; set; }
+
+		public MapKeystrokeForm(PadTieForm main, Controller cc, KeyAction editing):
+			this (main, cc)
 		{
 			this.editing = editing;
 			capturedKey = editing.Key;
@@ -35,14 +42,14 @@ namespace PadTieApp {
 			}
 
 			keyBox.Text = Util.GetKeyName(editing.Key);
-			slotCapture.SetInput(editing.SlotDescription);
+			slotCapture.SetInput(editing.SlotDescription, true);
 		}
 
 		KeyAction editing;
 
 		private void MapKeystrokeForm_Load(object sender, EventArgs e)
 		{
-
+			Fontify.Go(this);
 		}
 
 		private void cancelBtn_Click(object sender, EventArgs e)
@@ -72,7 +79,6 @@ namespace PadTieApp {
 
 			key = capturedKey;
 
-			this.Close();
 			KeyAction action;
 
 			if (editing != null) {
@@ -80,18 +86,23 @@ namespace PadTieApp {
 				action.ChangeBinding(key, mods.ToArray());
 
 				if (slot != action.SlotDescription)
-					MapUtil.Map(MainForm, Controller, action.SlotDescription, null);
+					MapUtil.Map(MainForm, Controller.Virtual, action.SlotDescription, null);
 			} else {
 				action = new KeyAction(key, mods.ToArray());
 			}
 
-			MapUtil.Map(MainForm, Controller, slot, action);
+			MapUtil.Map(MainForm, Controller.Virtual, slot, action);
+
+			this.DialogResult = DialogResult.OK;
+			this.Close();
 		}
 
 		private void keyBox_Enter(object sender, EventArgs e)
 		{
 			keyBox.Text = "Waiting...";
 			keyBox.BackColor = Color.Yellow;
+			keyBox.Width = 148;
+			revertBtn.Visible = true;
 		}
 
 		private void keyBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -106,16 +117,41 @@ namespace PadTieApp {
 			ctrl.Checked = e.Control;
 			shift.Checked = e.Shift;
 			capturedKey = e.KeyCode;
-			keyBox.Text = Util.GetKeyName(e.KeyCode);
-			keyBox.BackColor = Color.White;
+			e.Handled = true;
 			ctrl.Focus();
 
-			e.Handled = true;
+			if (slotCapture.Value == null)
+				slotCapture.BeginCapture();
 		}
 
 		private void keyBox_KeyDown(object sender, KeyEventArgs e)
 		{
 			e.Handled = true;
+		}
+
+		private void MapKeystrokeForm_Activated(object sender, EventArgs e)
+		{
+			keyBox.Width = 229;
+			revertBtn.Visible = false;
+
+			if (keyBox.Text == "")
+				keyBox.Focus();
+		}
+
+		private void revertBtn_Click(object sender, EventArgs e)
+		{
+			ctrl.Focus();
+		}
+
+		private void keyBox_Leave(object sender, EventArgs e)
+		{
+			keyBox.Width = 229;
+			revertBtn.Visible = false;
+			keyBox.BackColor = Color.White;
+			if (capturedKey != Keys.None)
+				keyBox.Text = Util.GetKeyName(capturedKey);
+			else
+				keyBox.Text = "";
 		}
 	}
 }

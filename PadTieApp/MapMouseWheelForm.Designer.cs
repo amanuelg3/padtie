@@ -46,7 +46,7 @@
 			// 
 			this.label5.Location = new System.Drawing.Point(6, 22);
 			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(262, 30);
+			this.label5.Size = new System.Drawing.Size(276, 30);
 			this.label5.TabIndex = 18;
 			this.label5.Text = "Pick a speed and click a direction or enter the X and Y manually (negative is lef" +
 				"t/up, positive is right/down).";
@@ -54,7 +54,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(129, 77);
+			this.label4.Location = new System.Drawing.Point(136, 77);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(37, 13);
 			this.label4.TabIndex = 17;
@@ -74,7 +74,7 @@
 			this.groupBox1.Controls.Add(this.motion);
 			this.groupBox1.Location = new System.Drawing.Point(7, 3);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(274, 169);
+			this.groupBox1.Size = new System.Drawing.Size(288, 169);
 			this.groupBox1.TabIndex = 16;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Mouse Wheel";
@@ -84,7 +84,7 @@
 			this.useIntensity.AutoSize = true;
 			this.useIntensity.Checked = true;
 			this.useIntensity.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.useIntensity.Location = new System.Drawing.Point(129, 119);
+			this.useIntensity.Location = new System.Drawing.Point(136, 119);
 			this.useIntensity.Name = "useIntensity";
 			this.useIntensity.Size = new System.Drawing.Size(139, 17);
 			this.useIntensity.TabIndex = 26;
@@ -96,7 +96,7 @@
 			this.continuous.AutoSize = true;
 			this.continuous.Checked = true;
 			this.continuous.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.continuous.Location = new System.Drawing.Point(129, 98);
+			this.continuous.Location = new System.Drawing.Point(136, 98);
 			this.continuous.Name = "continuous";
 			this.continuous.Size = new System.Drawing.Size(79, 17);
 			this.continuous.TabIndex = 25;
@@ -153,15 +153,16 @@
 			// 
 			// motion
 			// 
-			this.motion.Location = new System.Drawing.Point(167, 74);
+			this.motion.Location = new System.Drawing.Point(174, 74);
 			this.motion.Name = "motion";
 			this.motion.Size = new System.Drawing.Size(57, 20);
 			this.motion.TabIndex = 2;
 			// 
 			// okBtn
 			// 
+			this.okBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.okBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.okBtn.Location = new System.Drawing.Point(206, 263);
+			this.okBtn.Location = new System.Drawing.Point(223, 288);
 			this.okBtn.Name = "okBtn";
 			this.okBtn.Size = new System.Drawing.Size(75, 23);
 			this.okBtn.TabIndex = 17;
@@ -171,8 +172,9 @@
 			// 
 			// cancelBtn
 			// 
+			this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.cancelBtn.Location = new System.Drawing.Point(125, 263);
+			this.cancelBtn.Location = new System.Drawing.Point(142, 288);
 			this.cancelBtn.Name = "cancelBtn";
 			this.cancelBtn.Size = new System.Drawing.Size(75, 23);
 			this.cancelBtn.TabIndex = 18;
@@ -184,10 +186,11 @@
 			// 
 			this.slotCapture.Controller = null;
 			this.slotCapture.Location = new System.Drawing.Point(5, 178);
-			this.slotCapture.MaximumSize = new System.Drawing.Size(1000, 79);
-			this.slotCapture.MinimumSize = new System.Drawing.Size(233, 79);
+			this.slotCapture.MainForm = null;
+			this.slotCapture.MaximumSize = new System.Drawing.Size(1000, 106);
+			this.slotCapture.MinimumSize = new System.Drawing.Size(298, 106);
 			this.slotCapture.Name = "slotCapture";
-			this.slotCapture.Size = new System.Drawing.Size(282, 79);
+			this.slotCapture.Size = new System.Drawing.Size(298, 106);
 			this.slotCapture.TabIndex = 19;
 			this.slotCapture.Value = null;
 			// 
@@ -197,12 +200,13 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.cancelBtn;
-			this.ClientSize = new System.Drawing.Size(290, 294);
+			this.ClientSize = new System.Drawing.Size(307, 319);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.okBtn);
 			this.Controls.Add(this.cancelBtn);
 			this.Controls.Add(this.slotCapture);
 			this.Name = "MapMouseWheelForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Map mouse wheel";
 			this.Load += new System.EventHandler(this.MapMouseWheelForm_Load);
 			this.groupBox1.ResumeLayout(false);

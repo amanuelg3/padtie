@@ -11,15 +11,21 @@ using System.IO;
 using System.Net;
 
 namespace PadTieApp {
-	public partial class MappingWizard : Form {
+	public partial class MappingWizard : Form, IFontifiable {
 		public MappingWizard()
 		{
 			InitializeComponent();
 		}
 
+		public bool Fontified { get; set; }
+
 		private void MappingWizard_Load(object sender, EventArgs e)
 		{
 			page1.BringToFront();
+			Text = "Button Mapping Wizard for " + Controller.Device.ProductName;
+			lblPage1.Text = lblPage1.Text.Replace("%", Controller.Device.ProductName);
+
+			Fontify.Go(this);
 		}
 
 		private void blinker_Tick(object sender, EventArgs e)
@@ -57,6 +63,8 @@ namespace PadTieApp {
 			if (remainingBtnSpots.Count == 0)
 				return;
 
+			pbar.Value += 1;
+
 			var spot = remainingBtnSpots[0];
 			remainingBtnSpots.RemoveAt(0);
 
@@ -81,11 +89,18 @@ namespace PadTieApp {
 
 			if (remainingBtnSpots.Count == 0) {
 				var aspot = remainingAxisSpots[0];
-				indicator.Location = new Point(aspot.X, aspot.Y);
+				indicator.Location = new Point(front.Left + aspot.X - 8, front.Top + aspot.Y - 10);
 				return;
 			} else {
+				int xadd = 0, yadd = 0;
+
+				if (front.Visible) {
+					xadd = -3;
+					yadd = -3;
+				}
+
 				spot = remainingBtnSpots[0];
-				indicator.Location = new Point(spot.X, spot.Y);
+				indicator.Location = new Point(front.Left + spot.X + xadd, front.Top + spot.Y + yadd);
 			}
 		}
 
@@ -95,6 +110,8 @@ namespace PadTieApp {
 				return;
 			if (remainingAxisSpots.Count == 0)
 				return;
+
+			pbar.Value += 1;
 
 			var spot = remainingAxisSpots[0];
 			remainingAxisSpots.RemoveAt(0);
@@ -119,9 +136,10 @@ namespace PadTieApp {
 				noHaveBtn.Enabled = false;
 				finishedLbl.Text = finishedLbl.Text.Replace("%", Controller.Device.ProductName);
 				sendPermission.Text = sendPermission.Text.Replace("%", Controller.Device.ProductName);
+				pbar.Hide();
 			} else {
 				spot = remainingAxisSpots[0];
-				indicator.Location = new Point(spot.X, spot.Y);
+				indicator.Location = new Point(front.Left + spot.X - 3, front.Top + spot.Y - 3);
 			}
 		}
 
@@ -156,6 +174,7 @@ namespace PadTieApp {
 			if (page == 1) {
 				page = 2;
 				page2.BringToFront();
+				pbar.Visible = true;
 				startBtn.Enabled = false;
 				startBtn.Text = "Finish";
 				ButtonSpot[] buttonSpots = new[] {
@@ -173,8 +192,8 @@ namespace PadTieApp {
 					new ButtonSpot(VirtualController.Button.LeftAnalog, 67, 67),
 					new ButtonSpot(VirtualController.Button.RightAnalog, 167, 107),
 				};
-
-				AxisSpot[] axisSpots = new[] {
+				
+                AxisSpot[] axisSpots = new[] {
 					new AxisSpot(VirtualController.Axis.LeftY, 67, 53),
 					new AxisSpot(VirtualController.Axis.LeftX, 52, 65),
 					new AxisSpot(VirtualController.Axis.DigitalY, 99, 94),
@@ -182,6 +201,19 @@ namespace PadTieApp {
 					new AxisSpot(VirtualController.Axis.RightY, 167, 94),
 					new AxisSpot(VirtualController.Axis.RightX, 154, 107),
 				};
+
+				// Adjust by the design-time location of the image...
+				var pos = new Point(13, 25);
+
+				foreach (var spot in buttonSpots) {
+					spot.X -= pos.X;
+					spot.Y -= pos.Y;
+				}
+
+				foreach (var spot in axisSpots) {
+					spot.X -= pos.X;
+					spot.Y -= pos.Y;
+				}
 
 				front.Hide();
 				remainingBtnSpots = new List<ButtonSpot>();
@@ -201,7 +233,7 @@ namespace PadTieApp {
 				Controller.Virtual.Enabled = false;
 
 				indicator.Tag = "on";
-				indicator.Location = new Point(remainingBtnSpots[0].X, remainingBtnSpots[0].Y);
+				indicator.Location = new Point(front.Left + remainingBtnSpots[0].X, front.Top + remainingBtnSpots[0].Y);
 
 				progress.Text += " - Product: " + Controller.Device.ProductName + "\n";
 				noHaveBtn.Enabled = true;
