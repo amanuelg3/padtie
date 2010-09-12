@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" label="Red Faction">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" label="AaaaaAAaaaAAAaaAAAAaAAAAA!!! A Reckless Disregard for Gravity">
   <pad index="1">
     <a>
-      <link type="PadTie.KeyAction">Space,</link>
+      <link type="PadTie.KeyAction">ControlKey,</link>
       <tap type="none" />
-      <dtap type="none" />
+      <dtap type="PadTie.KeyAction">Return,</dtap>
       <hold type="none" />
-      <overview>Jump</overview>
     </a>
     <b>
       <link type="none" />
@@ -15,28 +14,28 @@
       <hold type="none" />
     </b>
     <x>
-      <link type="PadTie.KeyAction">R,</link>
+      <link type="PadTie.KeyAction">ShiftKey,</link>
       <tap type="none" />
       <dtap type="PadTie.KeyAction">Escape,</dtap>
       <hold type="none" />
       <overview>Run</overview>
     </x>
     <y>
-      <link type="PadTie.KeyAction">E,</link>
+      <link type="none" />
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
     </y>
     <back>
-      <link type="none" />
-      <tap type="PadTie.KeyAction">Tab,</tap>
+      <link type="PadTie.KeyAction">Escape,</link>
+      <tap type="PadTie.KeyAction">Escape,</tap>
       <dtap type="none" />
       <hold type="PadTie.KeyAction">O,Menu</hold>
       <overview>Pause, H: Dash</overview>
     </back>
     <start>
-      <link type="PadTie.KeyAction">Escape,</link>
-      <tap type="none" />
+      <link type="PadTie.KeyAction">Return,</link>
+      <tap type="PadTie.KeyAction">Return,</tap>
       <dtap type="none" />
       <hold type="none" />
       <overview>Enter [menu]</overview>
@@ -49,7 +48,7 @@
       <overview>Dashboard</overview>
     </system>
     <bl>
-      <link type="PadTie.KeyAction">ShiftKey,</link>
+      <link type="none" />
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
@@ -62,7 +61,7 @@
       <overview>Fire</overview>
     </br>
     <tl>
-      <link type="PadTie.KeyAction">ControlKey,</link>
+      <link type="none" />
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
@@ -75,13 +74,13 @@
       <overview>Melee</overview>
     </tr>
     <la>
-      <link type="PadTie.KeyAction">C,</link>
+      <link type="PadTie.KeyAction">Return,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
     </la>
     <ra>
-      <link type="PadTie.KeyAction">F,</link>
+      <link type="none" />
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
@@ -136,26 +135,28 @@
       <overview>Turn Right</overview>25,0</ra-right>
     <dig-up type="none">
       <link type="none" />
-      <tap type="PadTie.KeyAction">D3,</tap>
+      <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
     </dig-up>
     <dig-down type="none">
       <link type="none" />
-      <tap type="PadTie.KeyAction">D1,</tap>
+      <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
     </dig-down>
-    <dig-left type="PadTie.KeyAction">
-      <link type="PadTie.KeyAction">D2,</link>
+    <dig-left type="none">
+      <link type="none" />
       <tap type="none" />
       <dtap type="none" />
-      <hold type="none" />D2,</dig-left>
-    <dig-right type="PadTie.KeyAction">
-      <link type="PadTie.KeyAction">D4,</link>
+      <hold type="none" />
+    </dig-left>
+    <dig-right type="none">
+      <link type="none" />
       <tap type="none" />
       <dtap type="none" />
-      <hold type="none" />D4,</dig-right>
+      <hold type="none" />
+    </dig-right>
   </pad>
-  <info>Layout Author: William Lahti\nThis layout is built-in to Pad Tie 0.1a1 and later.\n\nMaps your gamepad to the default controls for the PC version of Red Faction.</info>
+  <info>Layout Author: William Lahti\nThis layout is built-in to Pad Tie 0.1a1 and later.\n\nMaps your gamepad to the default controls for the PC version of Dejobaan's Aaaaa!</info>
 </config>

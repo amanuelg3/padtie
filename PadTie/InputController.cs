@@ -9,6 +9,13 @@ namespace PadTie {
 	public class InputController {
 		public InputController(InputCore core, DI.Joystick dev, int index)
 		{
+			if (core == null)
+				throw new ArgumentNullException("core");
+			if (dev == null)
+				throw new ArgumentNullException("dev");
+			if (index < 0)
+				throw new ArgumentOutOfRangeException("index", "assertion failed: index >= 0");
+
 			Core = core;
 			Device = dev;
 

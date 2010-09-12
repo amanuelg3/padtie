@@ -15,6 +15,30 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_01207F299C8A4CFD85DA8B9C09906715"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1462BF89CB8E4A309A4E62ACCE5CB653"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1631695A315946EA9DB2CE65C0BDC651"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_1BD7C864089641FAA210669941FE93AA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_206B35B38AD245A0A53688BB2E911ECE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -27,7 +51,37 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_2FE55894535641E49C56525F91065FC6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_3884B6A3A7464A90AD0CCC696B146F6F"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3B4A823D46574EE6AB14E62CE81B6131"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3BB660888A414AECB4E66DA24CA3A059"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_441A88DC107643B3BE47643CD3BB3051"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4674384D01084E5E9585A35DB9E8FD57"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -45,7 +99,43 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_58380FC67C244B85AB8284224EB23945"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5D27D2016ED24440A91E97A7171DE3BF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_70A9C5A62CDD4098A760C4FA3C6C150E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_75D0E7431AFA428882E1646E1EEC3585"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_75DE10655CED4B1C967FB11B70049CF4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_86DB6E53B2FF4EE59A08A10FD4907DB4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_87E3DE97D1634C6C861FA231967A25E2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -57,13 +147,43 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_8A9C010D8DFE4C6694058162279A850A"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8D4164760B134E5C8AB8AAD245518BF0"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9B2DCCFE192541EB95B93DE7AED5E508"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
+        "MsmKey" = "8:_A52CEB36DC794C048286682DBD952493"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_AD784D7A4C594242964C0F4513B77826"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B45BDD57A7A44DE19AA644F6481421C6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -76,6 +196,18 @@
         "Entry"
         {
         "MsmKey" = "8:_B7FA77E2D8AA44A0ABA36ACB260D2AE4"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BB9C8F4E4BA14970819A1FA32E835975"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BBE4EEF9FBB6406D94441D964058EDF2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -99,6 +231,30 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C11CE06043A1405BA198DD1B0DC151BA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CCC2737F78B94BBE9D09D99D045A42E8"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CCECA8E523CD4264892F70B4D238F470"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D087B527A8D04B4F887E893E2511F6AE"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F211F01F13247A5CB57B52A790A6CE4E"
         "OwnerKey" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
         "MsmSig" = "8:_UNDEFINED"
@@ -112,13 +268,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F211F01F13247A5CB57B52A790A6CE4E"
+        "OwnerKey" = "8:_BF696B2467CA105B35731ED4EACE5759"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BF696B2467CA105B35731ED4EACE5759"
+        "OwnerKey" = "8:_F211F01F13247A5CB57B52A790A6CE4E"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -226,6 +382,86 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_01207F299C8A4CFD85DA8B9C09906715"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Windows Media Player.config.xml"
+            "TargetName" = "8:Windows Media Player.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1462BF89CB8E4A309A4E62ACCE5CB653"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\FEAR II.config.xml"
+            "TargetName" = "8:FEAR II.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1631695A315946EA9DB2CE65C0BDC651"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Assassin's Creed II - PS3 Variant.config.xml"
+            "TargetName" = "8:Assassin's Creed II - PS3 Variant.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1BD7C864089641FAA210669941FE93AA"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Madballs in Babo.config.xml"
+            "TargetName" = "8:Madballs in Babo.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_206B35B38AD245A0A53688BB2E911ECE"
             {
             "SourcePath" = "8:GPL3.rtf"
@@ -266,6 +502,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2FE55894535641E49C56525F91065FC6"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\OnLive Dashboard.config.xml"
+            "TargetName" = "8:OnLive Dashboard.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3884B6A3A7464A90AD0CCC696B146F6F"
             {
             "SourcePath" = "8:..\\Releases\\PadTie-0.1a1\\Madballs in Babo.config.xml"
@@ -279,6 +535,86 @@
             "Hidden" = "11:FALSE"
             "System" = "11:FALSE"
             "Permanent" = "11:TRUE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3B4A823D46574EE6AB14E62CE81B6131"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\World Of Goo.config.xml"
+            "TargetName" = "8:World Of Goo.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3BB660888A414AECB4E66DA24CA3A059"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Google Chrome.config.xml"
+            "TargetName" = "8:Google Chrome.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_441A88DC107643B3BE47643CD3BB3051"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Red Faction II.config.xml"
+            "TargetName" = "8:Red Faction II.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4674384D01084E5E9585A35DB9E8FD57"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Firefox.config.xml"
+            "TargetName" = "8:Firefox.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
@@ -326,6 +662,86 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_58380FC67C244B85AB8284224EB23945"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Mafia II.config.xml"
+            "TargetName" = "8:Mafia II.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5D27D2016ED24440A91E97A7171DE3BF"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Tom Clancy's Splinter Cell Conviction.config.xml"
+            "TargetName" = "8:Tom Clancy's Splinter Cell Conviction.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_70A9C5A62CDD4098A760C4FA3C6C150E"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Unreal Tournament III.config.xml"
+            "TargetName" = "8:Unreal Tournament III.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_75D0E7431AFA428882E1646E1EEC3585"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\Resources\\1281645386_preferences-desktop-gaming.ico"
+            "TargetName" = "8:FileType.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_75DE10655CED4B1C967FB11B70049CF4"
             {
             "SourcePath" = "8:..\\Releases\\PadTie-0.1a1\\default.config.xml"
@@ -339,6 +755,46 @@
             "Hidden" = "11:FALSE"
             "System" = "11:FALSE"
             "Permanent" = "11:TRUE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_86DB6E53B2FF4EE59A08A10FD4907DB4"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Media Player Classic.config.xml"
+            "TargetName" = "8:Media Player Classic.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_87E3DE97D1634C6C861FA231967A25E2"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Just Cause II.config.xml"
+            "TargetName" = "8:Just Cause II.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
@@ -366,12 +822,112 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8A9C010D8DFE4C6694058162279A850A"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Red Faction Guerrilla.config.xml"
+            "TargetName" = "8:Red Faction Guerrilla.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8D4164760B134E5C8AB8AAD245518BF0"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Super Mouse.config.xml"
+            "TargetName" = "8:Super Mouse.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9B2DCCFE192541EB95B93DE7AED5E508"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Shatter.config.xml"
+            "TargetName" = "8:Shatter.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_A52CEB36DC794C048286682DBD952493"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Trine.config.xml"
+            "TargetName" = "8:Trine.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_AD784D7A4C594242964C0F4513B77826"
             {
             "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\gamepads\\0x187c0600.xml"
             "TargetName" = "8:0x187c0600.xml"
             "Tag" = "8:"
             "Folder" = "8:_85522A5ADBF24EA4A46945C682018B50"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B45BDD57A7A44DE19AA644F6481421C6"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Super Browser.config.xml"
+            "TargetName" = "8:Super Browser.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -426,6 +982,46 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BB9C8F4E4BA14970819A1FA32E835975"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Assassin's Creed II.config.xml"
+            "TargetName" = "8:Assassin's Creed II.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BBE4EEF9FBB6406D94441D964058EDF2"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Red Faction.config.xml"
+            "TargetName" = "8:Red Faction.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BDFD8AA4FD9E45768CB7462AF77A53F4"
             {
             "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Media Player Classic.config.xml"
@@ -453,11 +1049,6 @@
             "AssemblyAsmDisplayName" = "8:SlimDX, Version=2.0.10.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86"
                 "ScatterAssemblies"
                 {
-                    "_BF696B2467CA105B35731ED4EACE5759"
-                    {
-                    "Name" = "8:SlimDX.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:SlimDX.dll"
             "TargetName" = "8:"
@@ -477,6 +1068,86 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C11CE06043A1405BA198DD1B0DC151BA"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\Kane And Lynch 2 Dog Days.config.xml"
+            "TargetName" = "8:Kane And Lynch 2 Dog Days.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CCC2737F78B94BBE9D09D99D045A42E8"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\AaaaaAAaaaa.config.xml"
+            "TargetName" = "8:AaaaaAAaaaa.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CCECA8E523CD4264892F70B4D238F470"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\The Maw.config.xml"
+            "TargetName" = "8:The Maw.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D087B527A8D04B4F887E893E2511F6AE"
+            {
+            "SourcePath" = "8:..\\PadTieApp\\bin\\Debug\\DiRT II.config.xml"
+            "TargetName" = "8:DiRT II.config.xml"
+            "Tag" = "8:"
+            "Folder" = "8:_2F0509ABF87640C88510108D251588E4"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F211F01F13247A5CB57B52A790A6CE4E"
             {
             "AssemblyRegister" = "3:1"
@@ -484,11 +1155,6 @@
             "AssemblyAsmDisplayName" = "8:PadTie, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_F211F01F13247A5CB57B52A790A6CE4E"
-                    {
-                    "Name" = "8:PadTie.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:PadTie.dll"
             "TargetName" = "8:"
@@ -511,6 +1177,29 @@
         }
         "FileType"
         {
+            "{5EB83D71-FA18-4901-BE56-DE22E13CC478}:_BFC3ED7A5F83453E92A67CE23D57AE85"
+            {
+            "Name" = "8:Pad Tie Profile"
+            "Description" = "8:Provides a profile for your gamepad(s)"
+            "Extensions" = "8:pxc,padtie"
+            "MIME" = "8:text/x-padtie"
+            "Icon" = "8:_75D0E7431AFA428882E1646E1EEC3585"
+            "IconIndex" = "3:0"
+                "Command"
+                {
+                "Command" = "8:_9EE403661C3F4BCCB0E0FC57716D60D9"
+                }
+                "Verbs"
+                {
+                    "{95C0C507-CBF0-42B8-B119-07219E384A4A}:_2510F858739D4B89BE0989475A8606D9"
+                    {
+                    "Command" = "8:&Open"
+                    "Verb" = "8:open"
+                    "Arguments" = "8:\"%1\""
+                    "Order" = "3:0"
+                    }
+                }
+            }
         }
         "Folder"
         {

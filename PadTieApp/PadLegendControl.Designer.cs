@@ -27,6 +27,7 @@
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PadLegendControl));
 			this.toolStripBox = new System.Windows.Forms.ToolStripContainer();
+			this.editor = new System.Windows.Forms.TextBox();
 			this.legendSystem = new System.Windows.Forms.Label();
 			this.legendBr = new System.Windows.Forms.Label();
 			this.legendTr = new System.Windows.Forms.Label();
@@ -43,7 +44,6 @@
 			this.legendRightAnalogLeft = new System.Windows.Forms.Label();
 			this.legendRightAnalogDown = new System.Windows.Forms.Label();
 			this.legendRightAnalogUp = new System.Windows.Forms.Label();
-			this.legendDigitalClick = new System.Windows.Forms.Label();
 			this.legendDigitalRight = new System.Windows.Forms.Label();
 			this.legendDigitalLeft = new System.Windows.Forms.Label();
 			this.legendDigitalDown = new System.Windows.Forms.Label();
@@ -64,7 +64,6 @@
 			this.tapItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.doubleTapItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.holdItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.editor = new System.Windows.Forms.TextBox();
 			this.toolStripBox.ContentPanel.SuspendLayout();
 			this.toolStripBox.TopToolStripPanel.SuspendLayout();
 			this.toolStripBox.SuspendLayout();
@@ -98,7 +97,6 @@
 			this.toolStripBox.ContentPanel.Controls.Add(this.legendRightAnalogLeft);
 			this.toolStripBox.ContentPanel.Controls.Add(this.legendRightAnalogDown);
 			this.toolStripBox.ContentPanel.Controls.Add(this.legendRightAnalogUp);
-			this.toolStripBox.ContentPanel.Controls.Add(this.legendDigitalClick);
 			this.toolStripBox.ContentPanel.Controls.Add(this.legendDigitalRight);
 			this.toolStripBox.ContentPanel.Controls.Add(this.legendDigitalLeft);
 			this.toolStripBox.ContentPanel.Controls.Add(this.legendDigitalDown);
@@ -119,6 +117,16 @@
 			// toolStripBox.TopToolStripPanel
 			// 
 			this.toolStripBox.TopToolStripPanel.Controls.Add(this.mainTools);
+			// 
+			// editor
+			// 
+			this.editor.Location = new System.Drawing.Point(12, 6);
+			this.editor.Name = "editor";
+			this.editor.Size = new System.Drawing.Size(159, 20);
+			this.editor.TabIndex = 28;
+			this.editor.Visible = false;
+			this.editor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.editor_KeyPress);
+			this.editor.KeyUp += new System.Windows.Forms.KeyEventHandler(this.editor_KeyUp);
 			// 
 			// legendSystem
 			// 
@@ -296,17 +304,6 @@
 			this.legendRightAnalogUp.Tag = "PixelFont:8";
 			this.legendRightAnalogUp.Text = "Up";
 			// 
-			// legendDigitalClick
-			// 
-			this.legendDigitalClick.AutoSize = true;
-			this.legendDigitalClick.BackColor = System.Drawing.Color.Transparent;
-			this.legendDigitalClick.Location = new System.Drawing.Point(31, 294);
-			this.legendDigitalClick.Name = "legendDigitalClick";
-			this.legendDigitalClick.Size = new System.Drawing.Size(21, 13);
-			this.legendDigitalClick.TabIndex = 10;
-			this.legendDigitalClick.Tag = "PixelFont:8";
-			this.legendDigitalClick.Text = "Up";
-			// 
 			// legendDigitalRight
 			// 
 			this.legendDigitalRight.AutoSize = true;
@@ -416,7 +413,7 @@
             this.viewBtn});
 			this.mainTools.Location = new System.Drawing.Point(3, 0);
 			this.mainTools.Name = "mainTools";
-			this.mainTools.Size = new System.Drawing.Size(144, 25);
+			this.mainTools.Size = new System.Drawing.Size(172, 25);
 			this.mainTools.TabIndex = 0;
 			// 
 			// toolStripLabel1
@@ -453,53 +450,43 @@
 			this.viewBtn.Image = ((System.Drawing.Image)(resources.GetObject("viewBtn.Image")));
 			this.viewBtn.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.viewBtn.Name = "viewBtn";
-			this.viewBtn.Size = new System.Drawing.Size(38, 22);
-			this.viewBtn.Text = "Link";
+			this.viewBtn.Size = new System.Drawing.Size(66, 22);
+			this.viewBtn.Text = "Overview";
 			// 
 			// overviewItem
 			// 
 			this.overviewItem.Name = "overviewItem";
-			this.overviewItem.Size = new System.Drawing.Size(152, 22);
+			this.overviewItem.Size = new System.Drawing.Size(128, 22);
 			this.overviewItem.Text = "Overview";
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-			this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+			this.toolStripMenuItem1.Size = new System.Drawing.Size(125, 6);
 			// 
 			// linkItem
 			// 
 			this.linkItem.Name = "linkItem";
-			this.linkItem.Size = new System.Drawing.Size(152, 22);
+			this.linkItem.Size = new System.Drawing.Size(128, 22);
 			this.linkItem.Text = "Link";
 			// 
 			// tapItem
 			// 
 			this.tapItem.Name = "tapItem";
-			this.tapItem.Size = new System.Drawing.Size(152, 22);
+			this.tapItem.Size = new System.Drawing.Size(128, 22);
 			this.tapItem.Text = "Tap";
 			// 
 			// doubleTapItem
 			// 
 			this.doubleTapItem.Name = "doubleTapItem";
-			this.doubleTapItem.Size = new System.Drawing.Size(152, 22);
+			this.doubleTapItem.Size = new System.Drawing.Size(128, 22);
 			this.doubleTapItem.Text = "Double Tap";
 			// 
 			// holdItem
 			// 
 			this.holdItem.Name = "holdItem";
-			this.holdItem.Size = new System.Drawing.Size(152, 22);
+			this.holdItem.Size = new System.Drawing.Size(128, 22);
 			this.holdItem.Text = "Hold";
-			// 
-			// editor
-			// 
-			this.editor.Location = new System.Drawing.Point(12, 6);
-			this.editor.Name = "editor";
-			this.editor.Size = new System.Drawing.Size(159, 20);
-			this.editor.TabIndex = 28;
-			this.editor.Visible = false;
-			this.editor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.editor_KeyPress);
-			this.editor.KeyUp += new System.Windows.Forms.KeyEventHandler(this.editor_KeyUp);
 			// 
 			// PadLegendControl
 			// 
@@ -540,7 +527,6 @@
 		private System.Windows.Forms.Label legendRightAnalogLeft;
 		private System.Windows.Forms.Label legendRightAnalogDown;
 		private System.Windows.Forms.Label legendRightAnalogUp;
-		private System.Windows.Forms.Label legendDigitalClick;
 		private System.Windows.Forms.Label legendDigitalRight;
 		private System.Windows.Forms.Label legendDigitalLeft;
 		private System.Windows.Forms.Label legendDigitalDown;

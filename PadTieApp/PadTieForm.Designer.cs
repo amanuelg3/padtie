@@ -142,8 +142,8 @@
 			this.padLegend.MinimumSize = new System.Drawing.Size(642, 460);
 			this.padLegend.Name = "padLegend";
 			this.padLegend.Pad = 1;
-			this.padLegend.SelectedMode = PadTieApp.LegendMode.None;
-			this.padLegend.Size = new System.Drawing.Size(642, 478);
+			this.padLegend.SelectedMode = PadTieApp.LegendMode.Overview;
+			this.padLegend.Size = new System.Drawing.Size(642, 506);
 			this.padLegend.TabIndex = 0;
 			this.padLegend.SelectedModeChanged += new System.EventHandler(this.padLegend_SelectedModeChanged);
 			this.padLegend.PadChanged += new System.EventHandler(this.padLegend_PadChanged);

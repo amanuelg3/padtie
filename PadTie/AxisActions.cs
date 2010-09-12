@@ -12,6 +12,9 @@ namespace PadTie {
 	public class AxisActions {
 		public AxisActions(InputCore core, bool enableGestures)
 		{
+			if (core == null)
+				throw new ArgumentNullException("core");
+
 			Core = core;
 			EnableGestures = enableGestures;
 			Positive = new ButtonActions(core, enableGestures);
@@ -105,6 +108,9 @@ namespace PadTie {
 
 		public void Process(int raw)
 		{
+			if (Core == null)
+				return;
+
 			double value = raw / (double)UInt16.MaxValue * 2 - 1;
 
 			if (EnableDeadzone) {
@@ -143,9 +149,8 @@ namespace PadTie {
 				if (LastPole != AxisPole.None) {
 					if (LastPole == AxisPole.Positive) {
 						posValue = 0;
-						if (PositiveRelease != null) {
+						if (PositiveRelease != null)
 							PositiveRelease(this, EventArgs.Empty);
-						}
 					} else if (LastPole == AxisPole.Negative) {
 						negValue = 0;
 						if (NegativeRelease != null)

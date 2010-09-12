@@ -26,7 +26,7 @@ namespace PadTie {
 		public string Parseable;
 
 		public static InputActionConfig Null {
-			get { 
+			get {
 				var i = new InputActionConfig();
 				i.Type = "none";
 				i.Parseable = "";
@@ -407,6 +407,18 @@ namespace PadTie {
 		{
 			lock (this) {
 				FileName = configFile;
+
+				if (File.Exists(FileName)) {
+					// Back it up so if we fail to load the new file 
+					// we at least have the old settings.
+					string backupFile = Path.Combine(Path.GetDirectoryName(FileName), Path.GetFileNameWithoutExtension(FileName) + ".backup.xml");
+					try {
+						if (File.Exists(backupFile))
+							File.Delete(backupFile);
+						File.Move(FileName, backupFile);
+					} catch (Exception) { }
+				}
+
 				XmlSerializer s = new XmlSerializer(typeof(GlobalConfig));
 				using (var stream = File.Open(FileName, FileMode.Create)) {
 					s.Serialize(stream, this);
@@ -470,5 +482,8 @@ namespace PadTie {
 				}
 			}
 		}
+
+		[XmlIgnore]
+		public bool IsGeneric { get; set; }
 	}
 }

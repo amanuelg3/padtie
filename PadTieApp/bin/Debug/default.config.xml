@@ -37,6 +37,169 @@
       <dtap type="none" />
       <hold type="none" />
     </start>
+    <system>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </system>
+    <bl>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </bl>
+    <br>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </br>
+    <tl>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </tl>
+    <tr>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </tr>
+    <la>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>for your gamepads.</overview>
+    </la>
+    <ra>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra>
+    <la-up type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>This layout is blank.</overview>
+    </la-up>
+    <la-down type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>---</overview>
+    </la-down>
+    <la-left type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Use the Layout selector</overview>
+    </la-left>
+    <la-right type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>above to select a layout</overview>
+    </la-right>
+    <ra-up type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra-up>
+    <ra-down type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra-down>
+    <ra-left type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra-left>
+    <ra-right type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra-right>
+    <dig-up type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-up>
+    <dig-down type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-down>
+    <dig-left type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-left>
+    <dig-right type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-right>
+  </pad>
+  <pad index="2">
+    <a>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </a>
+    <b>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </b>
+    <x>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </x>
+    <y>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </y>
+    <back>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </back>
+    <start>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </start>
+    <system>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </system>
     <bl>
       <link type="none" />
       <tap type="none" />
@@ -146,5 +309,4 @@
       <hold type="none" />
     </dig-right>
   </pad>
-  <info>This layout is blank! You can use it to start a new layout from scratch. If you don't want to create a new layout, choose one from the menu above instead. To create a new blank layout, click Layout above, then click 'Save As...'.\n\nCan I send my layouts to the creators of Pad Tie and expect to have them included in a future release?\nYes! Head to http://code.google.com/p/padtie, click "Issues" and attach your layout to a new issue!</info>
 </config>

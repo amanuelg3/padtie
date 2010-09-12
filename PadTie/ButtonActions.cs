@@ -13,6 +13,8 @@ namespace PadTie {
 
 		public ButtonActions(InputCore core, bool enableGestures)
 		{
+			if (core == null) throw new ArgumentNullException("core");
+
 			Core = core;
 			EnableGestures = enableGestures;
 			Intensity = 1;

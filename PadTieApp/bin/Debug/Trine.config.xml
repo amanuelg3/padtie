@@ -2,9 +2,9 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" label="Trine">
   <pad index="1">
     <a>
-      <link type="PadTie.KeyAction">ControlKey,</link>
+      <link type="PadTie.KeyAction">Space,</link>
       <tap type="none" />
-      <dtap type="PadTie.KeyAction">Return,</dtap>
+      <dtap type="none" />
       <hold type="none" />
     </a>
     <b>
@@ -14,14 +14,14 @@
       <hold type="none" />
     </b>
     <x>
-      <link type="PadTie.KeyAction">ShiftKey,</link>
+      <link type="PadTie.MouseButtonAction">Left</link>
       <tap type="none" />
-      <dtap type="PadTie.KeyAction">Escape,</dtap>
+      <dtap type="none" />
       <hold type="none" />
-      <overview>Run</overview>
+      <overview>Jump</overview>
     </x>
     <y>
-      <link type="none" />
+      <link type="PadTie.KeyAction">E,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
@@ -61,13 +61,13 @@
       <overview>Fire</overview>
     </br>
     <tl>
-      <link type="none" />
+      <link type="PadTie.MouseButtonAction">Right</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
     </tl>
     <tr>
-      <link type="PadTie.MouseButtonAction">Right</link>
+      <link type="PadTie.MouseButtonAction">Left</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
@@ -85,54 +85,359 @@
       <dtap type="none" />
       <hold type="none" />
     </ra>
-    <la-up type="PadTie.KeyAction">
-      <link type="PadTie.KeyAction">W,</link>
+    <la-up type="none">
+      <link type="none" />
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Walk Forward</overview>W,</la-up>
+      <overview>Jump</overview>
+    </la-up>
     <la-down type="PadTie.KeyAction">
       <link type="PadTie.KeyAction">S,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Walk Backward</overview>S,</la-down>
+      <overview>Nothing</overview>S,</la-down>
     <la-left type="PadTie.KeyAction">
       <link type="PadTie.KeyAction">A,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Strafe Left</overview>A,</la-left>
+      <overview>Walk Left</overview>A,</la-left>
     <la-right type="PadTie.KeyAction">
       <link type="PadTie.KeyAction">D,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Strafe Right</overview>D,</la-right>
+      <overview>Walk Rght</overview>D,</la-right>
     <ra-up type="PadTie.MousePointerAction">
-      <link type="PadTie.MousePointerAction">0,-25</link>
+      <link type="PadTie.MousePointerAction">0,-14,True,True</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Look Up</overview>0,-25</ra-up>
+      <overview>Mouse Up</overview>0,-14,True,True</ra-up>
     <ra-down type="PadTie.MousePointerAction">
-      <link type="PadTie.MousePointerAction">0,25</link>
+      <link type="PadTie.MousePointerAction">0,14,True,True</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Look Down</overview>0,25</ra-down>
+      <overview>Mouse Down</overview>0,14,True,True</ra-down>
     <ra-left type="PadTie.MousePointerAction">
-      <link type="PadTie.MousePointerAction">-25,0</link>
+      <link type="PadTie.MousePointerAction">-14,0,True,True</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Turn Left</overview>-25,0</ra-left>
+      <overview>Mouse Left</overview>-14,0,True,True</ra-left>
     <ra-right type="PadTie.MousePointerAction">
-      <link type="PadTie.MousePointerAction">25,0</link>
+      <link type="PadTie.MousePointerAction">14,0,True,True</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Turn Right</overview>25,0</ra-right>
+      <overview>Mouse Right</overview>14,0,True,True</ra-right>
+    <dig-up type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">D1,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Wizard</overview>D1,</dig-up>
+    <dig-down type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">D3,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Soldier</overview>D3,</dig-down>
+    <dig-left type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-left>
+    <dig-right type="PadTie.KeyAction">
+      <link type="PadTie.KeyAction">D2,</link>
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+      <overview>Archer</overview>D2,</dig-right>
+  </pad>
+  <pad index="2">
+    <a>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </a>
+    <b>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </b>
+    <x>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </x>
+    <y>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </y>
+    <back>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </back>
+    <start>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </start>
+    <system>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </system>
+    <bl>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </bl>
+    <br>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </br>
+    <tl>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </tl>
+    <tr>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </tr>
+    <la>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la>
+    <ra>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra>
+    <la-up type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la-up>
+    <la-down type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la-down>
+    <la-left type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la-left>
+    <la-right type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la-right>
+    <ra-up type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra-up>
+    <ra-down type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra-down>
+    <ra-left type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra-left>
+    <ra-right type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra-right>
+    <dig-up type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-up>
+    <dig-down type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-down>
+    <dig-left type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-left>
+    <dig-right type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </dig-right>
+  </pad>
+  <pad index="2">
+    <a>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </a>
+    <b>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </b>
+    <x>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </x>
+    <y>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </y>
+    <back>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </back>
+    <start>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </start>
+    <system>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </system>
+    <bl>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </bl>
+    <br>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </br>
+    <tl>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </tl>
+    <tr>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </tr>
+    <la>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la>
+    <ra>
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra>
+    <la-up type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la-up>
+    <la-down type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la-down>
+    <la-left type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la-left>
+    <la-right type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </la-right>
+    <ra-up type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra-up>
+    <ra-down type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra-down>
+    <ra-left type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra-left>
+    <ra-right type="none">
+      <link type="none" />
+      <tap type="none" />
+      <dtap type="none" />
+      <hold type="none" />
+    </ra-right>
     <dig-up type="none">
       <link type="none" />
       <tap type="none" />

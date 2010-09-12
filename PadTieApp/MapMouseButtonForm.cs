@@ -71,7 +71,7 @@ namespace PadTieApp {
 				editing.Button = b;
 
 				if (input != editing.SlotDescription)
-					MapUtil.Map(MainForm, Controller.Virtual, input, null);
+					MapUtil.Map(MainForm, Controller.Virtual, editing.SlotDescription, null);
 				action = editing;
 			} else {
 				action = new MouseButtonAction(Controller.Core, b);

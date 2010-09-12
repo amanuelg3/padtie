@@ -13,6 +13,11 @@ namespace PadTieApp {
 	public partial class MapCommandDialog : Form, IMapDialog, IFontifiable {
 		public MapCommandDialog(PadTieForm mainForm, Controller cc)
 		{
+			if (mainForm == null)
+				throw new ArgumentNullException("mainForm");
+			if (cc == null)
+				throw new ArgumentNullException("cc");
+
 			InitializeComponent();
 			MainForm = mainForm;
 			Controller = cc;
