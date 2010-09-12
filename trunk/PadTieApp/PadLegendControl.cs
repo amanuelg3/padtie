@@ -15,6 +15,7 @@ namespace PadTieApp {
 	public partial class PadLegendControl : UserControl {
 		public PadLegendControl()
 		{
+			mode = LegendMode.Overview;
 			InitializeComponent();
 		}
 
@@ -127,7 +128,11 @@ namespace PadTieApp {
 
 			foreach (var kvp in layout) {
 				var lbl = GetLabel(kvp.Key);
-				lbl.Text = kvp.Value;
+				if (string.IsNullOrEmpty(kvp.Value))
+					lbl.Text = "   ";
+				else
+					lbl.Text = kvp.Value;
+
 				if (editable)
 					lbl.Cursor = Cursors.Hand;
 				else
@@ -203,6 +208,7 @@ namespace PadTieApp {
 				item.Tag = cc.Index;
 				item.Click += delegate(object sender, EventArgs e) {
 					Pad = (int)(sender as ToolStripMenuItem).Tag;
+					padNumBtn.Text = "#" + Pad;
 				};
 				padNumBtn.DropDownItems.Add(item);
 			}
@@ -241,7 +247,11 @@ namespace PadTieApp {
 				}
 
 				layout[id] = editor.Text;
-				lbl.Text = editor.Text;
+
+				if (string.IsNullOrEmpty(editor.Text))
+					lbl.Text = "   ";
+				else
+					lbl.Text = editor.Text;
 
 				if (LayoutChanged != null)
 					LayoutChanged(this, EventArgs.Empty);

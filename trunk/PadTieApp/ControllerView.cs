@@ -26,14 +26,22 @@ namespace PadTieApp {
 		public void SetOverlay(VirtualController.Button b, bool visible)
 		{
 			var o = FindOverlay(b);
-			o.Visible = visible;
+			if (o != null)
+				o.Visible = visible;
+			else
+				Console.WriteLine("Error: could not find overlay for button " + b);
+		
 			Render();
 		}
 
 		public void SetOverlay(VirtualController.Axis a, bool isPos, bool visible)
 		{
 			var o = FindOverlay(a, isPos);
-			o.Visible = visible;
+			if (o != null)
+				o.Visible = visible;
+			else
+				Console.WriteLine("Error: could not find overlay for axis gesture " + a + "/" + (isPos ? "Pos" : "Neg"));
+
 			Render();
 		}
 

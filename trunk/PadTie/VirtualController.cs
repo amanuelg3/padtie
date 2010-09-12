@@ -107,6 +107,9 @@ namespace PadTie {
 	public class VirtualController {
 		public VirtualController(InputCore core)
 		{
+			if (core == null)
+				throw new ArgumentNullException("core");
+
 			Core = core;
 			Reset();
 		}
@@ -405,6 +408,9 @@ namespace PadTie {
 		public class ButtonAction : InputAction {
 			public ButtonAction(VirtualController vc, Button b)
 			{
+				if (vc == null)
+					throw new ArgumentNullException("vc");
+
 				Controller = vc;
 				Button = b;
 				AcceptAnalog = true;
@@ -510,6 +516,8 @@ namespace PadTie {
 		public class AxisAction : InputAction {
 			public AxisAction(VirtualController vc, Axis a)
 			{
+				if (vc == null) throw new ArgumentNullException("vc");
+
 				Controller = vc;
 				Axis = a;
 				AcceptAnalog = true;

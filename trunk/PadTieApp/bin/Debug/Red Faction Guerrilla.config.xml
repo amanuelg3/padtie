@@ -1,47 +1,45 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" label="OnLive Dashboard">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" label="Red Faction">
   <pad index="1">
     <a>
-      <link type="none" />
-      <tap type="PadTie.KeyAction">Return,</tap>
+      <link type="PadTie.KeyAction">Space,</link>
+      <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Enter</overview>
+      <overview>Jump</overview>
     </a>
     <b>
       <link type="none" />
-      <tap type="PadTie.KeyAction">Escape,</tap>
+      <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Back</overview>
     </b>
     <x>
-      <link type="none" />
-      <tap type="PadTie.KeyAction">O,Menu</tap>
-      <dtap type="none" />
+      <link type="PadTie.KeyAction">R,</link>
+      <tap type="none" />
+      <dtap type="PadTie.KeyAction">Escape,</dtap>
       <hold type="none" />
-      <overview>Dashboard</overview>
+      <overview>Run</overview>
     </x>
     <y>
-      <link type="none" />
-      <tap type="PadTie.KeyAction">S,</tap>
+      <link type="PadTie.KeyAction">E,</link>
+      <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Sort (S)</overview>
     </y>
     <back>
       <link type="none" />
-      <tap type="PadTie.KeyAction">Escape,</tap>
+      <tap type="PadTie.KeyAction">Tab,</tap>
       <dtap type="none" />
       <hold type="PadTie.KeyAction">O,Menu</hold>
-      <overview>Back</overview>
+      <overview>Map, H: Dash</overview>
     </back>
     <start>
       <link type="none" />
-      <tap type="PadTie.KeyAction">Return,</tap>
+      <tap type="PadTie.KeyAction">Escape,</tap>
       <dtap type="none" />
-      <hold type="none" />
-      <overview>Enter</overview>
+      <hold type="PadTie.KeyAction">B,Menu</hold>
+      <overview>Pause</overview>
     </start>
     <system>
       <link type="none" />
@@ -51,119 +49,117 @@
       <overview>Dashboard</overview>
     </system>
     <bl>
-      <link type="PadTie.KeyAction">Return,</link>
+      <link type="PadTie.KeyAction">ShiftKey,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Enter</overview>
     </bl>
     <br>
       <link type="PadTie.MouseButtonAction">Left</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Left Mouse </overview>
+      <overview>Fire</overview>
     </br>
     <tl>
-      <link type="PadTie.KeyAction">Escape,</link>
+      <link type="PadTie.KeyAction">ControlKey,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Back</overview>
     </tl>
     <tr>
       <link type="PadTie.MouseButtonAction">Right</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Right Mouse</overview>
+      <overview>Melee</overview>
     </tr>
     <la>
       <link type="none" />
-      <tap type="none" />
-      <dtap type="none" />
+      <tap type="PadTie.KeyAction">C,</tap>
+      <dtap type="PadTie.MouseWheelAction">-880,False,False</dtap>
       <hold type="none" />
-      <overview>(unused)</overview>
     </la>
     <ra>
       <link type="none" />
-      <tap type="none" />
-      <dtap type="none" />
+      <tap type="PadTie.KeyAction">F,</tap>
+      <dtap type="PadTie.MouseWheelAction">880,False,False</dtap>
       <hold type="none" />
-      <overview>(unused)</overview>
     </ra>
     <la-up type="PadTie.KeyAction">
-      <link type="PadTie.KeyAction">Up,</link>
+      <link type="PadTie.KeyAction">W,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Up</overview>Up,</la-up>
+      <overview>Walk Forward</overview>W,</la-up>
     <la-down type="PadTie.KeyAction">
-      <link type="PadTie.KeyAction">Down,</link>
+      <link type="PadTie.KeyAction">S,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Down</overview>Down,</la-down>
+      <overview>Walk Backward</overview>S,</la-down>
     <la-left type="PadTie.KeyAction">
-      <link type="PadTie.KeyAction">Left,</link>
+      <link type="PadTie.KeyAction">A,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Left</overview>Left,</la-left>
+      <overview>Strafe Left</overview>A,</la-left>
     <la-right type="PadTie.KeyAction">
-      <link type="PadTie.KeyAction">Right,</link>
+      <link type="PadTie.KeyAction">D,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Right</overview>Right,</la-right>
+      <overview>Strafe Right</overview>D,</la-right>
     <ra-up type="PadTie.MousePointerAction">
       <link type="PadTie.MousePointerAction">0,-25</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Mouse Up</overview>0,-25</ra-up>
+      <overview>Look Up</overview>0,-25</ra-up>
     <ra-down type="PadTie.MousePointerAction">
       <link type="PadTie.MousePointerAction">0,25</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Mouse Down</overview>0,25</ra-down>
+      <overview>Look Down</overview>0,25</ra-down>
     <ra-left type="PadTie.MousePointerAction">
       <link type="PadTie.MousePointerAction">-25,0</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Mouse Left</overview>-25,0</ra-left>
+      <overview>Turn Left</overview>-25,0</ra-left>
     <ra-right type="PadTie.MousePointerAction">
       <link type="PadTie.MousePointerAction">25,0</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Mouse Right</overview>25,0</ra-right>
-    <dig-up type="PadTie.KeyAction">
-      <link type="PadTie.KeyAction">Up,</link>
-      <tap type="none" />
+      <overview>Turn Right</overview>25,0</ra-right>
+    <dig-up type="none">
+      <link type="none" />
+      <tap type="PadTie.KeyAction">D3,</tap>
       <dtap type="none" />
       <hold type="none" />
-      <overview>Up</overview>Up,</dig-up>
-    <dig-down type="PadTie.KeyAction">
-      <link type="PadTie.KeyAction">Down,</link>
-      <tap type="none" />
+      <overview>Weapon Slot 3</overview>
+    </dig-up>
+    <dig-down type="none">
+      <link type="none" />
+      <tap type="PadTie.KeyAction">D1,</tap>
       <dtap type="none" />
       <hold type="none" />
-      <overview>Down</overview>Down,</dig-down>
+      <overview>Weapon Slot 1</overview>
+    </dig-down>
     <dig-left type="PadTie.KeyAction">
-      <link type="PadTie.KeyAction">Left,</link>
+      <link type="PadTie.KeyAction">D2,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Left</overview>Left,</dig-left>
+      <overview>Weapon Slot 2</overview>D2,</dig-left>
     <dig-right type="PadTie.KeyAction">
-      <link type="PadTie.KeyAction">Right,</link>
+      <link type="PadTie.KeyAction">D4,</link>
       <tap type="none" />
       <dtap type="none" />
       <hold type="none" />
-      <overview>Right</overview>Right,</dig-right>
+      <overview>Weapon Slot 4</overview>D4,</dig-right>
   </pad>
   <pad index="2">
     <a>
@@ -317,5 +313,5 @@
       <hold type="none" />
     </dig-right>
   </pad>
-  <info>Layout Author: William Lahti\nThis layout is built-in to Pad Tie 0.1b2 and later.\n\nMaps your gamepad to the keyboard controls for the OnLive Dashboard.</info>
+  <info>Layout Author: William Lahti\nThis layout is built-in to Pad Tie 0.1a1 and later.\n\nMaps your gamepad to the default controls for the PC version of Red Faction.</info>
 </config>

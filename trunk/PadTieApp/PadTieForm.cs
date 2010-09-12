@@ -14,8 +14,28 @@ using System.Reflection;
 
 namespace PadTieApp {
 	public partial class PadTieForm : Form, IFontifiable {
+		public const string UserProfilesName = "Profiles";
+		public const string BuiltinProfilesName = "profiles";
+		public const string UserGamepadsName = "Gamepads";
+		public const string BuiltinGamepadsName = "gamepads";
+
 		public PadTieForm()
 		{
+			AppPath = Path.GetDirectoryName(Application.ExecutablePath);
+			UserStorePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie");
+			
+			BuiltinProfilesPath = Path.Combine(AppPath, "profiles");
+			BuiltinGamepadsPath = Path.Combine(AppPath, "gamepads");
+			UserProfilesPath = Path.Combine(UserStorePath, "Profiles");
+			UserGamepadsPath = Path.Combine(UserStorePath, "Gamepads");
+			
+			// Create the directories if needed
+			if (!Directory.Exists(UserStorePath))		try { Directory.CreateDirectory(UserStorePath);		  } catch (Exception) { }
+			if (!Directory.Exists(UserProfilesPath))	try { Directory.CreateDirectory(UserProfilesPath);	  } catch (Exception) { }
+			if (!Directory.Exists(UserGamepadsPath))	try { Directory.CreateDirectory(UserGamepadsPath);	  } catch (Exception) { }
+			if (!Directory.Exists(BuiltinProfilesPath)) try { Directory.CreateDirectory(BuiltinProfilesPath); } catch (Exception) { }
+			if (!Directory.Exists(BuiltinGamepadsPath)) try { Directory.CreateDirectory(BuiltinGamepadsPath); } catch (Exception) { }
+
 			InitializeComponent();
 		}
 
@@ -105,8 +125,8 @@ namespace PadTieApp {
 
 		public string FindConfigFile(string file)
 		{
-			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
-			string cfgDir = GetDocs();
+			string appDir = BuiltinProfilesPath;
+			string cfgDir = UserStorePath;
 
 			if (File.Exists(file))
 				return file;
@@ -135,9 +155,8 @@ namespace PadTieApp {
 		public void RefreshConfigList(bool force)
 		{
 			Directory.GetLastWriteTime(Application.ExecutablePath);
-			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
-			string cfgDir = GetDocs();
-
+			string appDir = BuiltinProfilesPath;
+			string cfgDir = UserStorePath;
 
 			if (wConfigDir == null) {
 				wConfigDir = new FileSystemWatcher(cfgDir);
@@ -175,17 +194,18 @@ namespace PadTieApp {
 				});
 
 				foreach (string item in items) {
-					var ci = new ConfigItem(item); // find config ensures we have the user copy of the config
+					var ci = new ConfigItem(item);
 
 					if (appDir == Path.GetDirectoryName(item))
 						ci.IsBuiltIn = true;
 
 					if (ci.Title == "default") {
-						ci.Title = "Default";
+						ci.Title = "Blank";
 					}
 
-					if (ci.FileName == config.FileName)
+					if (Path.GetFileName(ci.FileName) == config.FileName)
 						current = ci;
+
 					switchConfigMenu.DropDownItems.Add(new ToolStripMenuItem(ci.ToString(), null,
 						delegate(object sender, EventArgs e)
 						{
@@ -231,6 +251,15 @@ namespace PadTieApp {
 			public bool IsBuiltIn { get; set; }
 		}
 
+		private void MoveOverwrite(string from, string to)
+		{
+			try {
+				if (File.Exists(to))
+					File.Delete(to);
+				File.Move(from, to);
+			} catch (Exception) { }
+		}
+
 		public void LoadGlobalConfig(string configFile)
 		{
 			// The global configuration deals with the mapping between physical devices
@@ -240,18 +269,91 @@ namespace PadTieApp {
 			// associated with it.
 
 			if (!File.Exists(configFile)) {
-				globalConfig = new GlobalConfig();
-				globalConfig.Save(configFile);
+				try {
+					globalConfig = new GlobalConfig();
+					globalConfig.Save(configFile);
+				} catch (Exception e) {
+					MessageBox.Show ("An error occurred while creating a new configuration file. Pad Tie will now close. Error: " + e.Message);
+				}
 			} else {
-				globalConfig = GlobalConfig.Load(configFile);
-			}
+				try {
+					globalConfig = GlobalConfig.Load(configFile);
+				} catch (Exception e) {
+					string backupFile = Path.Combine(Path.GetDirectoryName(configFile), Path.GetFileNameWithoutExtension(configFile) + ".backup.xml");
 
+					if (File.Exists(backupFile)) {
+						try {
+							string broken = Path.Combine(Path.GetDirectoryName(configFile), Path.GetFileNameWithoutExtension(configFile) + ".broken.xml");
+
+							MoveOverwrite(configFile, broken);
+							File.Move(backupFile, configFile);
+							
+							globalConfig = GlobalConfig.Load(configFile);
+
+							notifyIcon.ShowBalloonTip(40000, "An error occurred while opening Pad Tie's configuration file.", 
+								"An older version of your settings has been recovered. Click for details.", ToolTipIcon.Error);
+							BalloonHandler = delegate() {
+								MessageBox.Show("Failed to load configuration: " + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							};
+
+						} catch (Exception e2) {
+							MessageBox.Show("An error occurred while opening Pad Tie's configuration (" + e.Message + "). " +
+								"A backup was found but could not be loaded (" + e2.Message + "). Your global settings have been lost.",
+								"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+							File.Delete(configFile);
+						}
+					} else {
+						MessageBox.Show("An error occurred while trying to open Pad Tie's configuration file. " +
+							"Your global settings have been lost. Error: " + e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+						File.Delete(configFile);
+					}
+				}
+
+				if (globalConfig == null) {
+					globalConfig = new GlobalConfig();
+					globalConfig.Save(configFile);
+				}
+			}
 			UpdateSettings();
 			MapDeviceConfigs();
 			ConfigureNewDevices();
 		}
 
 		int freePad = 1;
+
+		public string FindFile(string name, string[] paths, string defaultFile)
+		{
+			foreach (string path in paths) {
+				if (File.Exists(Path.Combine(path, name)))
+					return Path.Combine(path, name);
+			}
+
+			return defaultFile;
+		}
+
+		public GamepadConfig FindGamepadConfig(int vendorID, int productID)
+		{
+			string[] path = new[] { UserGamepadsPath, BuiltinGamepadsPath };
+			string id = string.Format("0x{0}{1}", vendorID.ToString("x4"), productID.ToString("x4"));
+			string configFile = FindFile(id + ".xml", path, null);
+
+			bool noConfig = string.IsNullOrEmpty (configFile) || !File.Exists(configFile);
+			bool generic = false;
+
+			if (noConfig && File.Exists(configFile)) {
+				configFile = Path.Combine(BuiltinGamepadsPath, "Generic.xml");
+				noConfig = false;
+				generic = true;
+			}
+
+			if (!noConfig) {
+				var gpc = GamepadConfig.Load(configFile);
+				gpc.IsGeneric = generic;
+				return gpc;
+			}
+
+			return null;
+		}
 
 		public void ConfigureNewDevices()
 		{			
@@ -265,40 +367,16 @@ namespace PadTieApp {
 				// controller to the next free virtual pad, and then advancing the free
 				// pad indicator.
 
-				string id = ("0x" + ic.VendorID.ToString("X4") + ic.ProductID.ToString("X4")).ToLower();
-				string appDir = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "gamepads");
-				string userDir = Path.Combine(GetDocs(), "gamepads");
-				string configFile = id + ".xml";
+				var gpc = FindGamepadConfig(ic.VendorID, ic.ProductID);
 
-				if (!Directory.Exists(userDir))
-					Directory.CreateDirectory(userDir);
-
-				if (File.Exists(Path.Combine(userDir, configFile)))
-					configFile = Path.Combine(userDir, configFile);
-				else
-					configFile = Path.Combine(appDir, configFile);
-
-				bool noConfig = false;
-
-				if (!File.Exists(configFile)) {
-					noConfig = true;
-					configFile = Path.Combine(appDir, "Generic.xml");
-
-					if (!File.Exists(configFile)) {
-						MessageBox.Show("Error: Your gamepad does not have a pre-made configuration and Pad Tie could not find the generic one. Please report this bug.");
-					}	
-				}
-				
 				var dc = new DeviceConfig();
 				dc.InstanceGUID = ic.InstanceGUID;
 				dc.DeviceID = "0x" + ic.VendorID.ToString("X4") + ic.ProductID.ToString("X4");
 				dc.Present = false;
 				dc.PadNumber = -1;
-				dc.IsGeneric = noConfig;
+				dc.IsGeneric = gpc.IsGeneric;
 
-				if (File.Exists(configFile)) {
-					var gpc = GamepadConfig.Load(configFile);
-
+				if (gpc != null) {
 					// Copy the mappings so changes don't affect the original 
 					foreach (var dm in gpc.Mappings) {
 						var dm2 = dm.Clone();
@@ -449,6 +527,7 @@ namespace PadTieApp {
 
 					Console.WriteLine("Found and mapped configuration for device '{0}' to pad #{1}", ic.ProductName, padNumber);
 					cc.IsGeneric = dc.IsGeneric;
+					padLegend.RefreshPads();
 					break;
 				}
 			}
@@ -500,8 +579,31 @@ namespace PadTieApp {
 		{
 			string appDir = Path.GetDirectoryName(Application.ExecutablePath);
 			string configFile = FindConfigFile("default.config.xml");
-			string globalConfigFile = Path.Combine(GetDocs(), "globalconfig.xml");
+			string globalConfigFile = Path.Combine(UserStorePath, "globalconfig.xml");
 
+			// Check if it's wise to write our global config next to the application (portability)
+			if (!appDir.StartsWith(Environment.ExpandEnvironmentVariables("%programfiles%"))) {
+				bool safe = true;
+
+				try { 
+					using (var sw = new StreamWriter(Path.Combine(appDir, "PadTie.tmp"))) sw.Write('.'); 
+				} catch {
+					safe = false;
+				}
+
+				try { File.Delete(Path.Combine(appDir, "PadTie.tmp")); } catch { }
+
+				if (safe) {
+					var user = globalConfigFile;
+					var local = Path.Combine(appDir, "globalconfig.xml");
+
+					if (File.Exists(local))
+						globalConfigFile = local;
+					else if (File.Exists(user))
+						globalConfigFile = user;
+				}
+			}
+		
 			LoadGlobalConfig(globalConfigFile);
 
 			if (globalConfig.Settings.DefaultConfigFile != "")
@@ -552,6 +654,8 @@ namespace PadTieApp {
 				layoutNameTemplate = true;
 			}
 
+			List<Controller> configured = new List<Controller>();
+
 			foreach (var pc in config.Pads) {
 				var cc = GetController(pc.Index);
 				if (cc == null) {
@@ -564,7 +668,18 @@ namespace PadTieApp {
 				}
 
 				LoadPadConfig(cc, pc);
+				configured.Add(cc);
 				valid = true;
+			}
+
+			foreach (var cc in controllers) {
+				if (!configured.Contains(cc)) {
+					var pc = new PadConfig();
+					pc.Index = cc.Index;
+					config.Pads.Add(pc);
+
+					LoadPadConfig(cc, pc);
+				}
 			}
 
 			UpdateLegend();
@@ -1114,7 +1229,7 @@ namespace PadTieApp {
 			sfd.DefaultExt = ".config.xml";
 			sfd.Filter = "Pad Tie configuration file (*.config.xml)|*.config.xml|All files (*.*)|*";
 			sfd.RestoreDirectory = true;
-			sfd.InitialDirectory = GetDocs();
+			sfd.InitialDirectory = UserStorePath;
 			var result = sfd.ShowDialog(this);
 			if (result == System.Windows.Forms.DialogResult.OK) {
 				config.Save(sfd.FileName);
@@ -1152,7 +1267,7 @@ namespace PadTieApp {
 
 				if (config != null) {
 					if (config.Pads.Count <= cc.Index - 1) {
-
+						layout["LeftY/Neg"] = "No layout available for pad #" + cc.Index;
 					} else {
 						var pc = cc.Config;
 
@@ -1216,15 +1331,18 @@ namespace PadTieApp {
 			padLegend.ApplyLayout(layout, editable);
 		}
 
-		public string GetDocs()
-		{
-			return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Pad Tie");
-		}
+		public string UserStorePath { get; private set; }
+		public string AppPath { get; private set; }
+
+		public string BuiltinProfilesPath { get; private set; }
+		public string BuiltinGamepadsPath { get; private set; }
+		public string UserProfilesPath { get; private set; }
+		public string UserGamepadsPath { get; private set; }
 
 		public void SaveConfig()
 		{
-			if (!Directory.Exists(GetDocs()))
-				Directory.CreateDirectory(GetDocs());
+			if (!Directory.Exists(UserStorePath))
+				Directory.CreateDirectory(UserStorePath);
 
 			Exception caught = null;
 
@@ -1237,7 +1355,7 @@ namespace PadTieApp {
 			} catch (Exception e) { caught = e; }
 
 			if (caught != null && caught is UnauthorizedAccessException && config.Builtin) {
-				string userConfig = Path.Combine(GetDocs(), Path.GetFileName(config.FileName));
+				string userConfig = Path.Combine(UserStorePath, Path.GetFileName(config.FileName));
 				if (File.Exists(userConfig)) {
 					var r = MessageBox.Show("A custom layout named '" + Path.GetFileName(config.FileName) + "' already exists. Overwrite it?",
 						"Custom layout exists", MessageBoxButtons.YesNo);
@@ -1789,6 +1907,11 @@ namespace PadTieApp {
 	public class Controller {
 		public Controller(InputCore core, InputController ic, int index)
 		{
+			if (core == null)
+				throw new ArgumentNullException("core");
+			if (ic == null)
+				throw new ArgumentNullException("ic");
+
 			Core = core;
 			Virtual = new VirtualController(core);
 			Device = ic;
