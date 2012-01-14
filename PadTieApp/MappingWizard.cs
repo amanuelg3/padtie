@@ -88,6 +88,8 @@ namespace PadTieApp {
 			}
 
 			if (remainingBtnSpots.Count == 0) {
+                front.Hide();
+                top.Show();
 				var aspot = remainingAxisSpots[0];
 				indicator.Location = new Point(front.Left + aspot.X - 8, front.Top + aspot.Y - 10);
 				return;
@@ -106,8 +108,8 @@ namespace PadTieApp {
 
 		private void axisPressed(object sender, EventArgs e)
 		{
-			if (remainingBtnSpots.Count > 0)
-				return;
+            if (remainingBtnSpots.Count > 0)
+                return;
 			if (remainingAxisSpots.Count == 0)
 				return;
 
@@ -129,6 +131,11 @@ namespace PadTieApp {
 			} else {
 				progress.Text += string.Format("- Not mapping axis {0}", Util.GetAxisDisplayName(spot.Axis)) + "\n";
 			}
+
+            if (spot.Axis == VirtualController.Axis.Trigger){
+                front.Show();
+                top.Hide();
+            }
 
 			if (remainingAxisSpots.Count == 0) {
 				page3.BringToFront();
@@ -178,9 +185,9 @@ namespace PadTieApp {
 				startBtn.Enabled = false;
 				startBtn.Text = "Finish";
 				ButtonSpot[] buttonSpots = new[] {
-					new ButtonSpot(VirtualController.Button.Tl, 70, 91),
 					new ButtonSpot(VirtualController.Button.Bl, 70, 119),
 					new ButtonSpot(VirtualController.Button.Br, 199, 119),
+                    new ButtonSpot(VirtualController.Button.Tl, 70, 91),
 					new ButtonSpot(VirtualController.Button.Tr, 199, 91),
 					new ButtonSpot(VirtualController.Button.A, 204, 86),
 					new ButtonSpot(VirtualController.Button.B, 222, 67),
@@ -194,6 +201,7 @@ namespace PadTieApp {
 				};
 				
                 AxisSpot[] axisSpots = new[] {
+                    new AxisSpot(VirtualController.Axis.Trigger, 70, 91),
 					new AxisSpot(VirtualController.Axis.LeftY, 67, 53),
 					new AxisSpot(VirtualController.Axis.LeftX, 52, 65),
 					new AxisSpot(VirtualController.Axis.DigitalY, 99, 94),
@@ -256,13 +264,17 @@ namespace PadTieApp {
 				gpc.Notes = "Created by Pad Tie's Mapping Wizard!";
 				gpc.Product = Controller.Device.ProductName;
 				gpc.Vendor = "";
-				string fileName = Path.Combine(MainForm.GetDocs(), gpc.DeviceID + ".xml");
+                var myModcumentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                var gpcFolder = Path.Combine("Pad Tie", "gamepads");
+				string fileName = Path.Combine(Path.Combine(myModcumentsFolder, gpcFolder), gpc.DeviceID + ".xml");
 
 				if (!Directory.Exists(Path.GetDirectoryName(fileName)))
 					Directory.CreateDirectory(Path.GetDirectoryName(fileName));
 
-				if (File.Exists (fileName))
-					fileName = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "gamepads", gpc.DeviceID + "-autogen.xml");
+                if (File.Exists(fileName)) {
+                    fileName = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "gamepads");
+                    fileName = Path.Combine(fileName, gpc.DeviceID + "-autogen.xml");
+                }
 
 				try {
 					gpc.Save(fileName);
@@ -271,84 +283,48 @@ namespace PadTieApp {
 				}
 
 				if (sendPermission.Checked) {
-					// Thank you all!
-					HttpWebRequest r = WebRequest.Create("http://stridetechnologies.net/padtie/submit-dmap.php") as HttpWebRequest;
-					r.Method = "POST";
-					r.ContentType = "application/x-www-form-urlencoded";
-					string data;
-					using (var sr = new StreamReader(fileName))
-						data = string.Format("id={1}&config={0}", Uri.EscapeDataString(sr.ReadToEnd()).Replace("%20", "+"), 
-							gpc.DeviceID);
-
-					byte[] d = Encoding.ASCII.GetBytes(data);
-					using (var st = r.GetRequestStream())
-						st.Write(d, 0, d.Length);
-					HttpWebResponse resp = null;
-
-					try {
-						resp = r.GetResponse() as HttpWebResponse;
-
-						if (resp.StatusCode == HttpStatusCode.NoContent) {
-							MessageBox.Show("Thank you for submitting the new mapping!");
-						} else {
-							string rs;
-							using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
-								rs = sr.ReadToEnd();
-
-							MessageBox.Show("Could not contact upload server :-( : " + resp.StatusCode +
-								Environment.NewLine + Environment.NewLine + rs);
-						}
-					} catch (WebException e2) {
-						string rs;
-						using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
-							rs = sr.ReadToEnd();
-
-						MessageBox.Show("An error occurred while sending the mapping :-( : " + e2.Message + Environment.NewLine + Environment.NewLine + rs);
-					}
+                    SendConfig(gpc, fileName);
+                }
 
 					
-					Controller.DeviceConfig.Mappings = gpc.Mappings;
-					Controller.Device.Reset();
+				Controller.DeviceConfig.Mappings = gpc.Mappings;
+                //Controller.Device.Reset();
 
-					foreach (var dm in gpc.Mappings) {
-						if (dm.Source.StartsWith("button:")) {
-							int btn = int.Parse(dm.Source.Substring("button:".Length));
-							VirtualController.Button b = (VirtualController.Button)Enum.Parse(typeof(VirtualController.Button), dm.Destination);
-							var ba = new VirtualController.ButtonAction(Controller.Virtual, b);
+				foreach (var dm in gpc.Mappings) {
+					if (dm.Source.StartsWith("button:")) {
+						int btn = int.Parse(dm.Source.Substring("button:".Length));
+						VirtualController.Button b = (VirtualController.Button)Enum.Parse(typeof(VirtualController.Button), dm.Destination);
+						var ba = new VirtualController.ButtonAction(Controller.Virtual, b);
 
-							if (dm.Gesture != "Link" && dm.Gesture != "" && dm.Gesture != null) {
-								// We need to enable gesture support at the device level for this button
-								Controller.Device.Buttons[btn].EnableGestures = true;
-							}
-
-							switch (dm.Gesture) {
-								case "Link":
-								case null:
-								case "":
-									Controller.Device.Buttons[btn].Link = ba;
-									break;
-								case "Tap":
-									Controller.Device.Buttons[btn].Tap = ba;
-									break;
-								case "DoubleTap":
-									Controller.Device.Buttons[btn].DoubleTap = ba;
-									break;
-								case "Hold":
-									Controller.Device.Buttons[btn].Hold = ba;
-									break;
-							}
-						} else {
-							int axis = int.Parse(dm.Source.Substring("axis:".Length));
-							VirtualController.Axis a = (VirtualController.Axis)Enum.Parse(typeof(VirtualController.Axis), dm.Destination);
-							Controller.Device.Axes[axis].Analog = new VirtualController.AxisAction(Controller.Virtual, a);
+						if (dm.Gesture != "Link" && dm.Gesture != "" && dm.Gesture != null) {
+							// We need to enable gesture support at the device level for this button
+							Controller.Device.Buttons[btn].EnableGestures = true;
 						}
+
+						switch (dm.Gesture) {
+							case "Link":
+							case null:
+							case "":
+								Controller.Device.Buttons[btn].Link = ba;
+								break;
+							case "Tap":
+								Controller.Device.Buttons[btn].Tap = ba;
+								break;
+							case "DoubleTap":
+								Controller.Device.Buttons[btn].DoubleTap = ba;
+								break;
+							case "Hold":
+								Controller.Device.Buttons[btn].Hold = ba;
+								break;
+						}
+					} else {
+						int axis = int.Parse(dm.Source.Substring("axis:".Length));
+						VirtualController.Axis a = (VirtualController.Axis)Enum.Parse(typeof(VirtualController.Axis), dm.Destination);
+						Controller.Device.Axes[axis].Analog = new VirtualController.AxisAction(Controller.Virtual, a);
 					}
-
-					MainForm.GlobalConfig.Save();
-					if (resp != null) resp.Close();
-				}
-
-				this.Close();
+			    }
+				MainForm.GlobalConfig.Save();
+                this.Close();
 			}
 		}
 
@@ -359,5 +335,44 @@ namespace PadTieApp {
 			else
 				axisPressed(null, null);
 		}
+
+        private void SendConfig(GamepadConfig gpc, string fileName)
+        {
+            // Thank you all!
+            HttpWebRequest r = WebRequest.Create("http://stridetechnologies.net/padtie/submit-dmap.php") as HttpWebRequest;
+            r.Method = "POST";
+            r.ContentType = "application/x-www-form-urlencoded";
+            string data;
+            using (var sr = new StreamReader(fileName))
+                data = string.Format("id={1}&config={0}", Uri.EscapeDataString(sr.ReadToEnd()).Replace("%20", "+"),
+                    gpc.DeviceID);
+
+            byte[] d = Encoding.ASCII.GetBytes(data);
+            using (var st = r.GetRequestStream())
+                st.Write(d, 0, d.Length);
+            HttpWebResponse resp = null;
+
+            try {
+                resp = r.GetResponse() as HttpWebResponse;
+
+                if (resp.StatusCode == HttpStatusCode.NoContent) {
+                    MessageBox.Show("Thank you for submitting the new mapping!");
+                } else {
+                    string rs;
+                    using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
+                        rs = sr.ReadToEnd();
+
+                    MessageBox.Show("Could not contact upload server :-( : " + resp.StatusCode +
+                        Environment.NewLine + Environment.NewLine + rs);
+                }
+            } catch (WebException e2) {
+                string rs;
+                using (StreamReader sr = new StreamReader(resp.GetResponseStream()))
+                    rs = sr.ReadToEnd();
+
+                MessageBox.Show("An error occurred while sending the mapping :-( : " + e2.Message + Environment.NewLine + Environment.NewLine + rs);
+            }
+            if (resp != null) resp.Close();
+        }
 	}
 }

@@ -125,7 +125,12 @@ namespace PadTie {
 					if (pos)
 						return DigitalDown;
 					else
-						return DigitalUp; 
+						return DigitalUp;
+                case VirtualController.Axis.Trigger:
+                    if (pos)
+                        return LeftAnalogRight;
+                    else
+                        return LeftAnalogLeft; 
 			}
 
 			return null;
@@ -166,6 +171,11 @@ namespace PadTie {
 		public AxisActionsConfig LeftAnalogLeft = new AxisActionsConfig();
 		[XmlElement("la-right")]
 		public AxisActionsConfig LeftAnalogRight = new AxisActionsConfig();
+
+        [XmlElement("trigger-left")]
+        public AxisActionsConfig TriggerLeft = new AxisActionsConfig();
+        [XmlElement("trigger-right")]
+        public AxisActionsConfig TriggerRight = new AxisActionsConfig();
 
 		[XmlElement("ra-up")]
 		public AxisActionsConfig RightAnalogUp = new AxisActionsConfig();

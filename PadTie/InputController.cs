@@ -54,7 +54,6 @@ namespace PadTie {
 
 			bool[] buttonData;
 			int[] hats, uv;
-			int axisX, axisY, axisZ, axisRZ;
 
 			DI.JoystickState state;
 			// Buttons 
@@ -81,10 +80,6 @@ namespace PadTie {
 			
 				buttonData = state.GetButtons();
 				hats = state.GetPointOfViewControllers();
-				axisX = state.X;
-				axisY = state.Y;
-				axisZ = state.Z;
-				axisRZ = state.RotationZ;
 				uv = state.GetForceSliders();
 			} catch (DI.DirectInputException e) {
 				if (e.ResultCode == DI.ResultCode.InputLost ||
@@ -124,11 +119,9 @@ namespace PadTie {
 				Buttons[x].Process((byte)(buttonData[x] ? 1 : 0));
 
 			// Axes
-
-			Axes[0].Process(axisX);
-			Axes[1].Process(axisY);
-			Axes[2].Process(axisZ);
-			Axes[3].Process(axisRZ);
+            var axisData = new[] { state.X, state.Y, state.RotationX, state.RotationY };
+            for (int x = 0; x < Math.Min(AxisCount, axisData.Length); ++x)
+                Axes[x].Process(axisData[x]);
 
 			int axisIndex = 4;
 			foreach (int hat in hats) {
@@ -155,7 +148,8 @@ namespace PadTie {
 
 				axisIndex += 2;
 			}
-
+            if(Axes.Length > axisIndex)
+                Axes[axisIndex].Process(state.Z);
 			//Axes[3].Process(Device.CurrentJoystickState.Rx);
 			//if (Axes.Length > 3) Axes[3].Process(uv[0]);
 			//if (Axes.Length > 4) Axes[4].Process(uv[1]);

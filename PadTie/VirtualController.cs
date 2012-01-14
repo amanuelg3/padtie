@@ -147,6 +147,7 @@ namespace PadTie {
 					Axis.RightY,
 					Axis.DigitalX,
 					Axis.DigitalY,
+                    Axis.Trigger,
 				};
 			}
 		}
@@ -175,6 +176,7 @@ namespace PadTie {
 			RightYAxis = new AxisActions(Core, true, RightYAxis, VirtualController.Axis.RightY);
 			DigitalXAxis = new AxisActions(Core, true, DigitalXAxis, VirtualController.Axis.DigitalX);
 			DigitalYAxis = new AxisActions(Core, true, DigitalYAxis, VirtualController.Axis.DigitalY);
+            Trigger = new AxisActions(Core, true, Trigger, VirtualController.Axis.Trigger);
 
 			if (needsCapture) {
 				LeftXAxis.PositiveRelease += delegate(object sender, EventArgs e)
@@ -262,6 +264,22 @@ namespace PadTie {
 						capture = null;
 					}
 				};
+                Trigger.PositiveRelease += delegate(object sender, EventArgs e)
+                {
+                    if (capture != null)
+                    {
+                        capture(new CapturedInput(Axis.Trigger, true));
+                        capture = null;
+                    }
+                };
+                Trigger.NegativeRelease += delegate(object sender, EventArgs e)
+                {
+                    if (capture != null)
+                    {
+                        capture(new CapturedInput(Axis.Trigger, false));
+                        capture = null;
+                    }
+                };
 			}
 		}
 
@@ -287,6 +305,7 @@ namespace PadTie {
 		public AxisActions RightYAxis;
 		public AxisActions DigitalXAxis;
 		public AxisActions DigitalYAxis;
+        public AxisActions Trigger;
 
 		public ButtonActions GetButton(Button button)
 		{
@@ -318,6 +337,7 @@ namespace PadTie {
 				case VirtualController.Axis.RightY: return RightYAxis;
 				case VirtualController.Axis.DigitalX: return DigitalXAxis;
 				case VirtualController.Axis.DigitalY: return DigitalYAxis;
+                case VirtualController.Axis.Trigger: return Trigger;
 			}
 
 			return null;
@@ -402,7 +422,7 @@ namespace PadTie {
 
 		public enum Axis {
 			LeftX, LeftY, RightX, RightY,
-			DigitalX, DigitalY
+			DigitalX, DigitalY, Trigger
 		}
 
 		public class ButtonAction : InputAction {
@@ -546,6 +566,7 @@ namespace PadTie {
 				else if (Axis == Axis.RightY) Controller.RightYAxis.Process((int)raw);
 				else if (Axis == Axis.DigitalX) Controller.DigitalXAxis.Process((int)raw);
 				else if (Axis == Axis.DigitalY) Controller.DigitalYAxis.Process((int)raw);
+                else if (Axis == Axis.Trigger) Controller.Trigger.Process((int)raw);
 			}
 		}
 	}

@@ -77,6 +77,12 @@ namespace PadTie {
 		{
 			if (key == Keys.Control)
 				return User32InputHook.VK.VK_CONTROL;
+            if (key == Keys.Shift)
+                return User32InputHook.VK.VK_SHIFT;
+            if (key == Keys.Menu)
+                return User32InputHook.VK.VK_MENU;
+            if (key == Keys.LWin)
+                return User32InputHook.VK.VK_LWIN;
 
 			return (User32InputHook.VK)key;
 		}
@@ -231,12 +237,12 @@ namespace PadTie {
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.Append(Key.ToString() + ",");
-			List<string> mods = new List<string>();
+			var mods = new List<string>();
 
 			foreach (Keys mod in Modifiers)
 				mods.Add(mod.ToString());
 
-			sb.Append(string.Join("|", mods));
+			sb.Append(string.Join("|", mods.ToArray()));
 
 			return sb.ToString();
 		}
