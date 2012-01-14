@@ -126,7 +126,7 @@ namespace PadTie {
 
 			AxisPole pole = AxisPole.None;
 			double intensity = -1;
-			double poleSize = PoleSize;
+			double poleSize = -1;
 
 			if (poleSize < 0)
 				poleSize = Core.AxisPoleSize;

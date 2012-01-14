@@ -202,6 +202,14 @@ namespace PadTieApp {
 					controller.Virtual.DigitalYAxis.PositivePress += press;
 					controller.Virtual.DigitalYAxis.PositiveRelease += release;
 					break;
+                case AxisGesture.TriggerNeg:
+                    controller.Virtual.Trigger.NegativePress += press;
+                    controller.Virtual.Trigger.NegativeRelease += release;
+                    break;
+                case AxisGesture.TriggerPos:
+                    controller.Virtual.Trigger.PositivePress += press;
+                    controller.Virtual.Trigger.PositiveRelease += release;
+                    break;
 			}
 
 			if (stick == VirtualController.Axis.RightX) {
@@ -225,17 +233,26 @@ namespace PadTieApp {
 					root = axisPortNodes[stick] = buttonMapNodes["digital"] = currentMappings.Nodes.Add("Digital Pad");
 					buttonMapNodes["digital/analog"] = root.Nodes.Add("Raw"); // Hardee har!
 				}
+			} else if (stick == VirtualController.Axis.Trigger) {
+				if (axisPortNodes.ContainsKey(stick)) {
+					root = axisPortNodes[stick];
+				} else {
+					root = axisPortNodes[stick] = buttonMapNodes["trigger"] = currentMappings.Nodes.Add("Trigger");
+					buttonMapNodes["trigger/analog"] = root.Nodes.Add("Analog");
+				}
 			}
 
 			switch (ag) {
 				case AxisGesture.LeftXNeg:
 				case AxisGesture.RightXNeg:
 				case AxisGesture.DigitalXNeg:
+                case AxisGesture.TriggerPos:
 					name = "Left";
 					break;
 				case AxisGesture.LeftXPos:
 				case AxisGesture.RightXPos:
 				case AxisGesture.DigitalXPos:
+                case AxisGesture.TriggerNeg:
 					name = "Right";
 					break;
 				case AxisGesture.LeftYNeg:
@@ -365,6 +382,8 @@ namespace PadTieApp {
 			SetupAxisGesture(AxisGesture.DigitalXPos);
 			SetupAxisGesture(AxisGesture.DigitalYNeg);
 			SetupAxisGesture(AxisGesture.DigitalYPos);
+            SetupAxisGesture(AxisGesture.TriggerNeg);
+            SetupAxisGesture(AxisGesture.TriggerPos);
 
 			currentMappings.ExpandAll();
 			RefreshDeviceMappings();
@@ -560,6 +579,7 @@ namespace PadTieApp {
 			wiz.MainForm = mainForm;
 			wiz.Controller = controller;
 			wiz.ShowDialog(this);
+            RefreshDeviceMappings();
 		}
 
 		private void currentMappings_DoubleClick(object sender, EventArgs e)
@@ -827,6 +847,8 @@ namespace PadTieApp {
 		DigitalXPos,
 		DigitalXNeg,
 		DigitalYPos,
-		DigitalYNeg
+		DigitalYNeg,
+        TriggerNeg,
+        TriggerPos
 	}
 }

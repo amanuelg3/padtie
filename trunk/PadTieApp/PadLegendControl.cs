@@ -178,6 +178,10 @@ namespace PadTieApp {
 			InitLabel("DigitalY/Neg", legendDigitalUp);
 			InitLabel("DigitalY/Pos", legendDigitalDown);
 
+            //todo: find a way to combine button/axis trigger
+            InitLabel("Trigger/Neg", new Label());
+            InitLabel("Trigger/Pos", new Label());
+
 			overviewItem.Tag = LegendMode.Overview;
 			linkItem.Tag = LegendMode.Link;
 			tapItem.Tag = LegendMode.Tap;

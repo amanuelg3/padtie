@@ -73,6 +73,7 @@ namespace PadTieApp {
 				options.Items.Add(new AxisOptionItem(VirtualController.Axis.RightY));
 				options.Items.Add(new AxisOptionItem(VirtualController.Axis.DigitalX));
 				options.Items.Add(new AxisOptionItem(VirtualController.Axis.DigitalY));
+                options.Items.Add(new AxisOptionItem(VirtualController.Axis.Trigger));
 
 				VirtualController.Axis a = (VirtualController.Axis)Enum.Parse(typeof(VirtualController.Axis), dest);
 				foreach (var o in options.Items) {
