@@ -161,6 +161,7 @@ namespace PadTie {
 		public User32InputHook.VK VKey { get; private set; }
 		public Keys[] Modifiers { get; private set; }
 		public User32InputHook.VK[] VModifiers { get; private set; }
+        public bool Continuous { get; set; }
 
 		public string ToDisplayString()
 		{
@@ -179,25 +180,18 @@ namespace PadTie {
 			return sb.ToString();
 		}
 
+        public override void Active()
+        {
+            if (Continuous) {
+                OnPress();
+            }
+        }
+
 		public override void Press()
 		{
-			User32InputHook.INPUT i = new User32InputHook.INPUT();
-			i.type = User32InputHook.SendInputEventType.InputKeyboard;
-			i.data.ki.wScan = 0;
-			i.data.ki.time = 0;
-			i.data.ki.dwFlags = 0;
-			i.data.ki.dwExtraInfo = IntPtr.Zero;
-
-			// Press modifiers
-			foreach (User32InputHook.VK mod in VModifiers) {
-				i.data.ki.wVk = (ushort)mod;
-				User32InputHook.SendInput(i);
-			}
-
-			i.data.ki.wVk = (ushort)VKey;
-			if ((i.data.ki.wVk >= 33 && i.data.ki.wVk <= 46) || (i.data.ki.wVk >= 91 && i.data.ki.wVk <= 93))
-				i.data.ki.dwFlags += User32InputHook.KEYEVENTF_EXTENDEDKEY;
-			User32InputHook.SendInput(i);
+            if (!Continuous) {
+                OnPress();
+            }
 		}
 
 		public override void Release()
@@ -221,16 +215,42 @@ namespace PadTie {
 			}
 		}
 
+        private void OnPress()
+        {
+            User32InputHook.INPUT i = new User32InputHook.INPUT();
+            i.type = User32InputHook.SendInputEventType.InputKeyboard;
+            i.data.ki.wScan = 0;
+            i.data.ki.time = 0;
+            i.data.ki.dwFlags = 0;
+            i.data.ki.dwExtraInfo = IntPtr.Zero;
+
+            // Press modifiers
+            foreach (User32InputHook.VK mod in VModifiers) {
+                i.data.ki.wVk = (ushort)mod;
+                User32InputHook.SendInput(i);
+            }
+
+            i.data.ki.wVk = (ushort)VKey;
+            if ((i.data.ki.wVk >= 33 && i.data.ki.wVk <= 46) || (i.data.ki.wVk >= 91 && i.data.ki.wVk <= 93))
+                i.data.ki.dwFlags += User32InputHook.KEYEVENTF_EXTENDEDKEY;
+            User32InputHook.SendInput(i);
+        }
+
 		public static KeyAction Parse(InputCore core, string parseable)
 		{
 			string[] parts = parseable.Split(',');
 			string[] modChunks = parts[1].Split('|');
 			List<Keys> mods = new List<Keys> ();
-			
-			if (parts[1] != "") foreach (string modChunk in modChunks)
-				mods.Add((Keys)Enum.Parse(typeof(Keys), modChunk));
 
-			return new KeyAction((Keys)Enum.Parse(typeof(Keys), parts[0]), mods.ToArray());
+            if (!string.IsNullOrEmpty(parts[1]))
+                foreach (string modChunk in modChunks)
+				    mods.Add((Keys)Enum.Parse(typeof(Keys), modChunk));
+            var key = (Keys)Enum.Parse(typeof(Keys), parts[0]);
+            var keyAction = new KeyAction(key, mods.ToArray());
+            if (parts.Length > 2 && !string.IsNullOrEmpty(parts[2])) {
+                keyAction.Continuous = bool.Parse(parts[2]);
+            }
+            return keyAction;
 		}
 
 		public override string ToParseable()
@@ -243,6 +263,7 @@ namespace PadTie {
 				mods.Add(mod.ToString());
 
 			sb.Append(string.Join("|", mods.ToArray()));
+            sb.Append("," + Continuous);
 
 			return sb.ToString();
 		}

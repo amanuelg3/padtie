@@ -34,6 +34,7 @@ namespace PadTieApp {
 			this.editing = editing;
 			capturedKey = editing.Key;
 			ctrl.Checked = shift.Checked = alt.Checked = false;
+            continuous.Checked = editing.Continuous;
 
 			foreach (Keys mod in editing.Modifiers) {
 				if (mod == Keys.Control) ctrl.Checked = true;
@@ -90,7 +91,7 @@ namespace PadTieApp {
 			} else {
 				action = new KeyAction(key, mods.ToArray());
 			}
-
+            action.Continuous = continuous.Checked;
 			MapUtil.Map(MainForm, Controller.Virtual, slot, action);
 
 			this.DialogResult = DialogResult.OK;
