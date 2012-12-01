@@ -1438,7 +1438,7 @@ namespace PadTieApp
 
         private void PadTieForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!exiting) {
+            if (e.CloseReason == CloseReason.UserClosing) {
                 e.Cancel = true;
                 this.Hide();
             } else {
@@ -1453,12 +1453,9 @@ namespace PadTieApp
             this.Activate();
         }
 
-        bool exiting = false;
-
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            exiting = true;
-            this.Close();
+            Application.Exit();
         }
 
         private void notifyIcon_DoubleClick(object sender, EventArgs e)
