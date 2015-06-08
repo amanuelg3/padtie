@@ -1,0 +1,25 @@
+# Introduction #
+
+While building the Pad Tie application, we have abstracted the actual gamepad redirection system into a class library which can be used in your .NET-based applications. The library covers discovering DirectInput devices, provides the VirtualController abstraction and most of the actions available from the Pad Tie application. It does not provide any support for loading configuration files, and it does not handle mapping the underlying InputControllers to VirtualControllers. The library is licensed under the terms of the GNU Lesser General Public License v3.0, which makes it suitable for use within both proprietary and open source projects, but if you modify and distribute the library itself, you must release the modified source code as well.
+
+# API Details #
+
+The library is distributed as PadTie.dll, and can be found from any of our binary releases or built from the available source code. The root namespace is also "PadTie". To use the library, you must instantiate a PadTie.InputCore object. During construction the object scans for DirectInput controllers, and adds "InputController" instances for them in the "Controllers" property. You should read this list to select your devices.
+
+If you only intend to use the device layer, you can attach your actions directly to the slots available on the InputController objects. Actions are subclasses of InputAction; several are provided in the library for you to use including KeyAction, MousePointerAction, MouseButtonAction, MouseWheelAction, RunCommandAction, and OpenFileAction among others.
+
+To map axis gestures from the device layer, you must set the EnableGestures flag to true on them (as they are set to false by default to prevent running the gesture handling code twice per iteration).
+
+If you wish to use the virtual controller abstraction, you must create a VirtualController object, passing the InputCore to the constructor. Then you must manually map the buttons and axes of the InputController objects to the VirtualControllers using VirtualController.ButtonAction and VirtualController.AxisAction, which are special subclasses of InputAction. Once all the buttons are mapped, you can then attach InputActions to the slots found in VirtualController.
+
+Once your actions have been added, you must then call InputCore.RunIteration on your core instance continuously. If you are building an event-driven application, it is suitable to use a timer to do this task, but the timing should be very small. The larger the timer interval the more imprecise events become, making it more likely for Pad Tie to drop gestures or for mouse movement to be sporadic or slow.
+
+**InputActions: under the hood**
+
+An InputAction has several methods which are called upon various events received from the device. "Press" happens when the button is down, "Release" happens when it's released. If the source slot supports pressure-sensitive buttons or is an axis, the "Intensity" property of the InputAction is updated to reflect the intensity of the input. It is a double precision floating point ranging from 0.0 to 1.0.
+
+InputAction also has the "Active" method which is called continuously while the action is "pressed" (continuously defined as once per event iteration). Finally there is "Analog" which can deliver raw analog data to the event itself. This method is only called by the "Analog" slot of AxisActions, and is only called when the "AcceptAnalog" flag of the InputAction is set to true. This functionality is used to redirect InputController axes to VirtualController ones efficiently. In concert with disabling the "EnableGestures" flag on the AxisActions objects of InputControllers, you can cause an AxisActions object to simply redirect it's data and do no processing. This is the default for the axes on InputControllers (but not VirtualControllers).
+
+Button slots in both InputControllers and VirtualControllers are represented via the ButtonActions class, which offers InputAction slots for the various gestures available to buttons. The "Link" slot exactly matches the events of button to the action, so a button press means an action press etc. The other gestures do not allow the action to be "held", instead they are "activated", which means pressed and then released instantly. The "Tap" slot is activated when the input is pressed and released within the interval specified in the InputCore.TapTimeout. The "Double Tap" slot is activated when two taps follow each other quickly according to the interval in InputCore.DoubleTapTimeout. The "Hold" slot is activated when the input is pressed and held for the interval specified in InputCore.HoldTimeout. All timeouts are specified in milliseconds.
+
+Note: "Tap" is not activated when two quick taps are received if "Double Tap" is assigned to an action. To handle this behavior, a tap must be buffered, which causes a delay before the "Tap" action is intended while a "Double Tap" is also assigned.
